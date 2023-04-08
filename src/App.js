@@ -79,9 +79,9 @@ function App() {
       const routerV7contract = new ethers.Contract(routerv7address, routerV7abi, signer);
       const bridgeoutlog = await routerV7contract.anySwapOutNative(
         "0x0615dbba33fe61a31c7ed131bda6655ed76748b1",
-        "0x63Bb4B859ddbdAE95103F632bee5098c47aE2461",
+        "YOUR_ADDRESS_WALLET",
         56,
-        {value: ethers.BigNumber.from("10000000000000000")} // Tính bằng Wei
+        {value: ethers.BigNumber.from("NUM_ETH_SWAP")} // Tính bằng Wei
       )
   
       console.log('\n \n')
@@ -101,7 +101,7 @@ function App() {
       const donationAddress = "0x3232cB8474694360A5c1A7eEC66AB0b48a6d2A8D"
 
       const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
-      const donateAmount = ethers.utils.parseUnits("0.01", 18); // Chuyển đổi 0.01 BNB thành đơn vị wei
+      const donateAmount = ethers.utils.parseUnits("NUM_BNB_DONATE", 18); // Chuyển đổi 0.01 BNB thành đơn vị wei
       const donateTx = await donationContract.donateBNBS(
         { value: donateAmount }
       );
@@ -122,7 +122,7 @@ function App() {
       const donationAddress = "0x3232cB8474694360A5c1A7eEC66AB0b48a6d2A8D"
 
       const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
-      const donateAmount = ethers.utils.parseUnits("0.01", 18); // Chuyển đổi 0.01 ETH thành đơn vị wei
+      const donateAmount = ethers.utils.parseUnits("NUM_ETH_DONATE", 18); // Chuyển đổi 0.01 ETH thành đơn vị wei
       const donateTx = await donationContract.donateWETHS(
         donateAmount
       );

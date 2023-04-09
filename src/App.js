@@ -3,14 +3,18 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import { ethers } from 'ethers';
 import React, { useEffect, useState } from "react";
 
-const routerV7abi = require('./namabi')
-const donationABI = require('./DonationContract')
+const routerV7ABI = require('./routerV7ABI')
+const donationABI = require('./DonationContractABI')
 
 
 function App() {
   const [provider, setProvider] = useState(null);
   const [signer, setSigner] = useState(null);
-
+  const [amountCrossChain, setAmountCrossChain] = useState('');
+  const [amountDonateETH, setAmountDonateETH] = useState('');
+  const [amountDonateBNB, setAmountDonateBNB] = useState('');
+  const [amountWithdrawUSDT, setAmountWithdrawUSDT] = useState('');
+  
   useEffect(() => {
     const init = async () => {
       const ethereumProvider = await detectEthereumProvider();
@@ -62,8 +66,27 @@ function App() {
     const donationAddress = "0x3232cB8474694360A5c1A7eEC66AB0b48a6d2A8D"
     if (chainid === 56) {
       const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
-      const donateTx = await donationContract.totalDonations();
-      console.log("Balance: ", donateTx.toString());
+      const donateBalance = await donationContract.getContractBalance();
+      let value = ethers.utils.formatUnits(donateBalance.toString(), 18);
+      console.log("Total Donations: ", Number(value), 'USDT');
+
+      const addressCurrent = await signer.getAddress();
+      const donateOf = await donationContract.donationOf(addressCurrent);
+      value = ethers.utils.formatUnits(donateOf.toString(), 18);
+      console.log("Your Donations: ", Number(value), 'USDT');
+      
+      const donationHistory = await donationContract.getDonationHistory(addressCurrent);
+
+      for (let i in donationHistory) {
+        const donation = donationHistory[i];
+        const amount = ethers.utils.formatUnits(donation.amount, 18);
+        const timestamp = new Date(donation.timestamp * 1000);
+
+        console.log(`Donation ${i + 1}:`);
+        console.log(`- Amount: ${amount} USDT`);
+        console.log(`- Timestamp: ${timestamp.toLocaleString()}`);
+        console.log('\n');
+      }
     }
   };
 
@@ -76,21 +99,22 @@ function App() {
     const chainid = network.chainId;
     if (chainid === 1) {
       const routerv7address = "0xba8da9dcf11b50b03fd5284f164ef5cdef910705"
-      const routerV7contract = new ethers.Contract(routerv7address, routerV7abi, signer);
+      const routerV7contract = new ethers.Contract(routerv7address, routerV7ABI, signer);
+      const addressCurrent = await signer.getAddress();
+      const ethAmount = ethers.utils.parseUnits(amountCrossChain, 18);
       const bridgeoutlog = await routerV7contract.anySwapOutNative(
         "0x0615dbba33fe61a31c7ed131bda6655ed76748b1",
-        "YOUR_ADDRESS_WALLET",
+        addressCurrent,
         56,
-        {value: ethers.BigNumber.from("NUM_ETH_SWAP")} // Tính bằng Wei
+        {value: ethers.BigNumber.from(ethAmount.toString())}
       )
-  
-      console.log('\n \n')
-      console.log('source chain transaction sent')
-      console.log(bridgeoutlog.hash)
+      console.log('Source chain transaction sent: ', bridgeoutlog.hash)
+      console.log('https://scan.multichain.org/#/tx?params=:', bridgeoutlog.hash)
+      console.log('https://etherscan.io/tx/', bridgeoutlog.hash)
     }
   };
 
-  const donateEth = async () => {
+  const donateETH = async () => {
     if (!window.ethereum) {
       alert("Vui lòng cài đặt MetaMask!");
       return;
@@ -101,7 +125,27 @@ function App() {
       const donationAddress = "0x3232cB8474694360A5c1A7eEC66AB0b48a6d2A8D"
 
       const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
-      const donateAmount = ethers.utils.parseUnits("NUM_BNB_DONATE", 18); // Chuyển đổi 0.01 BNB thành đơn vị wei
+      const donateAmount = ethers.utils.parseUnits(amountDonateETH, 18); 
+      const donateTx = await donationContract.donateWETHS(
+        donateAmount
+      );
+      await donateTx.wait();
+      console.log("Donate thành công: ", donateTx.toString());
+    }
+  };
+
+  const donateBNB = async () => {
+    if (!window.ethereum) {
+      alert("Vui lòng cài đặt MetaMask!");
+      return;
+    }
+    const network = await provider.getNetwork();
+    const chainid = network.chainId;
+    if (chainid === 56) {
+      const donationAddress = "0x3232cB8474694360A5c1A7eEC66AB0b48a6d2A8D"
+
+      const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
+      const donateAmount = ethers.utils.parseUnits(amountDonateBNB, 18); 
       const donateTx = await donationContract.donateBNBS(
         { value: donateAmount }
       );
@@ -110,24 +154,21 @@ function App() {
     }
   };
 
-  const donateBsc = async () => {
+  const withdrawUSDT = async () => {
     if (!window.ethereum) {
       alert("Vui lòng cài đặt MetaMask!");
       return;
     }
-
     const network = await provider.getNetwork();
     const chainid = network.chainId;
     if (chainid === 56) {
       const donationAddress = "0x3232cB8474694360A5c1A7eEC66AB0b48a6d2A8D"
 
       const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
-      const donateAmount = ethers.utils.parseUnits("NUM_ETH_DONATE", 18); // Chuyển đổi 0.01 ETH thành đơn vị wei
-      const donateTx = await donationContract.donateWETHS(
-        donateAmount
-      );
+      const amountWithdraw = ethers.utils.parseUnits(amountWithdrawUSDT, 18);
+      const donateTx = await donationContract.withdraw(amountWithdraw);
       await donateTx.wait();
-      console.log("Donate thành công: ", donateTx.toString());
+      console.log("Withdraw thành công: ", donateTx.toString());
     }
   };
 
@@ -139,11 +180,40 @@ function App() {
   return (
     <div>
       <button style={cssBlock} onClick={connectMetamask}>Kết nối MetaMask</button>
+      <input 
+        value={amountCrossChain} 
+        onChange={(e) => setAmountCrossChain(e.target.value)} 
+        style={cssBlock} 
+        placeholder='Amount cross chain' 
+        type='number'
+      />
       <button style={cssBlock} onClick={ethToBsc}>
         Chuyển ETH từ Ethereum Network sang BSC Network (Gas fee minimum 0.000121 ETH, Minimum Crosschain Amount is 0.008 ETH)</button>
-      <button style={cssBlock} onClick={donateEth}>Donate bằng ETH trên BSC network</button>
-      <button style={cssBlock} onClick={donateBsc}>Donate bằng BNB trên BSC network</button>
+      <input 
+        value={amountDonateETH} 
+        onChange={(e) => setAmountDonateETH(e.target.value)} 
+        style={cssBlock} 
+        placeholder='Amount Donate ETH' 
+        type='number'
+      />
+      <button style={cssBlock} onClick={donateETH}>Donate bằng ETH trên BSC network</button>
+      <input 
+        value={amountDonateBNB} 
+        onChange={(e) => setAmountDonateBNB(e.target.value)} 
+        style={cssBlock} 
+        placeholder='Amount Donate BNB' 
+        type='number'
+      />
+      <button style={cssBlock} onClick={donateBNB}>Donate bằng BNB trên BSC network</button>
       <button style={cssBlock} onClick={getBalance}>Lấy tổng số Donate</button>
+      <input 
+        value={amountWithdrawUSDT} 
+        onChange={(e) => setAmountWithdrawUSDT(e.target.value)} 
+        style={cssBlock} 
+        placeholder='Amount Withdraw USDT' 
+        type='number'
+      />
+      <button style={cssBlock} onClick={withdrawUSDT}>Rút token</button>
     </div>
   );
 }

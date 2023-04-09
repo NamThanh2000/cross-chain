@@ -3,7 +3,7 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import { ethers } from 'ethers';
 import React, { useEffect, useState } from "react";
 
-const routerV7ABI = require('./routerV7ABI')
+const routerV7ABI = require('./routerV7abi')
 const donationABI = require('./DonationContractABI')
 
 

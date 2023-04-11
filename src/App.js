@@ -3,10 +3,8 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import { ethers } from 'ethers';
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import HomeLayout from "./components/HomeLayout";
 import Home from './components/Home';
-
-import HomeLayout from "./components/HomeLayout"
-import Test from './components/Test';
 
 const routerV7ABI = require('./routerV7abi')
 const donationABI = require('./DonationContractABI')
@@ -185,11 +183,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<HomeLayout />}>
-          <Route index element={<Home />} />
-          {/* <Route path='/test' element={<Test />} /> */}
-          {/* <Route path='notifications/' element={<Notifications />} /> */}
-        </Route>
+
+        <Route path='/' element={<HomeLayout />} />
 
         {/* <Route path='*' element={<NotFound />} /> */}
 

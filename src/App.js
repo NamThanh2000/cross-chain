@@ -4,6 +4,8 @@ import { ethers } from 'ethers';
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
+import HomeLayout from "./components/HomeLayout"
+
 const routerV7ABI = require('./routerV7abi')
 const donationABI = require('./DonationContractABI')
 
@@ -182,11 +184,11 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<HomeLayout />}>
-          <Route index element={<Home />} />
-          <Route path='notifications/' element={<Notifications />} />
+          {/* <Route index element={<Home />} />
+          <Route path='notifications/' element={<Notifications />} /> */}
         </Route>
 
-        <Route path='*' element={<NotFound />} />
+        {/* <Route path='*' element={<NotFound />} /> */}
 
       </Routes>
     </BrowserRouter>

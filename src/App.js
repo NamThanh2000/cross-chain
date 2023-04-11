@@ -2,6 +2,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
 import { ethers } from 'ethers';
 import React, { useEffect, useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const routerV7ABI = require('./routerV7abi')
 const donationABI = require('./DonationContractABI')
@@ -14,7 +15,7 @@ function App() {
   const [amountDonateETH, setAmountDonateETH] = useState('');
   const [amountDonateBNB, setAmountDonateBNB] = useState('');
   const [amountWithdrawUSDT, setAmountWithdrawUSDT] = useState('');
-  
+
   useEffect(() => {
     const init = async () => {
       const ethereumProvider = await detectEthereumProvider();
@@ -74,7 +75,7 @@ function App() {
       const donateOf = await donationContract.donationOf(addressCurrent);
       value = ethers.utils.formatUnits(donateOf.toString(), 18);
       console.log("Your Donations: ", Number(value), 'USDT');
-      
+
       const donationHistory = await donationContract.getDonationHistory(addressCurrent);
 
       for (let i in donationHistory) {
@@ -106,7 +107,7 @@ function App() {
         "0x0615dbba33fe61a31c7ed131bda6655ed76748b1",
         addressCurrent,
         56,
-        {value: ethers.BigNumber.from(ethAmount.toString())}
+        { value: ethers.BigNumber.from(ethAmount.toString()) }
       )
       console.log('Source chain transaction sent: ', bridgeoutlog.hash)
       console.log('https://scan.multichain.org/#/tx?params=:', bridgeoutlog.hash)
@@ -125,7 +126,7 @@ function App() {
       const donationAddress = "0x3232cB8474694360A5c1A7eEC66AB0b48a6d2A8D"
 
       const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
-      const donateAmount = ethers.utils.parseUnits(amountDonateETH, 18); 
+      const donateAmount = ethers.utils.parseUnits(amountDonateETH, 18);
       const donateTx = await donationContract.donateWETHS(
         donateAmount
       );
@@ -145,7 +146,7 @@ function App() {
       const donationAddress = "0x3232cB8474694360A5c1A7eEC66AB0b48a6d2A8D"
 
       const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
-      const donateAmount = ethers.utils.parseUnits(amountDonateBNB, 18); 
+      const donateAmount = ethers.utils.parseUnits(amountDonateBNB, 18);
       const donateTx = await donationContract.donateBNBS(
         { value: donateAmount }
       );
@@ -178,43 +179,54 @@ function App() {
   }
 
   return (
-    <div>
-      <button style={cssBlock} onClick={connectMetamask}>Kết nối MetaMask</button>
-      <input 
-        value={amountCrossChain} 
-        onChange={(e) => setAmountCrossChain(e.target.value)} 
-        style={cssBlock} 
-        placeholder='Amount cross chain' 
-        type='number'
-      />
-      <button style={cssBlock} onClick={ethToBsc}>
-        Chuyển ETH từ Ethereum Network sang BSC Network (Gas fee minimum 0.000121 ETH, Minimum Crosschain Amount is 0.008 ETH)</button>
-      <input 
-        value={amountDonateETH} 
-        onChange={(e) => setAmountDonateETH(e.target.value)} 
-        style={cssBlock} 
-        placeholder='Amount Donate ETH' 
-        type='number'
-      />
-      <button style={cssBlock} onClick={donateETH}>Donate bằng ETH trên BSC network</button>
-      <input 
-        value={amountDonateBNB} 
-        onChange={(e) => setAmountDonateBNB(e.target.value)} 
-        style={cssBlock} 
-        placeholder='Amount Donate BNB' 
-        type='number'
-      />
-      <button style={cssBlock} onClick={donateBNB}>Donate bằng BNB trên BSC network</button>
-      <button style={cssBlock} onClick={getBalance}>Lấy tổng số Donate</button>
-      <input 
-        value={amountWithdrawUSDT} 
-        onChange={(e) => setAmountWithdrawUSDT(e.target.value)} 
-        style={cssBlock} 
-        placeholder='Amount Withdraw USDT' 
-        type='number'
-      />
-      <button style={cssBlock} onClick={withdrawUSDT}>Rút token</button>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<HomeLayout />}>
+          <Route index element={<Home />} />
+          <Route path='notifications/' element={<Notifications />} />
+        </Route>
+
+        <Route path='*' element={<NotFound />} />
+
+      </Routes>
+    </BrowserRouter>
+    // <div>
+    //   <button style={cssBlock} onClick={connectMetamask}>Kết nối MetaMask</button>
+    //   <input 
+    //     value={amountCrossChain} 
+    //     onChange={(e) => setAmountCrossChain(e.target.value)} 
+    //     style={cssBlock} 
+    //     placeholder='Amount cross chain' 
+    //     type='number'
+    //   />
+    //   <button style={cssBlock} onClick={ethToBsc}>
+    //     Chuyển ETH từ Ethereum Network sang BSC Network (Gas fee minimum 0.000121 ETH, Minimum Crosschain Amount is 0.008 ETH)</button>
+    //   <input 
+    //     value={amountDonateETH} 
+    //     onChange={(e) => setAmountDonateETH(e.target.value)} 
+    //     style={cssBlock} 
+    //     placeholder='Amount Donate ETH' 
+    //     type='number'
+    //   />
+    //   <button style={cssBlock} onClick={donateETH}>Donate bằng ETH trên BSC network</button>
+    //   <input 
+    //     value={amountDonateBNB} 
+    //     onChange={(e) => setAmountDonateBNB(e.target.value)} 
+    //     style={cssBlock} 
+    //     placeholder='Amount Donate BNB' 
+    //     type='number'
+    //   />
+    //   <button style={cssBlock} onClick={donateBNB}>Donate bằng BNB trên BSC network</button>
+    //   <button style={cssBlock} onClick={getBalance}>Lấy tổng số Donate</button>
+    //   <input 
+    //     value={amountWithdrawUSDT} 
+    //     onChange={(e) => setAmountWithdrawUSDT(e.target.value)} 
+    //     style={cssBlock} 
+    //     placeholder='Amount Withdraw USDT' 
+    //     type='number'
+    //   />
+    //   <button style={cssBlock} onClick={withdrawUSDT}>Rút token</button>
+    // </div>
   );
 }
 

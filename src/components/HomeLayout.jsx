@@ -13,7 +13,9 @@ function HomeLayout() {
             <div className="mr-6 text-white font-bold">ABOUT US</div>
           </div>
           <div className="flex items-end">
-            <button className="px-8 py-3 bg-green-700  text-white font-bold">DONATE</button>
+            <a href="/donate">
+              <button className="px-8 py-3 bg-green-700  text-white font-bold">DONATE</button>
+            </a>
           </div>
         </div>
       </div>

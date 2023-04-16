@@ -4,7 +4,6 @@ import { ethers } from 'ethers';
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomeLayout from "./components/HomeLayout";
-import Home from './components/Home';
 import Donate from './components/Donate';
 
 const routerV7ABI = require('./routerV7abi')

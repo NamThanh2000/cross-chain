@@ -4,6 +4,10 @@ import { ethers } from 'ethers';
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
+import './FormDonateStyles.css'
+
+import { connectMetamask } from '../utils'
+
 const routerV7ABI = require('../routerV7abi')
 const donationABI = require('../DonationContractABI')
 
@@ -43,19 +47,6 @@ function FormDonate() {
         if (!provider) return;
         setSigner(provider.getSigner());
     }, [provider]);
-
-    const connectMetamask = async () => {
-        if (!window.ethereum) {
-            alert("Vui lòng cài đặt MetaMask!");
-            return;
-        }
-
-        try {
-            await window.ethereum.request({ method: "eth_requestAccounts" });
-        } catch (error) {
-            console.error("Lỗi kết nối với MetaMask:", error);
-        }
-    };
 
     const getBalance = async () => {
         if (!signer) {
@@ -173,48 +164,52 @@ function FormDonate() {
         }
     };
 
-    const cssBlock = {
-        'display': 'flex',
-        'margin': '20px',
-    }
-
     return (
         <div>
-            <button style={cssBlock} onClick={connectMetamask}>Kết nối MetaMask</button>
-            <input
-                value={amountCrossChain}
-                onChange={(e) => setAmountCrossChain(e.target.value)}
-                style={cssBlock}
-                placeholder='Amount cross chain'
-                type='number'
-            />
-            <button style={cssBlock} onClick={ethToBsc}>
-                Chuyển ETH từ Ethereum Network sang BSC Network (Gas fee minimum 0.000121 ETH, Minimum Crosschain Amount is 0.008 ETH)</button>
-            <input
-                value={amountDonateETH}
-                onChange={(e) => setAmountDonateETH(e.target.value)}
-                style={cssBlock}
-                placeholder='Amount Donate ETH'
-                type='number'
-            />
-            <button style={cssBlock} onClick={donateETH}>Donate bằng ETH trên BSC network</button>
-            <input
-                value={amountDonateBNB}
-                onChange={(e) => setAmountDonateBNB(e.target.value)}
-                style={cssBlock}
-                placeholder='Amount Donate BNB'
-                type='number'
-            />
-            <button style={cssBlock} onClick={donateBNB}>Donate bằng BNB trên BSC network</button>
-            <button style={cssBlock} onClick={getBalance}>Lấy tổng số Donate</button>
-            <input
-                value={amountWithdrawUSDT}
-                onChange={(e) => setAmountWithdrawUSDT(e.target.value)}
-                style={cssBlock}
-                placeholder='Amount Withdraw USDT'
-                type='number'
-            />
-            <button style={cssBlock} onClick={withdrawUSDT}>Rút token</button>
+            <div>
+                <button onClick={connectMetamask}>Kết nối MetaMask</button>
+            </div>
+            <div>
+                <button onClick={ethToBsc}>
+                    Chuyển ETH từ Ethereum Network sang BSC Network (Gas fee minimum 0.000121 ETH, Minimum Crosschain Amount is 0.008 ETH)</button>
+                <input
+                    value={amountCrossChain}
+                    onChange={(e) => setAmountCrossChain(e.target.value)}
+                    placeholder='Amount cross chain'
+                    type='number'
+                    className='mx-auto'
+                />
+            </div>
+            <div>
+                <button onClick={donateETH}>Donate bằng ETH trên BSC network</button>
+                <input
+                    value={amountDonateETH}
+                    onChange={(e) => setAmountDonateETH(e.target.value)}
+                    placeholder='Amount Donate ETH'
+                    type='number'
+                />
+            </div>
+            <div>
+                <button onClick={donateBNB}>Donate bằng BNB trên BSC network</button>
+                <input
+                    value={amountDonateBNB}
+                    onChange={(e) => setAmountDonateBNB(e.target.value)}
+                    placeholder='Amount Donate BNB'
+                    type='number'
+                />
+            </div>
+            <div>
+                <button onClick={getBalance}>Lấy tổng số Donate</button>
+                <input
+                    value={amountWithdrawUSDT}
+                    onChange={(e) => setAmountWithdrawUSDT(e.target.value)}
+                    placeholder='Amount Withdraw USDT'
+                    type='number'
+                />
+            </div>
+            <div>
+                <button onClick={withdrawUSDT}>Rút token</button>
+            </div>
         </div>
     );
 }

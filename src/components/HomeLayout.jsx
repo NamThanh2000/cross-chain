@@ -1,3 +1,5 @@
+import { connectMetamask } from '../utils'
+
 
 
 function HomeLayout() {
@@ -29,7 +31,7 @@ function HomeLayout() {
         <div className="absolute z-20 mx-60">
           <h1 className=" text-white font-bold text-5xl">Protect What Nature Gives You</h1>
           <p className="mt-2 text-white font-bold text1xl">Help protect the air you breathe, water you drink and places you call home.</p>
-          <button className="mt-6 px-8 py-3 bg-white text-green-700 font-bold">GIVE NOW</button>
+          <button onClick={connectMetamask} className="mt-6 px-8 py-3 bg-white text-green-700 font-bold">Connect To MetaMask Wallet</button>
         </div>
       </div>
     </>

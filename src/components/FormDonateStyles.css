@@ -1,0 +1,22 @@
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input {
+    outline-color: #e5e7eb;
+    border: 1px solid #e5e7eb;
+    padding: 18px 10px;
+    width: 45%;
+}
+
+input:focus-visible {
+    outline-color: rgb(21 128 61);
+}

@@ -1,7 +1,26 @@
+import React, { useEffect, useState } from "react";
+
 import FormDonate from './FormDonate'
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import TabPanel from '@material-ui/lab/TabPanel';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import { TabContext } from '@material-ui/lab';
 
 
 function Donate() {
+    function a11yProps(index) {
+        return {
+            id: `simple-tab-${index}`,
+            'aria-controls': `simple-tabpanel-${index}`,
+        };
+    }
+    const [value, setValue] = React.useState(0);
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
     return (
         <div>
             <div className="px-10 border-b border-gray-400">
@@ -37,7 +56,30 @@ function Donate() {
                             </div>
                         </div>
                     </div>
-                    <h4 className="text-base font-bold text-green-700 pt-8 pb-6 border-gray-600" style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}>ENTER YOUR GIFT AMOUNT</h4>
+                    <div>
+                        <TabContext >
+                            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                                <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                                    <h4 className="text-base font-bold text-green-700">ENTER YOUR GIFT AMOUNT</h4>
+                                    <Tabs 
+                                    value={value} 
+                                    onChange={handleChange} 
+                                    aria-label="basic tabs example"
+                                    textColor="primary"
+                                    >
+                                        <Tab label="Item One" {...a11yProps(0)} />
+                                        <Tab label="Item Two" {...a11yProps(1)} />
+                                    </Tabs>
+                                </Box>
+                            </Box>
+                            <TabPanel value={0} index={0}>
+                                Item One
+                            </TabPanel>
+                            <TabPanel value={1} index={1}>
+                                Item Two
+                            </TabPanel>
+                        </TabContext >
+                    </div>
                     <FormDonate />
                 </div>
                 <div className="xl:mx-10 mx-4 md:mx-4 sm:mx-4">

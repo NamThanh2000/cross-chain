@@ -5,7 +5,8 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomeLayout from "./components/HomeLayout";
 import Donate from './components/Donate';
-
+import { ThemeProvider } from 'styled-components';
+import { lightTheme } from "./styles/theme/theme";
 const routerV7ABI = require('./routerV7abi')
 const donationABI = require('./DonationContractABI')
 
@@ -181,16 +182,19 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-      <Routes>
+    <ThemeProvider theme={lightTheme}>
 
-        <Route path='/' element={<HomeLayout />} />
-        <Route path='/donate' element={<Donate />} />
+      <BrowserRouter>
+        <Routes>
 
-        {/* <Route path='*' element={<NotFound />} /> */}
+          <Route path='/' element={<HomeLayout />} />
+          <Route path='/donate' element={<Donate />} />
 
-      </Routes>
-    </BrowserRouter>
+          {/* <Route path='*' element={<NotFound />} /> */}
+
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
     // <div>
     //   <button style={cssBlock} onClick={connectMetamask}>Kết nối MetaMask</button>
     //   <input 

@@ -2,7 +2,6 @@ import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
 import { ethers } from 'ethers';
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import './FormDonateStyles.css'
 
@@ -167,10 +166,7 @@ function FormDonate() {
     return (
         <div>
             <div>
-                <button onClick={connectMetamask}>Kết nối MetaMask</button>
-            </div>
-            <div>
-                <button onClick={ethToBsc}>
+                {/* <button onClick={ethToBsc}>
                     Chuyển ETH từ Ethereum Network sang BSC Network (Gas fee minimum 0.000121 ETH, Minimum Crosschain Amount is 0.008 ETH)</button>
                 <input
                     value={amountCrossChain}
@@ -178,7 +174,7 @@ function FormDonate() {
                     placeholder='Amount cross chain'
                     type='number'
                     className='mx-auto'
-                />
+                /> */}
             </div>
             <div>
                 <button onClick={donateETH}>Donate bằng ETH trên BSC network</button>
@@ -198,7 +194,7 @@ function FormDonate() {
                     type='number'
                 />
             </div>
-            <div>
+            {/* <div>
                 <button onClick={getBalance}>Lấy tổng số Donate</button>
                 <input
                     value={amountWithdrawUSDT}
@@ -209,7 +205,7 @@ function FormDonate() {
             </div>
             <div>
                 <button onClick={withdrawUSDT}>Rút token</button>
-            </div>
+            </div> */}
         </div>
     );
 }

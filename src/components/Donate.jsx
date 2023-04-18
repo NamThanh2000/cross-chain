@@ -69,6 +69,8 @@ function Donate() {
                                     >
                                         <Tab label="Donate bằng ETH" {...a11yProps(0)} />
                                         <Tab label="Donate bằng BNB" {...a11yProps(1)} />
+                                        <Tab label="Donate của tôi" {...a11yProps(2)} />
+                                        <Tab label="Rút Donate" {...a11yProps(3)} />
                                     </Tabs>
                                 </Box>
                             </Box>

@@ -46,15 +46,15 @@ function FormDonate({ checkTab }) {
 
     return (
         <div>
-            {checkTab === 0 ? <div className='p-6'>
+            {checkTab === 0 && <div className='p-6'>
                 <div>
-                    <p className='font-bold text-sm'>* Donate Chuyển ETH từ Ethereum Network sang BSC Network (Gas fee minimum 0.000121 ETH, Minimum Crosschain Amount is 0.008 ETH)</p>
+                    <p className='font-bold'>* Donate Chuyển ETH từ Ethereum Network sang BSC Network (Gas fee minimum 0.000121 ETH, Minimum Crosschain Amount is 0.008 ETH)</p>
                     <input
+                        className='mt-2'
                         value={amountCrossChain}
                         onChange={(e) => setAmountCrossChain(e.target.value)}
                         placeholder='Amount cross chain'
                         type='number'
-                        className='mx-auto'
                     />
                     <div>
                         <button
@@ -66,8 +66,10 @@ function FormDonate({ checkTab }) {
                     </div>
                 </div>
                 <div className='mt-6'>
-                    <p className='font-bold text-sm'>* Donate bằng ETH trên BSC network</p>
+                    <p className='font-bold'>* Donate bằng ETH trên BSC network</p>
                     <input
+
+                        className='mt-2'
                         value={amountDonateETH}
                         onChange={(e) => setAmountDonateETH(e.target.value)}
                         placeholder='Amount Donate ETH'
@@ -84,24 +86,29 @@ function FormDonate({ checkTab }) {
                     </div>
                 </div>
 
-            </div> : <div className='p-8'>
-                <p className='font-bold'>* Donate bằng BNB trên BSC network</p>
-                <input
-                    value={amountDonateBNB}
-                    onChange={(e) => setAmountDonateBNB(e.target.value)}
-                    placeholder='Amount Donate BNB'
-                    type='number'
-                />
-                {/* Donate bằng BNB trên BSC network */}
-                <div>
-                    <button
-                        className='w-fit mt-4 px-8 py-2 bg-green-700 text-white font-bold text-lg'
-                        onClick={donateBNB}
-                    >
-                        Donate
-                    </button>
-                </div>
             </div>
+            }
+            {
+                checkTab === 1 && <div className='p-8'>
+                    <p className='font-bold'>* Donate bằng BNB trên BSC network</p>
+                    <input
+
+                        className='mt-2'
+                        value={amountDonateBNB}
+                        onChange={(e) => setAmountDonateBNB(e.target.value)}
+                        placeholder='Amount Donate BNB'
+                        type='number'
+                    />
+                    {/* Donate bằng BNB trên BSC network */}
+                    <div>
+                        <button
+                            className='w-fit mt-4 px-8 py-2 bg-green-700 text-white font-bold text-lg'
+                            onClick={donateBNB}
+                        >
+                            Donate
+                        </button>
+                    </div>
+                </div>
 
             }
 

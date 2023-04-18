@@ -3,15 +3,11 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import { ethers } from 'ethers';
 import React, { useEffect, useState } from "react";
 
+import { donateETH, donateBNB, ethToBsc } from "../utils"
+
 import './FormDonateStyles.css'
 
-import { connectMetamask } from '../utils'
-
-const routerV7ABI = require('../routerV7abi')
-const donationABI = require('../DonationContractABI')
-
-function FormDonate() {
-
+function FormDonate({ checkTab }) {
     const [provider, setProvider] = useState(null);
     const [signer, setSigner] = useState(null);
     const [amountCrossChain, setAmountCrossChain] = useState('');
@@ -47,153 +43,68 @@ function FormDonate() {
         setSigner(provider.getSigner());
     }, [provider]);
 
-    const getBalance = async () => {
-        if (!signer) {
-            alert("Vui lòng kết nối với MetaMask!");
-            return;
-        }
-        const network = await provider.getNetwork();
-        const chainid = network.chainId;
-        const donationAddress = "0x3232cB8474694360A5c1A7eEC66AB0b48a6d2A8D"
-        if (chainid === 56) {
-            const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
-            const donateBalance = await donationContract.getContractBalance();
-            let value = ethers.utils.formatUnits(donateBalance.toString(), 18);
-            console.log("Total Donations: ", Number(value), 'USDT');
-
-            const addressCurrent = await signer.getAddress();
-            const donateOf = await donationContract.donationOf(addressCurrent);
-            value = ethers.utils.formatUnits(donateOf.toString(), 18);
-            console.log("Your Donations: ", Number(value), 'USDT');
-
-            const donationHistory = await donationContract.getDonationHistory(addressCurrent);
-
-            for (let i in donationHistory) {
-                const donation = donationHistory[i];
-                const amount = ethers.utils.formatUnits(donation.amount, 18);
-                const timestamp = new Date(donation.timestamp * 1000);
-
-                console.log(`Donation ${i + 1}:`);
-                console.log(`- Amount: ${amount} USDT`);
-                console.log(`- Timestamp: ${timestamp.toLocaleString()}`);
-                console.log('\n');
-            }
-        }
-    };
-
-    const ethToBsc = async () => {
-        if (!signer) {
-            alert("Vui lòng kết nối với MetaMask!");
-            return;
-        }
-        const network = await provider.getNetwork();
-        const chainid = network.chainId;
-        if (chainid === 1) {
-            const routerv7address = "0xba8da9dcf11b50b03fd5284f164ef5cdef910705"
-            const routerV7contract = new ethers.Contract(routerv7address, routerV7ABI, signer);
-            const addressCurrent = await signer.getAddress();
-            const ethAmount = ethers.utils.parseUnits(amountCrossChain, 18);
-            const bridgeoutlog = await routerV7contract.anySwapOutNative(
-                "0x0615dbba33fe61a31c7ed131bda6655ed76748b1",
-                addressCurrent,
-                56,
-                { value: ethers.BigNumber.from(ethAmount.toString()) }
-            )
-            console.log('Source chain transaction sent: ', bridgeoutlog.hash)
-            console.log('https://scan.multichain.org/#/tx?params=:', bridgeoutlog.hash)
-            console.log('https://etherscan.io/tx/', bridgeoutlog.hash)
-        }
-    };
-
-    const donateETH = async () => {
-        if (!window.ethereum) {
-            alert("Vui lòng cài đặt MetaMask!");
-            return;
-        }
-        const network = await provider.getNetwork();
-        const chainid = network.chainId;
-        if (chainid === 56) {
-            const donationAddress = "0x3232cB8474694360A5c1A7eEC66AB0b48a6d2A8D"
-
-            const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
-            const donateAmount = ethers.utils.parseUnits(amountDonateETH, 18);
-            const donateTx = await donationContract.donateWETHS(
-                donateAmount
-            );
-            await donateTx.wait();
-            console.log("Donate thành công: ", donateTx.toString());
-        }
-    };
-
-    const donateBNB = async () => {
-        if (!window.ethereum) {
-            alert("Vui lòng cài đặt MetaMask!");
-            return;
-        }
-        const network = await provider.getNetwork();
-        const chainid = network.chainId;
-        if (chainid === 56) {
-            const donationAddress = "0x3232cB8474694360A5c1A7eEC66AB0b48a6d2A8D"
-
-            const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
-            const donateAmount = ethers.utils.parseUnits(amountDonateBNB, 18);
-            const donateTx = await donationContract.donateBNBS(
-                { value: donateAmount }
-            );
-            await donateTx.wait();
-            console.log("Donate thành công: ", donateTx.toString());
-        }
-    };
-
-    const withdrawUSDT = async () => {
-        if (!window.ethereum) {
-            alert("Vui lòng cài đặt MetaMask!");
-            return;
-        }
-        const network = await provider.getNetwork();
-        const chainid = network.chainId;
-        if (chainid === 56) {
-            const donationAddress = "0x3232cB8474694360A5c1A7eEC66AB0b48a6d2A8D"
-
-            const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
-            const amountWithdraw = ethers.utils.parseUnits(amountWithdrawUSDT, 18);
-            const donateTx = await donationContract.withdraw(amountWithdraw);
-            await donateTx.wait();
-            console.log("Withdraw thành công: ", donateTx.toString());
-        }
-    };
 
     return (
         <div>
-            <div>
-                {/* <button onClick={ethToBsc}>
-                    Chuyển ETH từ Ethereum Network sang BSC Network (Gas fee minimum 0.000121 ETH, Minimum Crosschain Amount is 0.008 ETH)</button>
-                <input
-                    value={amountCrossChain}
-                    onChange={(e) => setAmountCrossChain(e.target.value)}
-                    placeholder='Amount cross chain'
-                    type='number'
-                    className='mx-auto'
-                /> */}
-            </div>
-            <div>
-                <button onClick={donateETH}>Donate bằng ETH trên BSC network</button>
-                <input
-                    value={amountDonateETH}
-                    onChange={(e) => setAmountDonateETH(e.target.value)}
-                    placeholder='Amount Donate ETH'
-                    type='number'
-                />
-            </div>
-            <div>
-                <button onClick={donateBNB}>Donate bằng BNB trên BSC network</button>
+            {checkTab === 0 ? <div className='p-6'>
+                <div>
+                    <p className='font-bold text-sm'>* Donate Chuyển ETH từ Ethereum Network sang BSC Network (Gas fee minimum 0.000121 ETH, Minimum Crosschain Amount is 0.008 ETH)</p>
+                    <input
+                        value={amountCrossChain}
+                        onChange={(e) => setAmountCrossChain(e.target.value)}
+                        placeholder='Amount cross chain'
+                        type='number'
+                        className='mx-auto'
+                    />
+                    <div>
+                        <button
+                            className='w-fit mt-4 px-8 py-2 bg-green-700 text-white font-bold text-lg'
+                            onClick={ethToBsc}
+                        >
+                            Transfer
+                        </button>
+                    </div>
+                </div>
+                <div className='mt-6'>
+                    <p className='font-bold text-sm'>* Donate bằng ETH trên BSC network</p>
+                    <input
+                        value={amountDonateETH}
+                        onChange={(e) => setAmountDonateETH(e.target.value)}
+                        placeholder='Amount Donate ETH'
+                        type='number'
+                    />
+                    {/* Donate bằng ETH trên BSC network */}
+                    <div>
+                        <button
+                            className='w-fit mt-4 px-8 py-2 bg-green-700 text-white font-bold text-lg'
+                            onClick={donateETH}
+                        >
+                            Donate
+                        </button>
+                    </div>
+                </div>
+
+            </div> : <div className='p-8'>
+                <p className='font-bold'>* Donate bằng BNB trên BSC network</p>
                 <input
                     value={amountDonateBNB}
                     onChange={(e) => setAmountDonateBNB(e.target.value)}
                     placeholder='Amount Donate BNB'
                     type='number'
                 />
+                {/* Donate bằng BNB trên BSC network */}
+                <div>
+                    <button
+                        className='w-fit mt-4 px-8 py-2 bg-green-700 text-white font-bold text-lg'
+                        onClick={donateBNB}
+                    >
+                        Donate
+                    </button>
+                </div>
             </div>
+
+            }
+
             {/* <div>
                 <button onClick={getBalance}>Lấy tổng số Donate</button>
                 <input

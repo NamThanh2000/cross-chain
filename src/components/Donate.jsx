@@ -59,28 +59,22 @@ function Donate() {
                     <div>
                         <TabContext >
                             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <h4 className="text-base font-bold text-green-700">ENTER YOUR GIFT AMOUNT</h4>
-                                    <Tabs 
-                                    value={value} 
-                                    onChange={handleChange} 
-                                    aria-label="basic tabs example"
-                                    textColor="primary"
+                                    <Tabs
+                                        value={value}
+                                        onChange={handleChange}
+                                        aria-label="basic tabs example"
+                                        textColor="primary"
                                     >
-                                        <Tab label="Item One" {...a11yProps(0)} />
-                                        <Tab label="Item Two" {...a11yProps(1)} />
+                                        <Tab label="Donate bằng ETH" {...a11yProps(0)} />
+                                        <Tab label="Donate bằng BNB" {...a11yProps(1)} />
                                     </Tabs>
                                 </Box>
                             </Box>
-                            <TabPanel value={0} index={0}>
-                                Item One
-                            </TabPanel>
-                            <TabPanel value={1} index={1}>
-                                Item Two
-                            </TabPanel>
+                            <FormDonate checkTab={value} />
                         </TabContext >
                     </div>
-                    <FormDonate />
                 </div>
                 <div className="xl:mx-10 mx-4 md:mx-4 sm:mx-4">
                     <img src="/NCM130311.png" alt="NCM130311" />

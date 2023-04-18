@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomeLayout from "./components/HomeLayout";
 import Donate from './components/Donate';
+import MyDonate from './components/MyDonate';
 import { ThemeProvider } from 'styled-components';
 import { lightTheme } from "./styles/theme/theme";
 const routerV7ABI = require('./routerV7abi')
@@ -189,6 +190,7 @@ function App() {
 
           <Route path='/' element={<HomeLayout />} />
           <Route path='/donate' element={<Donate />} />
+          <Route path='/my-donate' element={<MyDonate />} />
 
           {/* <Route path='*' element={<NotFound />} /> */}
 

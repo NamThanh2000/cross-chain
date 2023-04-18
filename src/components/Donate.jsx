@@ -41,7 +41,7 @@ function Donate() {
                         fontWeight: 400,
                         fontSize: '1.25rem'
                     }}
-                    >Your Trust Matters to Us</div>
+                    ><a href="/my-donate">Your Trust Matters to Us</a></div>
                 </div>
             </div>
             <div className="flex px-5 xl:px-38 md:px-16 sm:px-16 mt-14">

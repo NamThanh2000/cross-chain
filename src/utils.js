@@ -66,10 +66,6 @@ export const getBalance = async (signer, provider, action) => {
             // Total Donations
             return Number(totalDonations)
         }
-        else if (action === 2) {
-            // Your Donations:
-            return Number(yourDonations)
-        }
         let data = []
         for (let i in donationHistory) {
             const donation = donationHistory[i];
@@ -84,7 +80,7 @@ export const getBalance = async (signer, provider, action) => {
             console.log(`- Timestamp: ${timestamp.toLocaleString()}`);
             console.log('\n');
         }
-        return data
+        return [data, Number(yourDonations)]
     }
 };
 

@@ -35,13 +35,21 @@ function Donate() {
                             </g>
                         </svg>
                     </a>
-                    <div style={{
-                        color: 'rgba(0,0,0,0.55)',
-                        fontFamily: 'Chronicle Text G2 A,Chronicle Text G2 B,ui-serif,Georgia,Cambria,Times New Roman,Times,serif',
-                        fontWeight: 400,
-                        fontSize: '1.25rem'
-                    }}
-                    ><a href="/my-donate">My Donate</a></div>
+                    <div
+                        className="flex"
+                        style={{
+                            color: 'rgba(0,0,0,0.55)',
+                            fontFamily: 'Chronicle Text G2 A,Chronicle Text G2 B,ui-serif,Georgia,Cambria,Times New Roman,Times,serif',
+                            fontWeight: 400,
+                            fontSize: '1.25rem'
+                        }}
+                    >
+                        <a className="py-4 px-6 hover:bg-gray-300 transition-all" href="/your-donate">Your Donate</a>
+                        <div className="border"></div>
+                        <a className="py-4 px-6 hover:bg-gray-300 transition-all" href="/donate">Donate</a>
+                        <div className="border"></div>
+                        <a className="py-4 px-6 hover:bg-gray-300 transition-all" href="/withdraw">Withdraw Token</a>
+                    </div>
                 </div>
             </div>
             <div className="flex px-5 xl:px-38 md:px-16 sm:px-16 mt-14">

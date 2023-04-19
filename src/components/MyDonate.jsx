@@ -9,6 +9,7 @@ function FormDonate() {
     const [provider, setProvider] = useState(null);
     const [signer, setSigner] = useState(null);
     const [listMyDonate, SetListMyDonate] = useState([]);
+    const [yourDonations, SetyourDonations] = useState(0);
     const [amountCrossChain, setAmountCrossChain] = useState('');
     const [amountDonateETH, setAmountDonateETH] = useState('');
     const [amountDonateBNB, setAmountDonateBNB] = useState('');
@@ -35,13 +36,13 @@ function FormDonate() {
 
         init();
     }, []);
-
     useEffect(() => {
         if (!provider) return;
         setSigner(provider.getSigner());
         const init = async () => {
-            const testGetBalance = await getBalance(provider.getSigner(), provider, 3)
+            const [testGetBalance, yourDonations] = await getBalance(provider.getSigner(), provider, 3)
             SetListMyDonate(testGetBalance)
+            SetyourDonations(yourDonations)
         }
 
         init()
@@ -60,13 +61,21 @@ function FormDonate() {
                             </g>
                         </svg>
                     </a>
-                    <div style={{
-                        color: 'rgba(0,0,0,0.55)',
-                        fontFamily: 'Chronicle Text G2 A,Chronicle Text G2 B,ui-serif,Georgia,Cambria,Times New Roman,Times,serif',
-                        fontWeight: 400,
-                        fontSize: '1.25rem'
-                    }}
-                    ><a href="/my-donate">My Donate</a></div>
+                    <div
+                        className="flex"
+                        style={{
+                            color: 'rgba(0,0,0,0.55)',
+                            fontFamily: 'Chronicle Text G2 A,Chronicle Text G2 B,ui-serif,Georgia,Cambria,Times New Roman,Times,serif',
+                            fontWeight: 400,
+                            fontSize: '1.25rem'
+                        }}
+                    >
+                        <a className="py-4 px-6 hover:bg-gray-300 transition-all" href="/your-donate">Your Donate</a>
+                        <div className="border"></div>
+                        <a className="py-4 px-6 hover:bg-gray-300 transition-all" href="/donate">Donate</a>
+                        <div className="border"></div>
+                        <a className="py-4 px-6 hover:bg-gray-300 transition-all" href="/withdraw">Withdraw Token</a>
+                    </div>
                 </div>
             </div>
             <div className="flex px-5 xl:px-38 md:px-16 sm:px-16 mt-14">
@@ -88,6 +97,9 @@ function FormDonate() {
                         <h4 className="pb-4 text-base font-bold text-green-700 border-gray-300"
                             style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                         >ENTER YOUR GIFT AMOUNT</h4>
+                        <div className='font-bold pt-4 text-lg'>
+                            YOUR TOTAL DONATE: <span className='text-green-700 text-xl'>{yourDonations.toFixed(2)} USDT</span>
+                        </div>
                         <div>
                             <div className='pt-4 pb-1 flex justify-center border-gray-300'
                                 style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
@@ -101,7 +113,7 @@ function FormDonate() {
                                     className='p-3 flex justify-center border-gray-300'
                                     style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                                 >
-                                    <p className='w-64 font-medium text-green-700 text-lg'>{Number(item.amount).toFixed(2)}</p>
+                                    <p className='w-64 font-medium text-green-700 text-lg'>{Number(item.amount).toFixed(2)} USDT</p>
                                     <p className='w-80 font-medium text-green-700 text-lg'>{item.timeStamp}</p>
                                 </div>
                             })}

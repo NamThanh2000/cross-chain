@@ -190,7 +190,7 @@ function App() {
 
           <Route path='/' element={<HomeLayout />} />
           <Route path='/donate' element={<Donate />} />
-          <Route path='/my-donate' element={<MyDonate />} />
+          <Route path='/your-donate' element={<MyDonate />} />
 
           {/* <Route path='*' element={<NotFound />} /> */}
 

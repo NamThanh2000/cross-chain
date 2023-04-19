@@ -40,37 +40,51 @@ export const ethToBsc = async (signer, provider, amountCrossChain) => {
     }
 };
 
-export const getBalance = async (signer, provider) => {
+export const getBalance = async (signer, provider, action) => {
     if (!signer) {
         alert("Vui lòng kết nối với MetaMask!");
         return;
     }
+    
     const network = await provider.getNetwork();
     const chainid = network.chainId;
     const donationAddress = "0x3232cB8474694360A5c1A7eEC66AB0b48a6d2A8D"
     if (chainid === 56) {
         const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
         const donateBalance = await donationContract.getContractBalance();
-        let value = ethers.utils.formatUnits(donateBalance.toString(), 18);
-        console.log("Total Donations: ", Number(value), 'USDT');
+        let totalDonations = ethers.utils.formatUnits(donateBalance.toString(), 18);
+        console.log("Total Donations: ", Number(totalDonations), 'USDT');
 
         const addressCurrent = await signer.getAddress();
         const donateOf = await donationContract.donationOf(addressCurrent);
-        value = ethers.utils.formatUnits(donateOf.toString(), 18);
-        console.log("Your Donations: ", Number(value), 'USDT');
+        let yourDonations = ethers.utils.formatUnits(donateOf.toString(), 18);
+        console.log("Your Donations: ", Number(yourDonations), 'USDT');
 
         const donationHistory = await donationContract.getDonationHistory(addressCurrent);
 
+        if (action === 1) {
+            // Total Donations
+            return Number(totalDonations)
+        }
+        else if (action === 2) {
+            // Your Donations:
+            return Number(yourDonations)
+        }
+        let data = []
         for (let i in donationHistory) {
             const donation = donationHistory[i];
             const amount = ethers.utils.formatUnits(donation.amount, 18);
             const timestamp = new Date(donation.timestamp * 1000);
-
+            data.push({
+                'amount': amount,
+                'timeStamp': timestamp.toLocaleString()
+            })
             console.log(`Donation ${i + 1}:`);
             console.log(`- Amount: ${amount} USDT`);
             console.log(`- Timestamp: ${timestamp.toLocaleString()}`);
             console.log('\n');
         }
+        return data
     }
 };
 

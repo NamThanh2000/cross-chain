@@ -8,6 +8,7 @@ import { getBalance } from "../utils"
 function FormDonate() {
     const [provider, setProvider] = useState(null);
     const [signer, setSigner] = useState(null);
+    const [listMyDonate, SetListMyDonate] = useState([]);
     const [amountCrossChain, setAmountCrossChain] = useState('');
     const [amountDonateETH, setAmountDonateETH] = useState('');
     const [amountDonateBNB, setAmountDonateBNB] = useState('');
@@ -39,12 +40,12 @@ function FormDonate() {
         if (!provider) return;
         setSigner(provider.getSigner());
         const init = async () => {
-            const testGetBalance = await getBalance(provider.getSigner(), provider)
+            const testGetBalance = await getBalance(provider.getSigner(), provider, 3)
+            SetListMyDonate(testGetBalance)
         }
 
         init()
     }, [provider]);
-
     return (
         <div>
             <div className="px-10 border-b border-gray-400">
@@ -84,7 +85,27 @@ function FormDonate() {
                         </div>
                     </div>
                     <div>
-                        List danh sách những lần donate của bản thân ở đây
+                        <h4 className="pb-4 text-base font-bold text-green-700 border-gray-300"
+                            style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
+                        >ENTER YOUR GIFT AMOUNT</h4>
+                        <div>
+                            <div className='pt-4 pb-1 flex justify-center border-gray-300'
+                                style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
+                            >
+                                <p className='w-64 font-bold text-lg'>Amount</p>
+                                <p className='w-80 font-bold text-lg'>Timestamp</p>
+                            </div>
+                            {listMyDonate && listMyDonate.map((item, index) => {
+                                return <div
+                                    key={index}
+                                    className='p-3 flex justify-center border-gray-300'
+                                    style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
+                                >
+                                    <p className='w-64 font-medium text-green-700 text-lg'>{Number(item.amount).toFixed(2)}</p>
+                                    <p className='w-80 font-medium text-green-700 text-lg'>{item.timeStamp}</p>
+                                </div>
+                            })}
+                        </div>
                     </div>
                 </div>
                 <div className="xl:mx-10 mx-4 md:mx-4 sm:mx-4">

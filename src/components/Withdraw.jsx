@@ -4,12 +4,12 @@ import { ethers } from 'ethers';
 import React, { useEffect, useState } from "react";
 import Header from './Header'
 import { getBalance } from "../utils"
+import CountUp from 'react-countup/build/CountUp';
 
 function FormDonate() {
     const [provider, setProvider] = useState(null);
     const [signer, setSigner] = useState(null);
-    const [listMyDonate, SetListMyDonate] = useState([]);
-    const [yourDonations, SetyourDonations] = useState(0);
+    const [totalDonate, SetTotalDonate] = useState(0);
     const [amountCrossChain, setAmountCrossChain] = useState('');
     const [amountDonateETH, setAmountDonateETH] = useState('');
     const [amountDonateBNB, setAmountDonateBNB] = useState('');
@@ -40,9 +40,8 @@ function FormDonate() {
         if (!provider) return;
         setSigner(provider.getSigner());
         const init = async () => {
-            const [testGetBalance, yourDonations] = await getBalance(provider.getSigner(), provider, 3)
-            SetListMyDonate(testGetBalance)
-            SetyourDonations(yourDonations)
+            const totalDonations = await getBalance(provider.getSigner(), provider, 1)
+            SetTotalDonate(totalDonations)
         }
 
         init()
@@ -64,7 +63,26 @@ function FormDonate() {
                 style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
             >
                 <h2 className='text-5xl mt-5 font-medium'>Everyone's Donate</h2>
-                <p className='text-5xl mt-5'>3.11 USDT</p>
+                <p className='text-5xl mt-5'>{totalDonate.toFixed(3)} USDT</p>
+                <CountUp
+                    start={-875.039}
+                    end={160527.012}
+                    duration={2.75}
+                    separator=" "
+                    decimals={4}
+                    decimal=","
+                    prefix="EUR "
+                    suffix=" left"
+                    onEnd={() => console.log('Ended! 👏')}
+                    onStart={() => console.log('Started! 💨')}
+                >
+                    {({ countUpRef, start }) => (
+                        <div>
+                            <span ref={countUpRef} />
+                            <button onClick={start}>Start</button>
+                        </div>
+                    )}
+                </CountUp>
             </div>
             <div className='flex my-28 mx-40 items-center'>
                 <div className='px-20'>

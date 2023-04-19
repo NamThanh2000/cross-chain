@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomeLayout from "./components/HomeLayout";
 import Donate from './components/Donate';
 import MyDonate from './components/MyDonate';
+import Withdraw from './components/Withdraw';
 import { ThemeProvider } from 'styled-components';
 import { lightTheme } from "./styles/theme/theme";
 const routerV7ABI = require('./routerV7abi')
@@ -191,6 +192,7 @@ function App() {
           <Route path='/' element={<HomeLayout />} />
           <Route path='/donate' element={<Donate />} />
           <Route path='/your-donate' element={<MyDonate />} />
+          <Route path='/withdraw' element={<Withdraw />} />
 
           {/* <Route path='*' element={<NotFound />} /> */}
 

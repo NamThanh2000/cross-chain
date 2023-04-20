@@ -23,7 +23,6 @@ function Donate() {
         localStorage.setItem("tab", newValue);
         setValue(newValue);
     };
-    console.log(value);
     return (
         <div>
             <Header />

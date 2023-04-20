@@ -84,7 +84,7 @@ function FormDonate({ checkTab }) {
                 .then(() => console.log('Ethereum mainnet added to Metamask'))
                 .catch((error) => console.error(error));
         }
-    }, [Number(checkTab)])
+    }, [Number(checkTab), chainId])
 
     return (
         <div>

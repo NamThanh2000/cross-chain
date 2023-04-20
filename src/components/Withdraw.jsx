@@ -85,7 +85,7 @@ function FormDonate() {
     }, [chainId])
 
     const handleWithdraw = async () => {
-        const widthdraw = await withdrawUSDT(signer, provider)
+        const widthdraw = await withdrawUSDT(signer, provider, amountCrossChain)
     }
 
     return (

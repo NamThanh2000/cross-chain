@@ -10,6 +10,7 @@ import './FormDonateStyles.css'
 function FormDonate({ checkTab }) {
     const [provider, setProvider] = useState(null);
     const [signer, setSigner] = useState(null);
+    const [chainId, setChainId] = useState(0);
     const [amountCrossChain, setAmountCrossChain] = useState('');
     const [amountDonateETH, setAmountDonateETH] = useState('');
     const [amountDonateBNB, setAmountDonateBNB] = useState('');
@@ -41,13 +42,38 @@ function FormDonate({ checkTab }) {
     useEffect(() => {
         if (!provider) return;
         setSigner(provider.getSigner());
+        const getChainId = async () => {
+            const network = await provider.getNetwork();
+            const chainid = network.chainId;
+            setChainId(chainid)
+        }
+        getChainId()
     }, [provider]);
 
+    useEffect(() => {
+        if (chainId === 56) {
+            const ethereumMainnet = {
+                chainId: '0x1',
+                chainName: 'Ethereum Mainnet',
+                nativeCurrency: {
+                    name: 'Ether',
+                    symbol: 'ETH',
+                    decimals: 18
+                },
+                rpcUrls: ['https://ethmainnet.anyswap.exchange'],
+                blockExplorerUrls: ['https://etherscan.io/']
+            };
+
+            window.ethereum.request({ method: 'wallet_addEthereumChain', params: [ethereumMainnet] })
+                .then(() => console.log('Ethereum mainnet added to Metamask'))
+                .catch((error) => console.error(error));
+        }
+    }, [chainId])
 
     return (
         <div>
             {checkTab === 0 && <div className='p-6'>
-                <div>
+                {chainId === 1 && <div>
                     <p className='font-bold'>* Donate Chuyển ETH từ Ethereum Network sang BSC Network (Gas fee minimum 0.000121 ETH, Minimum Crosschain Amount is 0.008 ETH)</p>
                     <input
                         className='mt-2'
@@ -64,49 +90,54 @@ function FormDonate({ checkTab }) {
                             Transfer
                         </button>
                     </div>
-                </div>
-                <div className='mt-6'>
-                    <p className='font-bold'>* Donate bằng ETH trên BSC network</p>
-                    <input
-
-                        className='mt-2'
-                        value={amountDonateETH}
-                        onChange={(e) => setAmountDonateETH(e.target.value)}
-                        placeholder='Amount Donate ETH'
-                        type='number'
-                    />
-                    {/* Donate bằng ETH trên BSC network */}
-                    <div>
-                        <button
-                            className='w-fit mt-4 px-8 py-2 bg-green-700 text-white font-bold text-lg'
-                            onClick={donateETH}
-                        >
-                            Donate
-                        </button>
-                    </div>
-                </div>
+                </div>}
+                {chainId === 56 && <div>loading</div>}
 
             </div>
             }
             {
-                checkTab === 1 && <div className='p-8'>
-                    <p className='font-bold'>* Donate bằng BNB trên BSC network</p>
-                    <input
+                checkTab === 1 && <div>
+                    <div className='p-8 border-gray-600'
+                        style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
+                    >
+                        <p className='font-bold'>* Donate bằng BNB trên BSC network</p>
+                        <input
 
-                        className='mt-2'
-                        value={amountDonateBNB}
-                        onChange={(e) => setAmountDonateBNB(e.target.value)}
-                        placeholder='Amount Donate BNB'
-                        type='number'
-                    />
-                    {/* Donate bằng BNB trên BSC network */}
-                    <div>
-                        <button
-                            className='w-fit mt-4 px-8 py-2 bg-green-700 text-white font-bold text-lg'
-                            onClick={donateBNB}
-                        >
-                            Donate
-                        </button>
+                            className='mt-2'
+                            value={amountDonateBNB}
+                            onChange={(e) => setAmountDonateBNB(e.target.value)}
+                            placeholder='Amount Donate BNB'
+                            type='number'
+                        />
+                        {/* Donate bằng BNB trên BSC network */}
+                        <div>
+                            <button
+                                className='w-fit mt-4 px-8 py-2 bg-green-700 text-white font-bold text-lg'
+                                onClick={donateBNB}
+                            >
+                                Donate
+                            </button>
+                        </div>
+                    </div>
+                    <div className='p-8'>
+                        <p className='font-bold'>* Donate bằng ETH trên BSC network</p>
+                        <input
+
+                            className='mt-2'
+                            value={amountDonateETH}
+                            onChange={(e) => setAmountDonateETH(e.target.value)}
+                            placeholder='Amount Donate ETH'
+                            type='number'
+                        />
+                        {/* Donate bằng ETH trên BSC network */}
+                        <div>
+                            <button
+                                className='w-fit mt-4 px-8 py-2 bg-green-700 text-white font-bold text-lg'
+                                onClick={donateETH}
+                            >
+                                Donate
+                            </button>
+                        </div>
                     </div>
                 </div>
 

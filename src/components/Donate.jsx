@@ -51,8 +51,8 @@ function Donate() {
                                         aria-label="basic tabs example"
                                         textColor="primary"
                                     >
-                                        <Tab label="Donate bằng ETH" {...a11yProps(0)} />
-                                        <Tab label="Donate bằng BNB" {...a11yProps(1)} />
+                                        <Tab label="ETH Platform" {...a11yProps(0)} />
+                                        <Tab label="BSC Platform" {...a11yProps(1)} />
                                     </Tabs>
                                 </Box>
                             </Box>

@@ -4,7 +4,6 @@ import { ethers } from 'ethers';
 import React, { useEffect, useState } from "react";
 import Header from './Header'
 import { getBalance } from "../utils"
-import CountUp from 'react-countup/build/CountUp';
 
 function FormDonate() {
     const [provider, setProvider] = useState(null);
@@ -64,25 +63,6 @@ function FormDonate() {
             >
                 <h2 className='text-5xl mt-5 font-medium'>Everyone's Donate</h2>
                 <p className='text-5xl mt-5'>{totalDonate.toFixed(3)} USDT</p>
-                <CountUp
-                    start={-875.039}
-                    end={160527.012}
-                    duration={2.75}
-                    separator=" "
-                    decimals={4}
-                    decimal=","
-                    prefix="EUR "
-                    suffix=" left"
-                    onEnd={() => console.log('Ended! 👏')}
-                    onStart={() => console.log('Started! 💨')}
-                >
-                    {({ countUpRef, start }) => (
-                        <div>
-                            <span ref={countUpRef} />
-                            <button onClick={start}>Start</button>
-                        </div>
-                    )}
-                </CountUp>
             </div>
             <div className='flex my-28 mx-40 items-center'>
                 <div className='px-20'>

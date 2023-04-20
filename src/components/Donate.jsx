@@ -16,9 +16,12 @@ function Donate() {
             'aria-controls': `simple-tabpanel-${index}`,
         };
     }
-    const [value, setValue] = React.useState(0);
+
+    const checkTabStorage = localStorage.getItem("tab");
+    const [value, setValue] = React.useState(checkTabStorage ? checkTabStorage : 0);
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        localStorage.setItem("tab", newValue);
     };
 
     return (
@@ -46,17 +49,17 @@ function Donate() {
                                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <h4 className="text-base font-bold text-green-700">ENTER YOUR GIFT AMOUNT</h4>
                                     <Tabs
-                                        value={value}
+                                        value={Number(value)}
                                         onChange={handleChange}
                                         aria-label="basic tabs example"
                                         textColor="primary"
                                     >
-                                        <Tab label="ETH Platform" {...a11yProps(0)} />
-                                        <Tab label="BSC Platform" {...a11yProps(1)} />
+                                        <Tab label="ETH Platform" value={0}/>
+                                        <Tab label="BSC Platform" value={1}/>
                                     </Tabs>
                                 </Box>
                             </Box>
-                            <FormDonate checkTab={value} />
+                            <FormDonate checkTab={Number(value)} />
                         </TabContext >
                     </div>
                 </div>

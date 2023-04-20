@@ -51,7 +51,7 @@ function FormDonate({ checkTab }) {
     }, [provider]);
 
     useEffect(() => {
-        if (chainId === 56) {
+        if (chainId === 56 && checkTab === 0) {
             const ethereumMainnet = {
                 chainId: '0x1',
                 chainName: 'Ethereum Mainnet',
@@ -68,7 +68,25 @@ function FormDonate({ checkTab }) {
                 .then(() => console.log('Ethereum mainnet added to Metamask'))
                 .catch((error) => console.error(error));
         }
-    }, [chainId])
+        else if (chainId === 1 && checkTab === 1) {
+            console.log(123123);
+            const ethereumMainnet = {
+                chainId: '0x38',
+                chainName: 'Binance Smart Chain Mainnet',
+                nativeCurrency: {
+                    name: 'BNB',
+                    symbol: 'BNB',
+                    decimals: 18,
+                },
+                rpcUrls: ['https://bsc-dataseed.binance.org/'], // RPC endpoint of BSC mainnet
+                blockExplorerUrls: ['https://bscscan.com/'], // Block explorer URL of BSC mainnet
+            };
+
+            window.ethereum.request({ method: 'wallet_addEthereumChain', params: [ethereumMainnet] })
+                .then(() => console.log('Ethereum mainnet added to Metamask'))
+                .catch((error) => console.error(error));
+        }
+    }, [checkTab])
 
     return (
         <div>
@@ -97,48 +115,52 @@ function FormDonate({ checkTab }) {
             }
             {
                 checkTab === 1 && <div>
-                    <div className='p-8 border-gray-600'
-                        style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
-                    >
-                        <p className='font-bold'>* Donate bằng BNB trên BSC network</p>
-                        <input
+                    {chainId === 56 && <div>
+                        <div className='p-8 border-gray-600'
+                            style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
+                        >
+                            <p className='font-bold'>* Donate bằng BNB trên BSC network</p>
+                            <input
 
-                            className='mt-2'
-                            value={amountDonateBNB}
-                            onChange={(e) => setAmountDonateBNB(e.target.value)}
-                            placeholder='Amount Donate BNB'
-                            type='number'
-                        />
-                        {/* Donate bằng BNB trên BSC network */}
-                        <div>
-                            <button
-                                className='w-fit mt-4 px-8 py-2 bg-green-700 text-white font-bold text-lg'
-                                onClick={donateBNB}
-                            >
-                                Donate
-                            </button>
+                                className='mt-2'
+                                value={amountDonateBNB}
+                                onChange={(e) => setAmountDonateBNB(e.target.value)}
+                                placeholder='Amount Donate BNB'
+                                type='number'
+                            />
+                            {/* Donate bằng BNB trên BSC network */}
+                            <div>
+                                <button
+                                    className='w-fit mt-4 px-8 py-2 bg-green-700 text-white font-bold text-lg'
+                                    onClick={donateBNB}
+                                >
+                                    Donate
+                                </button>
+                            </div>
+                        </div>
+                        <div className='p-8'>
+                            <p className='font-bold'>* Donate bằng ETH trên BSC network</p>
+                            <input
+
+                                className='mt-2'
+                                value={amountDonateETH}
+                                onChange={(e) => setAmountDonateETH(e.target.value)}
+                                placeholder='Amount Donate ETH'
+                                type='number'
+                            />
+                            {/* Donate bằng ETH trên BSC network */}
+                            <div>
+                                <button
+                                    className='w-fit mt-4 px-8 py-2 bg-green-700 text-white font-bold text-lg'
+                                    onClick={donateETH}
+                                >
+                                    Donate
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div className='p-8'>
-                        <p className='font-bold'>* Donate bằng ETH trên BSC network</p>
-                        <input
-
-                            className='mt-2'
-                            value={amountDonateETH}
-                            onChange={(e) => setAmountDonateETH(e.target.value)}
-                            placeholder='Amount Donate ETH'
-                            type='number'
-                        />
-                        {/* Donate bằng ETH trên BSC network */}
-                        <div>
-                            <button
-                                className='w-fit mt-4 px-8 py-2 bg-green-700 text-white font-bold text-lg'
-                                onClick={donateETH}
-                            >
-                                Donate
-                            </button>
-                        </div>
-                    </div>
+                    }
+                    {chainId === 1 && <div>loading</div>}
                 </div>
 
             }

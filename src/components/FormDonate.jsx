@@ -15,7 +15,6 @@ function FormDonate({ checkTab }) {
     const [amountDonateETH, setAmountDonateETH] = useState('');
     const [amountDonateBNB, setAmountDonateBNB] = useState('');
     const [amountWithdrawUSDT, setAmountWithdrawUSDT] = useState('');
-
     useEffect(() => {
         const init = async () => {
             const ethereumProvider = await detectEthereumProvider();
@@ -51,7 +50,7 @@ function FormDonate({ checkTab }) {
     }, [provider]);
 
     useEffect(() => {
-        if (chainId === 56 && checkTab === 0) {
+        if (chainId === 56 && Number(checkTab) === 0) {
             const ethereumMainnet = {
                 chainId: '0x1',
                 chainName: 'Ethereum Mainnet',
@@ -68,8 +67,7 @@ function FormDonate({ checkTab }) {
                 .then(() => console.log('Ethereum mainnet added to Metamask'))
                 .catch((error) => console.error(error));
         }
-        else if (chainId === 1 && checkTab === 1) {
-            console.log(123123);
+        else if (chainId === 1 && Number(checkTab) === 1) {
             const ethereumMainnet = {
                 chainId: '0x38',
                 chainName: 'Binance Smart Chain Mainnet',
@@ -86,11 +84,11 @@ function FormDonate({ checkTab }) {
                 .then(() => console.log('Ethereum mainnet added to Metamask'))
                 .catch((error) => console.error(error));
         }
-    }, [checkTab])
+    }, [Number(checkTab)])
 
     return (
         <div>
-            {checkTab === 0 && <div className='p-6'>
+            {Number(checkTab) === 0 && <div className='p-6'>
                 {chainId === 1 && <div>
                     <p className='font-bold'>* Donate Chuyển ETH từ Ethereum Network sang BSC Network (Gas fee minimum 0.000121 ETH, Minimum Crosschain Amount is 0.008 ETH)</p>
                     <input
@@ -114,7 +112,7 @@ function FormDonate({ checkTab }) {
             </div>
             }
             {
-                checkTab === 1 && <div>
+                Number(checkTab) === 1 && <div>
                     {chainId === 56 && <div>
                         <div className='p-8 border-gray-600'
                             style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}

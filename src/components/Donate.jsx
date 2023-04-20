@@ -20,10 +20,10 @@ function Donate() {
     const checkTabStorage = localStorage.getItem("tab");
     const [value, setValue] = React.useState(checkTabStorage ? checkTabStorage : 0);
     const handleChange = (event, newValue) => {
-        setValue(newValue);
         localStorage.setItem("tab", newValue);
+        setValue(newValue);
     };
-
+    console.log(value);
     return (
         <div>
             <Header />

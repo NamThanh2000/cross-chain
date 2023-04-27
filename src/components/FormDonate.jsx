@@ -86,6 +86,15 @@ function FormDonate({ checkTab }) {
         }
     }, [Number(checkTab), chainId])
 
+    const donateBNBHandle = () => {
+        donateBNB(signer, provider, amountDonateBNB)
+    }
+
+    const donateETHHandle = () => {
+        donateETH(signer, provider, amountDonateETH)
+    }
+
+
     return (
         <div>
             {Number(checkTab) === 0 && <div className='p-6'>
@@ -130,7 +139,7 @@ function FormDonate({ checkTab }) {
                             <div>
                                 <button
                                     className='w-fit mt-4 px-8 py-2 bg-green-700 text-white font-bold text-lg'
-                                    onClick={donateBNB}
+                                    onClick={donateBNBHandle}
                                 >
                                     Donate
                                 </button>
@@ -150,7 +159,7 @@ function FormDonate({ checkTab }) {
                             <div>
                                 <button
                                     className='w-fit mt-4 px-8 py-2 bg-green-700 text-white font-bold text-lg'
-                                    onClick={donateETH}
+                                    onClick={donateETHHandle}
                                 >
                                     Donate
                                 </button>

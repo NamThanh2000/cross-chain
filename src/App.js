@@ -69,7 +69,7 @@ function App() {
     }
     const network = await provider.getNetwork();
     const chainid = network.chainId;
-    const donationAddress = "0x3232cB8474694360A5c1A7eEC66AB0b48a6d2A8D"
+    const donationAddress = "0xDB18aC5292EB8A41f0D2829F81909c9e6183ab13"
     if (chainid === 56) {
       const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
       const donateBalance = await donationContract.getContractBalance();
@@ -128,7 +128,7 @@ function App() {
     const network = await provider.getNetwork();
     const chainid = network.chainId;
     if (chainid === 56) {
-      const donationAddress = "0x3232cB8474694360A5c1A7eEC66AB0b48a6d2A8D"
+      const donationAddress = "0xDB18aC5292EB8A41f0D2829F81909c9e6183ab13"
 
       const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
       const donateAmount = ethers.utils.parseUnits(amountDonateETH, 18);
@@ -148,7 +148,7 @@ function App() {
     const network = await provider.getNetwork();
     const chainid = network.chainId;
     if (chainid === 56) {
-      const donationAddress = "0x3232cB8474694360A5c1A7eEC66AB0b48a6d2A8D"
+      const donationAddress = "0xDB18aC5292EB8A41f0D2829F81909c9e6183ab13"
 
       const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
       const donateAmount = ethers.utils.parseUnits(amountDonateBNB, 18);
@@ -168,7 +168,7 @@ function App() {
     const network = await provider.getNetwork();
     const chainid = network.chainId;
     if (chainid === 56) {
-      const donationAddress = "0x3232cB8474694360A5c1A7eEC66AB0b48a6d2A8D"
+      const donationAddress = "0xDB18aC5292EB8A41f0D2829F81909c9e6183ab13"
 
       const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
       const amountWithdraw = ethers.utils.parseUnits(amountWithdrawUSDT, 18);

@@ -2,6 +2,7 @@ import { ethers } from 'ethers';
 
 const routerV7ABI = require('./routerV7abi')
 const donationABI = require('./DonationContractABI')
+const wethABI = require('./IERC20Abi')
 
 export const connectMetamask = async () => {
     if (!window.ethereum) {
@@ -48,7 +49,7 @@ export const getBalance = async (signer, provider, action) => {
     
     const network = await provider.getNetwork();
     const chainid = network.chainId;
-    const donationAddress = "0x3232cB8474694360A5c1A7eEC66AB0b48a6d2A8D"
+    const donationAddress = "0xDB18aC5292EB8A41f0D2829F81909c9e6183ab13"
     if (chainid === 56) {
         const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
         const donateBalance = await donationContract.getContractBalance();
@@ -89,20 +90,30 @@ export const donateETH = async (signer, provider, amountDonateETH) => {
     if (!window.ethereum) {
         alert("Vui lòng cài đặt MetaMask!");
         return;
-    }
-    const network = await provider.getNetwork();
-    const chainid = network.chainId;
-    if (chainid === 56) {
-        const donationAddress = "0x3232cB8474694360A5c1A7eEC66AB0b48a6d2A8D"
-
-        const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
+      }
+      const network = await provider.getNetwork();
+      const chainid = network.chainId;
+      if (chainid === 56) {
         const donateAmount = ethers.utils.parseUnits(amountDonateETH, 18);
-        const donateTx = await donationContract.donateWETHS(
+        const donationAddress = "0xDB18aC5292EB8A41f0D2829F81909c9e6183ab13"
+  
+        const wethAddress = '0x2170Ed0880ac9A755fd29B2688956BD959F933F8'
+        const wethToken = new ethers.Contract(wethAddress, wethABI, signer);
+        const addressCurrent = await signer.getAddress();
+        const allowance = await wethToken.allowance(addressCurrent, donationAddress);
+        if (allowance.gte(donateAmount)) {
+          const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
+          const donateTx = await donationContract.donateWETHS(
             donateAmount
-        );
-        await donateTx.wait();
-        console.log("Donate thành công: ", donateTx.toString());
-    }
+          );
+          await donateTx.wait();
+          console.log("Donate thành công: ", donateTx.toString());
+        } else {
+          const tx = await wethToken.approve(donationAddress, donateAmount);
+          await tx.wait();
+          console.log("WETH approved successfully!");
+        }
+      }
 };
 
 export const donateBNB = async (signer, provider, amountDonateBNB) => {
@@ -113,7 +124,7 @@ export const donateBNB = async (signer, provider, amountDonateBNB) => {
     const network = await provider.getNetwork();
     const chainid = network.chainId;
     if (chainid === 56) {
-        const donationAddress = "0x3232cB8474694360A5c1A7eEC66AB0b48a6d2A8D"
+        const donationAddress = "0xDB18aC5292EB8A41f0D2829F81909c9e6183ab13"
 
         const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
         const donateAmount = ethers.utils.parseUnits(amountDonateBNB, 18);
@@ -133,7 +144,7 @@ export const withdrawUSDT = async (signer, provider, amountWithdrawUSDT) => {
     const network = await provider.getNetwork();
     const chainid = network.chainId;
     if (chainid === 56) {
-        const donationAddress = "0x3232cB8474694360A5c1A7eEC66AB0b48a6d2A8D"
+        const donationAddress = "0xDB18aC5292EB8A41f0D2829F81909c9e6183ab13"
 
         const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
         const amountWithdraw = ethers.utils.parseUnits(amountWithdrawUSDT, 18);

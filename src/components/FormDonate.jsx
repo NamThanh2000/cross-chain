@@ -12,8 +12,8 @@ function FormDonate({ checkTab }) {
     const [signer, setSigner] = useState(null);
     const [chainId, setChainId] = useState(0);
     const [amountCrossChain, setAmountCrossChain] = useState('');
-    const [amountDonateETH, setAmountDonateETH] = useState('');
-    const [amountDonateBNB, setAmountDonateBNB] = useState('');
+    const [amountDonateETH, setAmountDonateETH] = useState(1);
+    const [amountDonateBNB, setAmountDonateBNB] = useState(1);
     const [amountWithdrawUSDT, setAmountWithdrawUSDT] = useState('');
     useEffect(() => {
         const init = async () => {
@@ -130,6 +130,7 @@ function FormDonate({ checkTab }) {
                             <input
 
                                 className='mt-2'
+                                defaultValue={1}
                                 value={amountDonateBNB}
                                 onChange={(e) => setAmountDonateBNB(e.target.value)}
                                 placeholder='Amount Donate BNB'
@@ -148,7 +149,7 @@ function FormDonate({ checkTab }) {
                         <div className='p-8'>
                             <p className='font-bold'>* Donate bằng ETH trên BSC network</p>
                             <input
-
+                                defaultValue={1}
                                 className='mt-2'
                                 value={amountDonateETH}
                                 onChange={(e) => setAmountDonateETH(e.target.value)}

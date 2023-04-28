@@ -1,4 +1,5 @@
 import { ethers } from 'ethers';
+import Web3 from 'web3';
 
 const routerV7ABI = require('./routerV7abi')
 const donationABI = require('./DonationContractABI')
@@ -41,14 +42,16 @@ export const ethToBsc = async (signer, provider, amountCrossChain) => {
     }
 };
 
-export const getBalance = async (signer, provider, action) => {
+export const getBalances = async (signer, provider, action) => {
     if (!signer) {
         alert("Vui lòng kết nối với MetaMask!");
         return;
     }
-    
+
     const network = await provider.getNetwork();
     const chainid = network.chainId;
+
+    const Web3 = require('web3');
     const donationAddress = "0xDB18aC5292EB8A41f0D2829F81909c9e6183ab13"
     if (chainid === 56) {
         const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
@@ -90,30 +93,32 @@ export const donateETH = async (signer, provider, amountDonateETH) => {
     if (!window.ethereum) {
         alert("Vui lòng cài đặt MetaMask!");
         return;
-      }
-      const network = await provider.getNetwork();
-      const chainid = network.chainId;
-      if (chainid === 56) {
+    }
+    
+    const network = await provider.getNetwork();
+    const chainid = network.chainId;
+    if (chainid === 56) {
         const donateAmount = ethers.utils.parseUnits(amountDonateETH, 18);
         const donationAddress = "0xDB18aC5292EB8A41f0D2829F81909c9e6183ab13"
-  
+
         const wethAddress = '0x2170Ed0880ac9A755fd29B2688956BD959F933F8'
         const wethToken = new ethers.Contract(wethAddress, wethABI, signer);
         const addressCurrent = await signer.getAddress();
         const allowance = await wethToken.allowance(addressCurrent, donationAddress);
         if (allowance.gte(donateAmount)) {
-          const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
-          const donateTx = await donationContract.donateWETHS(
-            donateAmount
-          );
-          await donateTx.wait();
-          console.log("Donate thành công: ", donateTx.toString());
+            const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
+            const donateTx = await donationContract.donateWETHS(
+                donateAmount
+            );
+            await donateTx.wait();
+            console.log("Donate thành công: ", donateTx.toString());
         } else {
-          const tx = await wethToken.approve(donationAddress, donateAmount);
-          await tx.wait();
-          console.log("WETH approved successfully!");
+            const tx = await wethToken.approve(donationAddress, donateAmount);
+            await tx.wait();
+            console.log("WETH approved successfully!");
         }
-      }
+
+    }
 };
 
 export const donateBNB = async (signer, provider, amountDonateBNB) => {
@@ -121,6 +126,7 @@ export const donateBNB = async (signer, provider, amountDonateBNB) => {
         alert("Vui lòng cài đặt MetaMask!");
         return;
     }
+    console.log(amountDonateBNB);
     const network = await provider.getNetwork();
     const chainid = network.chainId;
     if (chainid === 56) {

@@ -3,7 +3,7 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import { ethers } from 'ethers';
 import React, { useEffect, useState } from "react";
 import Header from './Header'
-import { getBalance } from "../utils"
+import { getBalances } from "../utils"
 
 function FormDonate() {
     const [provider, setProvider] = useState(null);
@@ -40,7 +40,7 @@ function FormDonate() {
         if (!provider) return;
         setSigner(provider.getSigner());
         const init = async () => {
-            const [testGetBalance, yourDonations] = await getBalance(provider.getSigner(), provider, 3)
+            const [testGetBalance, yourDonations] = await getBalances(provider.getSigner(), provider, 3)
             SetListMyDonate(testGetBalance)
             SetyourDonations(yourDonations)
         }

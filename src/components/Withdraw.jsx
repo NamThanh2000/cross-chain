@@ -3,7 +3,7 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import { ethers } from 'ethers';
 import React, { useEffect, useState } from "react";
 import Header from './Header'
-import { getBalance, withdrawUSDT } from "../utils"
+import { getBalances, withdrawUSDT } from "../utils"
 
 function FormDonate() {
     const [provider, setProvider] = useState(null);
@@ -76,7 +76,7 @@ function FormDonate() {
         }
         else if (chainId === 56) {
             const init = async () => {
-                const totalDonations = await getBalance(provider.getSigner(), provider, 1)
+                const totalDonations = await getBalances(provider.getSigner(), provider, 1)
                 SetTotalDonate(totalDonations)
             }
 
@@ -87,7 +87,6 @@ function FormDonate() {
     const handleWithdraw = async () => {
         const widthdraw = await withdrawUSDT(signer, provider, amountCrossChain)
     }
-
     return (
         <div>
             <Header />
@@ -105,7 +104,7 @@ function FormDonate() {
                 style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
             >
                 <h2 className='text-5xl mt-5 font-medium'>Everyone's Donate</h2>
-                <p className='text-5xl my-5'>{totalDonate.toFixed(3)} USDT</p>
+                <p className='text-5xl my-5'>{Math.round(totalDonate)} USDT</p>
                 {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' &&
                     <a href='/donate' className='mt-5 px-8 py-3 bg-green-700  text-white font-bold'>Donate</a>
                 }

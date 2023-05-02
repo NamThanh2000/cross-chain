@@ -50,9 +50,9 @@ function FormDonate() {
     return (
         <div>
             <Header />
-            <div className="flex px-5 xl:px-38 md:px-16 sm:px-16 mt-14">
-                <div className="mx-10">
-                    <div className="border-t-4 border-green-700 mb-6">
+            <div className="flex flex-col flex-col-reverse lg:flex-row px-5 xl:px-38 md:px-16 sm:px-16 lg:mt-40 mt-20 mb-20">
+                <div className="lg:mx-10">
+                    <div className="mt-4 lg:mt-0 border-t-4 border-green-700 mb-6">
                         <h1 className="text-3xl my-6"
                             style={{
                                 fontFamily: 'Chronicle Text G2 A,Chronicle Text G2 B,ui-serif,Georgia,Cambria,Times New Roman,Times,serif'
@@ -92,7 +92,7 @@ function FormDonate() {
                         </div>
                     </div>
                 </div>
-                <div className="xl:mx-10 mx-4 md:mx-4 sm:mx-4">
+                <div className="xl:mx-10 lg:mx-4 md:mx-4 sm:mx-4 w-100">
                     <img src="/WOPA060426.png" alt="WOPA060426" />
                 </div>
             </div>

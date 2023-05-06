@@ -10,10 +10,8 @@ function FormDonate() {
     const [signer, setSigner] = useState(null);
     const [listMyDonate, SetListMyDonate] = useState([]);
     const [yourDonations, SetyourDonations] = useState(0);
-    const [amountCrossChain, setAmountCrossChain] = useState('');
-    const [amountDonateETH, setAmountDonateETH] = useState('');
-    const [amountDonateBNB, setAmountDonateBNB] = useState('');
-    const [amountWithdrawUSDT, setAmountWithdrawUSDT] = useState('');
+    
+    const [chainId, setChainId] = useState(0);
 
     useEffect(() => {
         const init = async () => {
@@ -36,6 +34,7 @@ function FormDonate() {
 
         init();
     }, []);
+
     useEffect(() => {
         if (!provider) return;
         setSigner(provider.getSigner());
@@ -45,8 +44,35 @@ function FormDonate() {
             SetyourDonations(yourDonations)
         }
 
+        const getChainId = async () => {
+            const network = await provider.getNetwork();
+            const chainid = network.chainId;
+            setChainId(chainid)
+        }
+        getChainId()
+
         init()
     }, [provider]);
+
+    useEffect(() => {
+        if (chainId === 1) {
+            const ethereumMainnet = {
+                chainId: '0x38',
+                chainName: 'Binance Smart Chain Mainnet',
+                nativeCurrency: {
+                    name: 'BNB',
+                    symbol: 'BNB',
+                    decimals: 18,
+                },
+                rpcUrls: ['https://bsc-dataseed.binance.org/'], // RPC endpoint of BSC mainnet
+                blockExplorerUrls: ['https://bscscan.com/'], // Block explorer URL of BSC mainnet
+            };
+
+            window.ethereum.request({ method: 'wallet_addEthereumChain', params: [ethereumMainnet] })
+                .then(() => console.log('Ethereum mainnet added to Metamask'))
+                .catch((error) => console.error(error));
+        }
+    }, [chainId])
     return (
         <div>
             <Header />

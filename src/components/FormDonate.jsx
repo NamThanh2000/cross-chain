@@ -59,7 +59,7 @@ function FormDonate({ checkTab }) {
         }
         getMybalance()
     }, [provider]);
-    // console.log(myBalance);
+    
     useEffect(() => {
         if (chainId === 56 && Number(checkTab) === 0) {
             const ethereumMainnet = {

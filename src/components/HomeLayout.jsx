@@ -1,8 +1,41 @@
 import { connectMetamask } from '../utils'
-
+import { useEffect, useState } from 'react';
+import { Web3Provider } from '@ethersproject/providers';
+import detectEthereumProvider from "@metamask/detect-provider";
 
 
 function HomeLayout() {
+  const [provider, setProvider] = useState(null);
+  const [signer, setSigner] = useState(null);
+
+  console.log(signer);
+
+  useEffect(() => {
+    const init = async () => {
+      const ethereumProvider = await detectEthereumProvider();
+      if (!ethereumProvider) {
+        console.error("Không tìm thấy MetaMask");
+        return;
+      }
+
+      setProvider(new Web3Provider(ethereumProvider));
+
+      ethereumProvider.on("chainChanged", () => {
+        window.location.reload();
+      });
+
+      ethereumProvider.on("accountsChanged", () => {
+        window.location.reload();
+      });
+    };
+
+    init();
+  }, []);
+  useEffect(() => {
+    if (!provider) return;
+    setSigner(provider.getSigner());
+  }, [provider]);
+
   return (
     <>
       <div className="fixed z-30 w-full bg-white shadow-xl">
@@ -31,7 +64,7 @@ function HomeLayout() {
         <div className="absolute z-20 lg:mx-60 mx-5">
           <h1 className=" text-white font-bold text-5xl">Protect What Nature Gives You</h1>
           <p className="mt-2 text-white font-bold text1xl">Help protect the air you breathe, water you drink and places you call home.</p>
-          <button onClick={connectMetamask} className="mt-6 px-8 py-3 bg-white text-green-700 font-bold">Connect To MetaMask Wallet</button>
+          {!signer && <button onClick={connectMetamask} className="mt-6 px-8 py-3 bg-white text-green-700 font-bold">Connect To MetaMask Wallet</button>}
         </div>
       </div>
       <div className='sm:container mx-auto px-10 mt-10'>

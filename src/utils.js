@@ -23,22 +23,32 @@ export const ethToBsc = async (signer, provider, amountCrossChain) => {
         alert("Vui lòng kết nối với MetaMask!");
         return;
     }
-    const network = await provider.getNetwork();
-    const chainid = network.chainId;
-    if (chainid === 1) {
-        const routerv7address = "0xba8da9dcf11b50b03fd5284f164ef5cdef910705"
-        const routerV7contract = new ethers.Contract(routerv7address, routerV7ABI, signer);
-        const addressCurrent = await signer.getAddress();
-        const ethAmount = ethers.utils.parseUnits(amountCrossChain, 18);
-        const bridgeoutlog = await routerV7contract.anySwapOutNative(
-            "0x0615dbba33fe61a31c7ed131bda6655ed76748b1",
-            addressCurrent,
-            56,
-            { value: ethers.BigNumber.from(ethAmount.toString()) }
-        )
-        console.log('Source chain transaction sent: ', bridgeoutlog.hash)
-        console.log('https://scan.multichain.org/#/tx?params=:', bridgeoutlog.hash)
-        console.log('https://etherscan.io/tx/', bridgeoutlog.hash)
+    if (amountCrossChain && amountCrossChain > 0) {
+        const network = await provider.getNetwork();
+        const chainid = network.chainId;
+        if (chainid === 1) {
+            const routerv7address = "0xba8da9dcf11b50b03fd5284f164ef5cdef910705"
+            const routerV7contract = new ethers.Contract(routerv7address, routerV7ABI, signer);
+            const addressCurrent = await signer.getAddress();
+            const ethAmount = ethers.utils.parseUnits(amountCrossChain, 18);
+            try {
+                const bridgeoutlog = await routerV7contract.anySwapOutNative(
+                    "0x0615dbba33fe61a31c7ed131bda6655ed76748b1",
+                    addressCurrent,
+                    56,
+                    { value: ethers.BigNumber.from(ethAmount.toString()) }
+                )
+                console.log(`Source chain transaction sent: ${bridgeoutlog.hash}`)
+                console.log(`https://scan.multichain.org/#/tx?params=:${bridgeoutlog.hash}`)
+                console.log(`https://etherscan.io/tx/${bridgeoutlog.hash}`)
+                window.open(`https://scan.multichain.org/#/tx?params=:${bridgeoutlog.hash}`, '_blank');
+                window.open(`https://etherscan.io/tx/${bridgeoutlog.hash}`, '_blank');
+                return true
+            }
+            catch {
+                return false
+            }
+        }
     }
 };
 
@@ -94,30 +104,41 @@ export const donateETH = async (signer, provider, amountDonateETH) => {
         alert("Vui lòng cài đặt MetaMask!");
         return;
     }
-    
-    const network = await provider.getNetwork();
-    const chainid = network.chainId;
-    if (chainid === 56) {
-        const donateAmount = ethers.utils.parseUnits(amountDonateETH, 18);
-        const donationAddress = "0xDB18aC5292EB8A41f0D2829F81909c9e6183ab13"
 
-        const wethAddress = '0x2170Ed0880ac9A755fd29B2688956BD959F933F8'
-        const wethToken = new ethers.Contract(wethAddress, wethABI, signer);
-        const addressCurrent = await signer.getAddress();
-        const allowance = await wethToken.allowance(addressCurrent, donationAddress);
-        if (allowance.gte(donateAmount)) {
-            const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
-            const donateTx = await donationContract.donateWETHS(
-                donateAmount
-            );
-            await donateTx.wait();
-            console.log("Donate thành công: ", donateTx.toString());
-        } else {
-            const tx = await wethToken.approve(donationAddress, donateAmount);
-            await tx.wait();
-            console.log("WETH approved successfully!");
+    if (amountDonateETH && amountDonateETH > 0) {
+        const network = await provider.getNetwork();
+        const chainid = network.chainId;
+        if (chainid === 56) {
+            const donateAmount = ethers.utils.parseUnits(amountDonateETH, 18);
+            const donationAddress = "0xDB18aC5292EB8A41f0D2829F81909c9e6183ab13"
+
+            const wethAddress = '0x2170Ed0880ac9A755fd29B2688956BD959F933F8'
+            const wethToken = new ethers.Contract(wethAddress, wethABI, signer);
+            const addressCurrent = await signer.getAddress();
+            const allowance = await wethToken.allowance(addressCurrent, donationAddress);
+
+            if (allowance.gte(donateAmount)) {
+                const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
+                try {
+                    const donateTx = await donationContract.donateWETHS(
+                        donateAmount
+                    );
+                    await donateTx.wait();
+                    console.log("Donate thành công: ", donateTx.toString());
+                    window.open(`https://bscscan.com/tx/${donateTx.toString()}`, '_blank');
+                    return true
+                }
+                catch {
+                    return false
+                }
+
+            } else {
+                const tx = await wethToken.approve(donationAddress, donateAmount);
+                await tx.wait();
+                console.log("WETH approved successfully!");
+            }
+
         }
-
     }
 };
 
@@ -126,19 +147,34 @@ export const donateBNB = async (signer, provider, amountDonateBNB) => {
         alert("Vui lòng cài đặt MetaMask!");
         return;
     }
-    console.log(amountDonateBNB);
-    const network = await provider.getNetwork();
-    const chainid = network.chainId;
-    if (chainid === 56) {
-        const donationAddress = "0xDB18aC5292EB8A41f0D2829F81909c9e6183ab13"
+    if (amountDonateBNB && amountDonateBNB > 0) {
+        const network = await provider.getNetwork();
+        const chainid = network.chainId;
 
-        const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
-        const donateAmount = ethers.utils.parseUnits(amountDonateBNB, 18);
-        const donateTx = await donationContract.donateBNBS(
-            { value: donateAmount }
-        );
-        await donateTx.wait();
-        console.log("Donate thành công: ", donateTx.toString());
+        const routerv7address = "0xba8da9dcf11b50b03fd5284f164ef5cdef910705"
+        const routerV7contract = new ethers.Contract(routerv7address, routerV7ABI, signer);
+
+        const addressCurrent = await signer.getAddress();
+
+        if (chainid === 56) {
+            const donationAddress = "0xDB18aC5292EB8A41f0D2829F81909c9e6183ab13"
+
+            const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
+            const donateAmount = ethers.utils.parseUnits(amountDonateBNB, 18);
+            try {
+                const donateTx = await donationContract.donateBNBS(
+                    { value: donateAmount }
+                );
+                await donateTx.wait();
+                console.log("Donate thành công: ", donateTx.toString());
+                window.open(`https://bscscan.com/tx/${donateTx.toString()}`, '_blank');
+                return true
+            }
+            catch {
+                return false
+            }
+
+        }
     }
 };
 
@@ -154,8 +190,21 @@ export const withdrawUSDT = async (signer, provider, amountWithdrawUSDT) => {
 
         const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
         const amountWithdraw = ethers.utils.parseUnits(amountWithdrawUSDT, 18);
-        const donateTx = await donationContract.withdraw(amountWithdraw);
+        const donateTx = await donationContract.withdrawUSDT(amountWithdraw);
         await donateTx.wait();
         console.log("Withdraw thành công: ", donateTx.toString());
     }
 };
+
+export const getMyBalance = async (signer, provider) => {
+    const addressCurrent = await signer.getAddress();
+
+    const balanceBNB = await provider.getBalance(addressCurrent);
+    const balanceInBNB = ethers.utils.formatEther(balanceBNB);
+
+    const wethContract = new ethers.Contract("0x2170Ed0880ac9A755fd29B2688956BD959F933F8", wethABI, provider);
+    const balanceETH = await wethContract.balanceOf(addressCurrent);
+    const balanceInWETH = ethers.utils.formatEther(balanceETH);
+    console.log(balanceInWETH);
+    // return balanceInBNB
+}

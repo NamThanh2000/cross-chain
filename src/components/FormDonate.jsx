@@ -2,8 +2,10 @@ import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
 import { ethers } from 'ethers';
 import React, { useEffect, useState } from "react";
-
-import { donateETH, donateBNB, ethToBsc } from "../utils"
+import { HalfMalf, DoubleBubble, SlidingPebbles } from 'react-spinner-animated';
+import 'react-spinner-animated/dist/index.css'
+import { donateETH, donateBNB, ethToBsc, getMyBalance } from "../utils"
+import toast from 'react-hot-toast';
 
 import './FormDonateStyles.css'
 
@@ -11,9 +13,10 @@ function FormDonate({ checkTab }) {
     const [provider, setProvider] = useState(null);
     const [signer, setSigner] = useState(null);
     const [chainId, setChainId] = useState(0);
-    const [amountCrossChain, setAmountCrossChain] = useState('');
-    const [amountDonateETH, setAmountDonateETH] = useState(1);
-    const [amountDonateBNB, setAmountDonateBNB] = useState(1);
+    const [amountCrossChain, setAmountCrossChain] = useState(null);
+    const [amountDonateETH, setAmountDonateETH] = useState(null);
+    const [amountDonateBNB, setAmountDonateBNB] = useState(null);
+    const [myBalance, setMyBalance] = useState(null);
     const [amountWithdrawUSDT, setAmountWithdrawUSDT] = useState('');
     useEffect(() => {
         const init = async () => {
@@ -33,6 +36,7 @@ function FormDonate({ checkTab }) {
             ethereumProvider.on("accountsChanged", () => {
                 window.location.reload();
             });
+            
         };
 
         init();
@@ -47,8 +51,15 @@ function FormDonate({ checkTab }) {
             setChainId(chainid)
         }
         getChainId()
+        const getMybalance = async () => {
+            console.log(123123123);
+            const balance = await getMyBalance(provider.getSigner(), provider)
+            console.log(balance);
+            setMyBalance(balance)
+        }
+        getMybalance()
     }, [provider]);
-
+    console.log(myBalance);
     useEffect(() => {
         if (chainId === 56 && Number(checkTab) === 0) {
             const ethereumMainnet = {
@@ -86,12 +97,35 @@ function FormDonate({ checkTab }) {
         }
     }, [Number(checkTab), chainId])
 
-    const donateBNBHandle = () => {
-        donateBNB(signer, provider, amountDonateBNB)
+    const donateBNBHandle = async () => {
+        console.log(signer);
+        const donate = await donateBNB(signer, provider, amountDonateBNB)
+        if (donate) {
+            toast.success("Donate BNB success");
+        }
+        else {
+            toast.error("Donate BNB failed");
+        }
     }
 
-    const donateETHHandle = () => {
-        donateETH(signer, provider, amountDonateETH)
+    const donateETHHandle = async () => {
+        const donate = await donateETH(signer, provider, amountDonateETH)
+        if (donate) {
+            toast.success("Donate ETH success");
+        }
+        else {
+            toast.error("Donate ETH failed");
+        }
+    }
+
+    const ethToBscHandle = async () => {
+        const donate = await ethToBsc(signer, provider, amountCrossChain)
+        if (donate) {
+            toast.success("Transfer success");
+        }
+        else {
+            toast.error("Donate failed");
+        }
     }
 
 
@@ -110,13 +144,15 @@ function FormDonate({ checkTab }) {
                     <div>
                         <button
                             className='w-fit mt-4 px-8 py-2 bg-green-700 text-white font-bold text-lg'
-                            onClick={ethToBsc}
+                            onClick={ethToBscHandle}
                         >
                             Transfer
                         </button>
                     </div>
                 </div>}
-                {chainId === 56 && <div>loading</div>}
+                {chainId === 56 && <div className='relative left-20'>
+                    <HalfMalf center={true} />
+                </div>}
 
             </div>
             }
@@ -130,7 +166,7 @@ function FormDonate({ checkTab }) {
                             <input
 
                                 className='mt-2'
-                                defaultValue={1}
+                                // defaultValue={1}
                                 value={amountDonateBNB}
                                 onChange={(e) => setAmountDonateBNB(e.target.value)}
                                 placeholder='Amount Donate BNB'
@@ -149,7 +185,7 @@ function FormDonate({ checkTab }) {
                         <div className='p-8'>
                             <p className='font-bold'>* Donate bằng ETH trên BSC network</p>
                             <input
-                                defaultValue={1}
+                                // defaultValue={1}
                                 className='mt-2'
                                 value={amountDonateETH}
                                 onChange={(e) => setAmountDonateETH(e.target.value)}
@@ -168,7 +204,9 @@ function FormDonate({ checkTab }) {
                         </div>
                     </div>
                     }
-                    {chainId === 1 && <div>loading</div>}
+                    {chainId === 1 && <div className='flex items-center relative'>
+                        <HalfMalf center={true} />
+                    </div>}
                 </div>
 
             }

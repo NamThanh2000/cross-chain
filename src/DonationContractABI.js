@@ -209,7 +209,20 @@ module.exports = [
                 "type": "uint256"
             }
         ],
-        "name": "withdraw",
+        "name": "withdrawUSDT",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "withdrawWETH",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"

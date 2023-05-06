@@ -9,6 +9,7 @@ import MyDonate from './components/MyDonate';
 import Withdraw from './components/Withdraw';
 import { ThemeProvider } from 'styled-components';
 import { lightTheme } from "./styles/theme/theme";
+import { Toaster } from 'react-hot-toast';
 const routerV7ABI = require('./routerV7abi')
 const donationABI = require('./DonationContractABI')
 
@@ -184,21 +185,23 @@ function App() {
   }
 
   return (
-    <ThemeProvider theme={lightTheme}>
+    <>
+      <Toaster position="top-center" reverseOrder={true}/>
+      <ThemeProvider theme={lightTheme}>
 
-      <BrowserRouter>
-        <Routes>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<HomeLayout />} />
+            <Route path='/donate' element={<Donate />} />
+            <Route path='/your-donate' element={<MyDonate />} />
+            <Route path='/withdraw' element={<Withdraw />} />
 
-          <Route path='/' element={<HomeLayout />} />
-          <Route path='/donate' element={<Donate />} />
-          <Route path='/your-donate' element={<MyDonate />} />
-          <Route path='/withdraw' element={<Withdraw />} />
+            {/* <Route path='*' element={<NotFound />} /> */}
 
-          {/* <Route path='*' element={<NotFound />} /> */}
-
-        </Routes>
-      </BrowserRouter>
-    </ThemeProvider>
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
+    </>
     // <div>
     //   <button style={cssBlock} onClick={connectMetamask}>Kết nối MetaMask</button>
     //   <input 

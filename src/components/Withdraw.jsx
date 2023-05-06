@@ -75,6 +75,7 @@ function FormDonate() {
                 .catch((error) => console.error(error));
         }
         else if (chainId === 56) {
+            console.log(chainId);
             const init = async () => {
                 const totalDonations = await getBalances(provider.getSigner(), provider, 1)
                 SetTotalDonate(totalDonations)
@@ -83,7 +84,6 @@ function FormDonate() {
             init()
         }
     }, [chainId])
-
     const handleWithdraw = async () => {
         const widthdraw = await withdrawUSDT(signer, provider, amountCrossChain)
     }

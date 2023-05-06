@@ -41,7 +41,7 @@ function FormDonate() {
         setSigner(provider.getSigner());
         const init = async () => {
             const [testGetBalance, yourDonations] = await getBalances(provider.getSigner(), provider, 3)
-            SetListMyDonate(testGetBalance)
+            SetListMyDonate(testGetBalance.reverse())
             SetyourDonations(yourDonations)
         }
 

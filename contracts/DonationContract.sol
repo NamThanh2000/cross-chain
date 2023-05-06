@@ -85,6 +85,8 @@ contract DonationContract {
         path[0] = address(wethToken);
         path[1] = address(usdtToken);
 
+        wethToken.transferFrom(msg.sender, address(this), _wethAmount);
+
         // Approve the router to spend WETH on behalf of the sender
         wethToken.approve(address(pancakeRouter), _wethAmount);
 
@@ -112,6 +114,8 @@ contract DonationContract {
         path[0] = address(wethToken);
         path[1] = address(usdtToken);
 
+        wethToken.transferFrom(msg.sender, address(this), _wethAmount);
+
         // Approve the router to spend WETH on behalf of the sender
         wethToken.approve(address(pancakeRouter), _wethAmount);
 
@@ -132,10 +136,16 @@ contract DonationContract {
         emit Donation(msg.sender, usdtAmount);
     }
 
-    function withdraw(uint256 _amount) external {
+    function withdrawUSDT(uint256 _amount) external {
         require(msg.sender == owner, "Only owner can withdraw");
         require(usdtToken.balanceOf(address(this)) >= _amount, "Not enough USDT balance");
         usdtToken.transfer(owner, _amount);
+    }
+
+    function withdrawWETH(uint256 _amount) external {
+        require(msg.sender == owner, "Only owner can withdraw");
+        require(wethToken.balanceOf(address(this)) >= _amount, "Not enough WETH balance");
+        wethToken.transfer(owner, _amount);
     }
 
     function donationOf(address _donor) external view returns (uint256) {

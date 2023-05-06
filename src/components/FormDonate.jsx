@@ -8,6 +8,7 @@ import { donateETH, donateBNB, ethToBsc, getMyBalance } from "../utils"
 import toast from 'react-hot-toast';
 
 import './FormDonateStyles.css'
+import { CircularProgress } from '@mui/material';
 
 function FormDonate({ checkTab }) {
     const [provider, setProvider] = useState(null);
@@ -17,9 +18,7 @@ function FormDonate({ checkTab }) {
     const [amountDonateETH, setAmountDonateETH] = useState(null);
     const [amountDonateBNB, setAmountDonateBNB] = useState(null);
     const [myBalance, setMyBalance] = useState(null);
-    const [bnbCurrent, setBnbCurrent] = useState(null);
-    const [ethCurrent, setEthCurrent] = useState(null);
-    const [eth2Current, setEth2Current] = useState(null);
+    const [btnDisable, setBtnDisable] = useState(false);
     useEffect(() => {
         const init = async () => {
             const ethereumProvider = await detectEthereumProvider();
@@ -59,7 +58,7 @@ function FormDonate({ checkTab }) {
         }
         getMybalance()
     }, [provider]);
-    
+
     useEffect(() => {
         if (chainId === 56 && Number(checkTab) === 0) {
             const ethereumMainnet = {
@@ -102,6 +101,7 @@ function FormDonate({ checkTab }) {
             toast.error("Your wallet is not enough to donate");
         }
         else {
+            setBtnDisable(true)
             const donate = await donateBNB(signer, provider, amountDonateBNB)
             if (donate) {
                 toast.success("Donate BNB success");
@@ -109,6 +109,7 @@ function FormDonate({ checkTab }) {
             else {
                 toast.error("Donate BNB failed");
             }
+            setBtnDisable(false)
         }
     }
 
@@ -117,6 +118,7 @@ function FormDonate({ checkTab }) {
             toast.error("Your wallet is not enough to donate");
         }
         else {
+            setBtnDisable(true)
             const donate = await donateETH(signer, provider, amountDonateETH)
             if (donate) {
                 toast.success("Donate ETH success");
@@ -124,6 +126,7 @@ function FormDonate({ checkTab }) {
             else {
                 toast.error("Donate ETH failed");
             }
+            setBtnDisable(false)
         }
     }
 
@@ -132,6 +135,7 @@ function FormDonate({ checkTab }) {
             toast.error("Your wallet is not enough to transfer");
         }
         else {
+            setBtnDisable(true)
             const donate = await ethToBsc(signer, provider, amountCrossChain)
             if (donate) {
                 toast.success("Transfer success");
@@ -139,13 +143,14 @@ function FormDonate({ checkTab }) {
             else {
                 toast.error("Donate failed");
             }
+            setBtnDisable(false)
         }
     }
 
 
     return (
         <div>
-            {Number(checkTab) === 0 && <div className='p-6'>
+            {Number(checkTab) === 0 && <div className='p-6 flex justify-center'>
                 {chainId === 1 && <div>
                     <p className='font-bold'>* Donate Chuyển ETH từ Ethereum Network sang BSC Network (Gas fee minimum 0.000121 ETH, Minimum Crosschain Amount is 0.008 ETH)</p>
                     <input
@@ -157,6 +162,8 @@ function FormDonate({ checkTab }) {
                     />
                     <div>
                         <button
+                            disabled={btnDisable}
+                            style={{ opacity: `${btnDisable ? 0.7 : 1}` }}
                             className='w-fit mt-4 px-8 py-2 bg-green-700 text-white font-bold text-lg'
                             onClick={ethToBscHandle}
                         >
@@ -164,8 +171,8 @@ function FormDonate({ checkTab }) {
                         </button>
                     </div>
                 </div>}
-                {chainId === 56 && <div className='relative left-20'>
-                    <HalfMalf center={true} />
+                {chainId === 56 && <div className='mt-20'>
+                    <CircularProgress color="success" size={50} sx={{ margin: '0 auto' }} />
                 </div>}
 
             </div>
@@ -189,6 +196,8 @@ function FormDonate({ checkTab }) {
                             {/* Donate bằng BNB trên BSC network */}
                             <div>
                                 <button
+                                    disabled={btnDisable}
+                                    style={{ opacity: `${btnDisable ? 0.7 : 1}` }}
                                     className='w-fit mt-4 px-8 py-2 bg-green-700 text-white font-bold text-lg'
                                     onClick={donateBNBHandle}
                                 >
@@ -209,6 +218,8 @@ function FormDonate({ checkTab }) {
                             {/* Donate bằng ETH trên BSC network */}
                             <div>
                                 <button
+                                    disabled={btnDisable}
+                                    style={{ opacity: `${btnDisable ? 0.7 : 1}` }}
                                     className='w-fit mt-4 px-8 py-2 bg-green-700 text-white font-bold text-lg'
                                     onClick={donateETHHandle}
                                 >
@@ -218,8 +229,8 @@ function FormDonate({ checkTab }) {
                         </div>
                     </div>
                     }
-                    {chainId === 1 && <div className='flex items-center relative'>
-                        <HalfMalf center={true} />
+                    {chainId === 1 && <div className='flex justify-center mt-20'>
+                        <CircularProgress color="success" size={50} />
                     </div>}
                 </div>
 

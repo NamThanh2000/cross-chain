@@ -23,7 +23,7 @@ export const ethToBsc = async (signer, provider, amountCrossChain) => {
         alert("Vui lòng kết nối với MetaMask!");
         return;
     }
-    if (amountCrossChain && amountCrossChain > 0) {
+    if (amountCrossChain && Number(amountCrossChain) > 0) {
         const network = await provider.getNetwork();
         const chainid = network.chainId;
         if (chainid === 1) {
@@ -105,7 +105,7 @@ export const donateETH = async (signer, provider, amountDonateETH) => {
         return;
     }
 
-    if (amountDonateETH && amountDonateETH > 0) {
+    if (amountDonateETH && Number(amountDonateETH) > 0) {
         const network = await provider.getNetwork();
         const chainid = network.chainId;
         if (chainid === 56) {
@@ -147,14 +147,9 @@ export const donateBNB = async (signer, provider, amountDonateBNB) => {
         alert("Vui lòng cài đặt MetaMask!");
         return;
     }
-    if (amountDonateBNB && amountDonateBNB > 0) {
+    if (amountDonateBNB && Number(amountDonateBNB) > 0) {
         const network = await provider.getNetwork();
         const chainid = network.chainId;
-
-        const routerv7address = "0xba8da9dcf11b50b03fd5284f164ef5cdef910705"
-        const routerV7contract = new ethers.Contract(routerv7address, routerV7ABI, signer);
-
-        const addressCurrent = await signer.getAddress();
 
         if (chainid === 56) {
             const donationAddress = "0xDB18aC5292EB8A41f0D2829F81909c9e6183ab13"
@@ -183,16 +178,23 @@ export const withdrawUSDT = async (signer, provider, amountWithdrawUSDT) => {
         alert("Vui lòng cài đặt MetaMask!");
         return;
     }
-    const network = await provider.getNetwork();
-    const chainid = network.chainId;
-    if (chainid === 56) {
-        const donationAddress = "0xDB18aC5292EB8A41f0D2829F81909c9e6183ab13"
+    if (amountWithdrawUSDT && Number(amountWithdrawUSDT) > 0) {
+        const network = await provider.getNetwork();
+        const chainid = network.chainId;
+        if (chainid === 56) {
+            const donationAddress = "0xDB18aC5292EB8A41f0D2829F81909c9e6183ab13"
 
-        const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
-        const amountWithdraw = ethers.utils.parseUnits(amountWithdrawUSDT, 18);
-        const donateTx = await donationContract.withdrawUSDT(amountWithdraw);
-        await donateTx.wait();
-        console.log("Withdraw thành công: ", donateTx.toString());
+            const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
+            const amountWithdraw = ethers.utils.parseUnits(amountWithdrawUSDT, 18);
+            try {
+                const donateTx = await donationContract.withdrawUSDT(amountWithdraw);
+                await donateTx.wait();
+                console.log("Withdraw thành công: ", donateTx.toString());
+                return true
+            } catch {
+                return false
+            }
+        }
     }
 };
 

@@ -4,6 +4,7 @@ import { ethers } from 'ethers';
 import React, { useEffect, useState } from "react";
 import Header from './Header'
 import { getBalances, withdrawUSDT } from "../utils"
+import toast from 'react-hot-toast';
 
 function FormDonate() {
     const [provider, setProvider] = useState(null);
@@ -12,9 +13,7 @@ function FormDonate() {
     const [totalDonate, SetTotalDonate] = useState(0);
     const [currentAddress, SetCurrentAddress] = useState(0);
     const [amountCrossChain, setAmountCrossChain] = useState('');
-    const [amountDonateETH, setAmountDonateETH] = useState('');
-    const [amountDonateBNB, setAmountDonateBNB] = useState('');
-    const [amountWithdrawUSDT, setAmountWithdrawUSDT] = useState('');
+    const [btnDisable, setBtnDisable] = useState(false);
 
     useEffect(() => {
         const init = async () => {
@@ -85,7 +84,15 @@ function FormDonate() {
         }
     }, [chainId])
     const handleWithdraw = async () => {
+        setBtnDisable(true)
         const widthdraw = await withdrawUSDT(signer, provider, amountCrossChain)
+        if (widthdraw) {
+            toast.success("Widthdraw success");
+        }
+        else {
+            toast.error("Widthdraw failed");
+        }
+        setBtnDisable(false)
     }
     return (
         <div>
@@ -123,6 +130,8 @@ function FormDonate() {
                     <div>
                         <button
                             onClick={handleWithdraw}
+                            disabled={btnDisable}
+                            style={{ opacity: `${btnDisable ? 0.7 : 1}` }}
                             className='mt-4 px-8 py-3 bg-green-700  text-white font-bold'
                             href="/donate"
                         >

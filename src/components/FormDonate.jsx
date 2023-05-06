@@ -17,7 +17,9 @@ function FormDonate({ checkTab }) {
     const [amountDonateETH, setAmountDonateETH] = useState(null);
     const [amountDonateBNB, setAmountDonateBNB] = useState(null);
     const [myBalance, setMyBalance] = useState(null);
-    const [amountWithdrawUSDT, setAmountWithdrawUSDT] = useState('');
+    const [bnbCurrent, setBnbCurrent] = useState(null);
+    const [ethCurrent, setEthCurrent] = useState(null);
+    const [eth2Current, setEth2Current] = useState(null);
     useEffect(() => {
         const init = async () => {
             const ethereumProvider = await detectEthereumProvider();
@@ -36,7 +38,7 @@ function FormDonate({ checkTab }) {
             ethereumProvider.on("accountsChanged", () => {
                 window.location.reload();
             });
-            
+
         };
 
         init();
@@ -52,14 +54,12 @@ function FormDonate({ checkTab }) {
         }
         getChainId()
         const getMybalance = async () => {
-            console.log(123123123);
             const balance = await getMyBalance(provider.getSigner(), provider)
-            console.log(balance);
             setMyBalance(balance)
         }
         getMybalance()
     }, [provider]);
-    console.log(myBalance);
+    // console.log(myBalance);
     useEffect(() => {
         if (chainId === 56 && Number(checkTab) === 0) {
             const ethereumMainnet = {
@@ -98,33 +98,47 @@ function FormDonate({ checkTab }) {
     }, [Number(checkTab), chainId])
 
     const donateBNBHandle = async () => {
-        console.log(signer);
-        const donate = await donateBNB(signer, provider, amountDonateBNB)
-        if (donate) {
-            toast.success("Donate BNB success");
+        if (Number(amountDonateBNB) > Number(myBalance[0])) {
+            toast.error("Your wallet is not enough to donate");
         }
         else {
-            toast.error("Donate BNB failed");
+            const donate = await donateBNB(signer, provider, amountDonateBNB)
+            if (donate) {
+                toast.success("Donate BNB success");
+            }
+            else {
+                toast.error("Donate BNB failed");
+            }
         }
     }
 
     const donateETHHandle = async () => {
-        const donate = await donateETH(signer, provider, amountDonateETH)
-        if (donate) {
-            toast.success("Donate ETH success");
+        if (Number(amountDonateETH) > Number(myBalance[1])) {
+            toast.error("Your wallet is not enough to donate");
         }
         else {
-            toast.error("Donate ETH failed");
+            const donate = await donateETH(signer, provider, amountDonateETH)
+            if (donate) {
+                toast.success("Donate ETH success");
+            }
+            else {
+                toast.error("Donate ETH failed");
+            }
         }
     }
 
     const ethToBscHandle = async () => {
-        const donate = await ethToBsc(signer, provider, amountCrossChain)
-        if (donate) {
-            toast.success("Transfer success");
+        if (Number(amountCrossChain) > Number(myBalance[0])) {
+            toast.error("Your wallet is not enough to transfer");
         }
         else {
-            toast.error("Donate failed");
+            const donate = await ethToBsc(signer, provider, amountCrossChain)
+            if (donate) {
+                toast.success("Transfer success");
+            }
+            else {
+                toast.error("Donate failed");
+            }
         }
     }
 

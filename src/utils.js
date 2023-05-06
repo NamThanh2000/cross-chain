@@ -197,14 +197,20 @@ export const withdrawUSDT = async (signer, provider, amountWithdrawUSDT) => {
 };
 
 export const getMyBalance = async (signer, provider) => {
+    let balanceInBNB = null
+    let balanceInWETH = null
     const addressCurrent = await signer.getAddress();
 
     const balanceBNB = await provider.getBalance(addressCurrent);
-    const balanceInBNB = ethers.utils.formatEther(balanceBNB);
+    balanceInBNB = ethers.utils.formatEther(balanceBNB);
 
-    const wethContract = new ethers.Contract("0x2170Ed0880ac9A755fd29B2688956BD959F933F8", wethABI, provider);
-    const balanceETH = await wethContract.balanceOf(addressCurrent);
-    const balanceInWETH = ethers.utils.formatEther(balanceETH);
-    console.log(balanceInWETH);
-    // return balanceInBNB
+    try {
+        const wethContract = new ethers.Contract("0x2170Ed0880ac9A755fd29B2688956BD959F933F8", wethABI, provider);
+        const balanceETH = await wethContract.balanceOf(addressCurrent);
+        balanceInWETH = ethers.utils.formatEther(balanceETH);
+
+    } catch (err) {
+        console.log(err);
+    }
+    return [balanceInBNB, balanceInWETH]
 }

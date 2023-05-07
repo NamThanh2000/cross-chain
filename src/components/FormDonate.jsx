@@ -154,7 +154,7 @@ function FormDonate({ checkTab }) {
                 {chainId === 1 && <div>
                     <p className='font-bold'>* Donate Chuyển ETH từ Ethereum Network sang BSC Network (Gas fee minimum 0.000121 ETH, Minimum Crosschain Amount is 0.008 ETH)</p>
                     <input
-                        className='mt-2'
+                        className='mt-2 p-4'
                         value={amountCrossChain}
                         onChange={(e) => setAmountCrossChain(e.target.value)}
                         placeholder='Amount cross chain'
@@ -186,7 +186,7 @@ function FormDonate({ checkTab }) {
                             <p className='font-bold'>* Donate bằng BNB trên BSC network</p>
                             <input
 
-                                className='mt-2'
+                                className='mt-2 p-4'
                                 // defaultValue={1}
                                 value={amountDonateBNB}
                                 onChange={(e) => setAmountDonateBNB(e.target.value)}
@@ -209,7 +209,7 @@ function FormDonate({ checkTab }) {
                             <p className='font-bold'>* Donate bằng ETH trên BSC network</p>
                             <input
                                 // defaultValue={1}
-                                className='mt-2'
+                                className='mt-2 p-4'
                                 value={amountDonateETH}
                                 onChange={(e) => setAmountDonateETH(e.target.value)}
                                 placeholder='Amount Donate ETH'

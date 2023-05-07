@@ -1,10 +1,9 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
-import { ethers } from 'ethers';
 import React, { useEffect, useState } from "react";
-import Header from './Header'
-import { getBalances, withdrawUSDT } from "../utils"
 import toast from 'react-hot-toast';
+import { getBalances, withdrawUSDT } from "../utils";
+import Header from './Header';
 
 function FormDonate() {
     const [provider, setProvider] = useState(null);

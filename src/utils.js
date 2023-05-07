@@ -59,7 +59,6 @@ export const getBalances = async (signer, provider, action) => {
     const network = await provider.getNetwork();
     const chainid = network.chainId;
 
-    const Web3 = require('web3');
     const donationAddress = "0xDB18aC5292EB8A41f0D2829F81909c9e6183ab13"
     if (chainid === 56) {
         const donationContract = new ethers.Contract(donationAddress, donationABI, signer);

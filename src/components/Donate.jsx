@@ -65,8 +65,8 @@ function Donate() {
                                         aria-label="basic tabs example"
                                         textColor="primary"
                                     >
-                                        <Tab label="ETH Platform" value={0}/>
-                                        <Tab label="BSC Platform" value={1}/>
+                                        <Tab label="Ethereum Platform" value={0}/>
+                                        <Tab label="Binance smart chain Platform" value={1}/>
                                     </Tabs>
                                 </Box>
                             </Box>

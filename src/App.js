@@ -2,14 +2,14 @@ import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
 import { ethers } from 'ethers';
 import React, { useEffect, useState } from "react";
+import { Toaster } from 'react-hot-toast';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import HomeLayout from "./components/HomeLayout";
+import { ThemeProvider } from 'styled-components';
 import Donate from './components/Donate';
+import HomeLayout from "./components/HomeLayout";
 import MyDonate from './components/MyDonate';
 import Withdraw from './components/Withdraw';
-import { ThemeProvider } from 'styled-components';
 import { lightTheme } from "./styles/theme/theme";
-import { Toaster } from 'react-hot-toast';
 const routerV7ABI = require('./routerV7abi')
 const donationABI = require('./DonationContractABI')
 

@@ -1,16 +1,14 @@
 import { ethers } from 'ethers';
-import Web3 from 'web3';
 
 const routerV7ABI = require('./routerV7abi')
 const donationABI = require('./DonationContractABI')
 const wethABI = require('./IERC20Abi')
 
 export const connectMetamask = async () => {
-    if (!window.ethereum) {
-        alert("Vui lòng cài đặt MetaMask!");
+    if (typeof window.ethereum === 'undefined') {
+        window.open('https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn', '_blank');
         return;
     }
-
     try {
         await window.ethereum.request({ method: "eth_requestAccounts" });
     } catch (error) {

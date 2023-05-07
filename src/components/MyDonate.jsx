@@ -1,16 +1,13 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
-import { ethers } from 'ethers';
 import React, { useEffect, useState } from "react";
-import Header from './Header'
-import { getBalances } from "../utils"
+import { getBalances } from "../utils";
+import Header from './Header';
 
 function FormDonate() {
     const [provider, setProvider] = useState(null);
-    const [signer, setSigner] = useState(null);
     const [listMyDonate, SetListMyDonate] = useState([]);
     const [yourDonations, SetyourDonations] = useState(0);
-    
     const [chainId, setChainId] = useState(0);
 
     useEffect(() => {
@@ -37,7 +34,6 @@ function FormDonate() {
 
     useEffect(() => {
         if (!provider) return;
-        setSigner(provider.getSigner());
         const init = async () => {
             const [testGetBalance, yourDonations] = await getBalances(provider.getSigner(), provider, 3)
             SetListMyDonate(testGetBalance.reverse())

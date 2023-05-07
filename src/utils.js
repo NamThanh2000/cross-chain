@@ -77,6 +77,10 @@ export const getBalances = async (signer, provider, action) => {
             // Total Donations
             return Number(totalDonations)
         }
+        else if (action === 2) {
+            const total = await donationContract.totalDonations();
+            return Number(ethers.utils.formatUnits(total.toString(), 18));
+        }
         let data = []
         for (let i in donationHistory) {
             const donation = donationHistory[i];

@@ -166,6 +166,7 @@ function FormDonate({ checkTab }) {
                         placeholder='Amount ETH Cross Chain'
                         type='number'
                     />
+                    {myBalance &&  <p className='mt-2 text-sm italic'>Balance: {myBalance[0]} ETH</p>}
                     <div>
                         <button
                             disabled={btnDisable}
@@ -199,6 +200,7 @@ function FormDonate({ checkTab }) {
                                 placeholder='Amount BNB'
                                 type='number'
                             />
+                            {myBalance &&  <p className='mt-2 text-sm italic'>Balance: {myBalance[0]} BNB</p>}
                             {/* Donate bằng BNB trên BSC network */}
                             <div>
                                 <button
@@ -221,6 +223,7 @@ function FormDonate({ checkTab }) {
                                 placeholder='Amount ETH'
                                 type='number'
                             />
+                            {myBalance &&  <p className='mt-2 text-sm italic'>Balance: {myBalance[1]} ETH</p>}
                             {/* Donate bằng ETH trên BSC network */}
                             <div>
                                 <button

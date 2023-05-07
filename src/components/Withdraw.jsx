@@ -13,6 +13,7 @@ function FormDonate() {
     const [currentAddress, SetCurrentAddress] = useState(0);
     const [amountCrossChain, setAmountCrossChain] = useState('');
     const [btnDisable, setBtnDisable] = useState(false);
+    const [total, setTotal] = useState(0);
 
     useEffect(() => {
         const init = async () => {
@@ -77,11 +78,16 @@ function FormDonate() {
             const init = async () => {
                 const totalDonations = await getBalances(provider.getSigner(), provider, 1)
                 SetTotalDonate(totalDonations)
+                const totalS = await getBalances(provider.getSigner(), provider, 2)
+                setTotal(totalS)
             }
 
             init()
         }
     }, [chainId])
+
+    console.log(total);
+
     const handleWithdraw = async () => {
         setBtnDisable(true)
         const widthdraw = await withdrawUSDT(signer, provider, amountCrossChain)
@@ -110,7 +116,7 @@ function FormDonate() {
                 style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
             >
                 <h2 className='text-5xl mt-5 font-medium'>Everyone's Donate</h2>
-                <p className='text-5xl my-5'>{Math.round(totalDonate)} USDT</p>
+                <p className='text-5xl my-5'>{Math.floor(total * 100) / 100} USDT</p>
                 {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' &&
                     <a href='/donate' className='mt-5 px-8 py-3 bg-green-700  text-white font-bold'>Donate</a>
                 }
@@ -126,6 +132,7 @@ function FormDonate() {
                         placeholder='Amount cross chain'
                         type='number'
                     />
+                    <p className='mt-2 text-sm italic'>Your Pool: {totalDonate}</p>
                     <div>
                         <button
                             onClick={handleWithdraw}

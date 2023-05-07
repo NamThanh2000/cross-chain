@@ -1,32 +1,44 @@
-import React, { useEffect, useState } from "react";
-
-import FormDonate from './FormDonate'
-import Header from './Header'
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import TabPanel from '@material-ui/lab/TabPanel';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import { Web3Provider } from '@ethersproject/providers';
 import { TabContext } from '@material-ui/lab';
+import detectEthereumProvider from "@metamask/detect-provider";
+import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import React, { useEffect } from "react";
+import FormDonate from './FormDonate';
+import Header from './Header';
 
 function Donate() {
-    function a11yProps(index) {
-        return {
-            id: `simple-tab-${index}`,
-            'aria-controls': `simple-tabpanel-${index}`,
-        };
-    }
-
-    const checkTabStorage = localStorage.getItem("tab");
-    const [value, setValue] = React.useState(checkTabStorage ? checkTabStorage : 0);
+    const [value, setValue] = React.useState(0);
     const handleChange = (event, newValue) => {
         localStorage.setItem("tab", newValue);
         setValue(newValue);
     };
+
+    useEffect(() => {
+        const init = async () => {
+            const ethereumProvider = await detectEthereumProvider();
+            if (!ethereumProvider) {
+                console.error("Không tìm thấy MetaMask");
+                return;
+            }
+            const provider = new Web3Provider(ethereumProvider);
+            const network = await provider.getNetwork();
+            const chainid = network.chainId;
+            if (chainid === 0) setValue(0)
+            else if (chainid === 56) setValue(1)
+            else {
+                const checkTabStorage = localStorage.getItem("tab");
+                setValue(checkTabStorage ? checkTabStorage : 0)
+            }
+        };
+        init();
+    }, []);
+
     return (
         <div>
             <Header />
-            <div className="flex px-5 xl:px-38 md:px-16 sm:px-16 mt-14">
+            <div className="flex px-5 xl:px-38 md:px-16 sm:px-16 mt-20">
                 <div className="mx-10">
                     <div className="border-t-4 border-green-700 mb-6">
                         <h1 className="text-3xl my-6"

@@ -1,14 +1,12 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
-import { ethers } from 'ethers';
 import React, { useEffect, useState } from "react";
-import { HalfMalf, DoubleBubble, SlidingPebbles } from 'react-spinner-animated';
-import 'react-spinner-animated/dist/index.css'
-import { donateETH, donateBNB, ethToBsc, getMyBalance } from "../utils"
 import toast from 'react-hot-toast';
+import 'react-spinner-animated/dist/index.css';
+import { donateBNB, donateETH, ethToBsc, getMyBalance } from "../utils";
 
-import './FormDonateStyles.css'
 import { CircularProgress } from '@mui/material';
+import './FormDonateStyles.css';
 
 function FormDonate({ checkTab }) {
     const [provider, setProvider] = useState(null);
@@ -134,6 +132,9 @@ function FormDonate({ checkTab }) {
         if (Number(amountCrossChain) > Number(myBalance[0])) {
             toast.error("Your wallet is not enough to transfer");
         }
+        else if (Number(amountCrossChain) < 0.007619) {
+            toast.error("The crosschain amount must exceed 0.007619 ETH");
+        }
         else {
             setBtnDisable(true)
             const donate = await ethToBsc(signer, provider, amountCrossChain)
@@ -150,14 +151,19 @@ function FormDonate({ checkTab }) {
 
     return (
         <div>
-            {Number(checkTab) === 0 && <div className='p-6 flex justify-center'>
+            {Number(checkTab) === 0 && <div className='p-6'>
                 {chainId === 1 && <div>
-                    <p className='font-bold'>* Donate Chuyển ETH từ Ethereum Network sang BSC Network (Gas fee minimum 0.000121 ETH, Minimum Crosschain Amount is 0.008 ETH)</p>
+                    <p className='font-bold'>Transfer ETH from the Ethereum Network to the BSC Network</p>
+                    <p className='text-xs'>* Crosschain Fee is 0.00 %, Gas Fee is 0.000121 ETH</p>
+                    <p className='text-xs'>* Minimum Crosschain Amount is 0.007619 ETH</p>
+                    <p className='text-xs'>* Maximum Crosschain Amount is 3,174.6 ETH</p>
+                    <p className='text-xs'>* Estimated Time of Crosschain Arrival is 10-30 min</p>
+                    <p className='text-xs'>* Crosschain amount larger than 634.92 ETH could take up to 12 hours</p>
                     <input
                         className='mt-2 p-4'
                         value={amountCrossChain}
                         onChange={(e) => setAmountCrossChain(e.target.value)}
-                        placeholder='Amount cross chain'
+                        placeholder='Amount ETH Cross Chain'
                         type='number'
                     />
                     <div>
@@ -171,7 +177,7 @@ function FormDonate({ checkTab }) {
                         </button>
                     </div>
                 </div>}
-                {chainId === 56 && <div className='mt-20'>
+                {chainId === 56 && <div className='flex justify-center mt-20'>
                     <CircularProgress color="success" size={50} sx={{ margin: '0 auto' }} />
                 </div>}
 
@@ -183,14 +189,14 @@ function FormDonate({ checkTab }) {
                         <div className='p-8 border-gray-600'
                             style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                         >
-                            <p className='font-bold'>* Donate bằng BNB trên BSC network</p>
+                            <p className='font-bold'>Donation using BNB</p>
                             <input
 
                                 className='mt-2 p-4'
                                 // defaultValue={1}
                                 value={amountDonateBNB}
                                 onChange={(e) => setAmountDonateBNB(e.target.value)}
-                                placeholder='Amount Donate BNB'
+                                placeholder='Amount BNB'
                                 type='number'
                             />
                             {/* Donate bằng BNB trên BSC network */}
@@ -206,13 +212,13 @@ function FormDonate({ checkTab }) {
                             </div>
                         </div>
                         <div className='p-8'>
-                            <p className='font-bold'>* Donate bằng ETH trên BSC network</p>
+                            <p className='font-bold'>Donation using ETH</p>
                             <input
                                 // defaultValue={1}
                                 className='mt-2 p-4'
                                 value={amountDonateETH}
                                 onChange={(e) => setAmountDonateETH(e.target.value)}
-                                placeholder='Amount Donate ETH'
+                                placeholder='Amount ETH'
                                 type='number'
                             />
                             {/* Donate bằng ETH trên BSC network */}

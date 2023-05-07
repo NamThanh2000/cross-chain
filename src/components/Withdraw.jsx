@@ -117,33 +117,37 @@ function FormDonate() {
             >
                 <h2 className='text-5xl mt-5 font-medium'>Everyone's Donate</h2>
                 <p className='text-5xl my-5'>{Math.floor(total * 100) / 100} USDT</p>
-                {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' &&
-                    <a href='/donate' className='mt-5 px-8 py-3 bg-green-700  text-white font-bold'>Donate</a>
-                }
+                <a href='/donate' className='mt-5 px-8 py-3 bg-green-700  text-white font-bold'>Donate</a>
+
             </div>
             <div className='flex my-28 mx-40 items-center'>
                 <div className='px-20'>
                     <h2 className='text-4xl font-bold'>Protect nature all year round</h2>
                     <div className='py-6 text-lg'>Donate monthly as a Conservation Champion and provide reliable support to accelerate the pace of conservation today. Plus, receive our special picnic blanket as a thank you gift for protecting nature.</div>
-                    <input
-                        className='mt-2 p-4'
-                        value={amountCrossChain}
-                        onChange={(e) => setAmountCrossChain(e.target.value)}
-                        placeholder='Amount cross chain'
-                        type='number'
-                    />
-                    <p className='mt-2 text-sm italic'>Your Pool: {totalDonate}</p>
-                    <div>
-                        <button
-                            onClick={handleWithdraw}
-                            disabled={btnDisable}
-                            style={{ opacity: `${btnDisable ? 0.7 : 1}` }}
-                            className='mt-4 px-8 py-3 bg-green-700  text-white font-bold'
-                            href="/donate"
-                        >
-                            Withdraw
-                        </button>
-                    </div>
+                    {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' && <>
+                        <input
+                            className='mt-2 p-4'
+                            value={amountCrossChain}
+                            onChange={(e) => setAmountCrossChain(e.target.value)}
+                            placeholder='Amount cross chain'
+                            type='number'
+                        />
+                        <p className='mt-2 text-sm italic'>Your Pool: {totalDonate}</p>
+                        <div>
+                            <button
+                                onClick={handleWithdraw}
+                                disabled={btnDisable}
+                                style={{ opacity: `${btnDisable ? 0.7 : 1}` }}
+                                className='mt-4 px-8 py-3 bg-green-700  text-white font-bold'
+                                href="/donate"
+                            >
+                                Withdraw
+                            </button>
+                        </div>
+                    </>
+
+                    }
+
                 </div>
                 <div className='flex1'>
                     <img src="/PaintDRTV.jpg" alt="PaintDRTV" />

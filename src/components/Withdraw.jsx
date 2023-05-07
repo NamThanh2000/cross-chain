@@ -121,7 +121,7 @@ function FormDonate() {
                     <h2 className='text-4xl font-bold'>Protect nature all year round</h2>
                     <div className='py-6 text-lg'>Donate monthly as a Conservation Champion and provide reliable support to accelerate the pace of conservation today. Plus, receive our special picnic blanket as a thank you gift for protecting nature.</div>
                     <input
-                        className='mt-2'
+                        className='mt-2 p-4'
                         value={amountCrossChain}
                         onChange={(e) => setAmountCrossChain(e.target.value)}
                         placeholder='Amount cross chain'

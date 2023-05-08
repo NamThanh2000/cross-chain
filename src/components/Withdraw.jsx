@@ -145,9 +145,7 @@ function FormDonate() {
                             </button>
                         </div>
                     </>
-
                     }
-
                 </div>
                 <div className='flex1'>
                     <img src="/PaintDRTV.jpg" alt="PaintDRTV" />

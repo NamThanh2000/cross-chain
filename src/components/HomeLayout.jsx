@@ -65,7 +65,7 @@ function HomeLayout() {
           </div>
           <div className="flex items-center">
             <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>Homepage</a>
-            <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>Projects</a>
+            <a className='mx-2 px-2 py-3 text-lg font-bold' href='/projects'>Projects</a>
             <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>News & Events</a>
             <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>Contact Us</a>
             <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>About Us</a>

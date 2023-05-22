@@ -217,3 +217,11 @@ export const getMyBalance = async (signer, provider) => {
     }
     return [balanceInBNB, balanceInWETH]
 }
+
+
+export const getAllProject = async (signer) => {
+    const donationAddress = "0xcC138083ba38dc7594142Af8E5A6925EdB23414B"
+    const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
+    const allProject = await donationContract.getProjectsList();
+    return allProject
+}

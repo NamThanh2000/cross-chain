@@ -9,6 +9,9 @@ import MyDonate from './components/MyDonate';
 import Withdraw from './components/Withdraw';
 import { lightTheme } from "./styles/theme/theme";
 import Projects from "./components/Project";
+import ProjectDetail from "./components/ProjectDetail";
+import About from "./components/About";
+import AddProject from "./components/AddProject";
 
 
 function App() {
@@ -45,7 +48,10 @@ function App() {
             <Route path='/donate' element={<Donate />} />
             <Route path='/your-donate' element={<MyDonate />} />
             <Route path='/withdraw' element={<Withdraw />} />
-            <Route path='//projects' element={<Projects />} />
+            <Route path='/projects' element={<Projects />} />
+            <Route path='/project-detail' element={<ProjectDetail />} />
+            <Route path='/projects/add' element={<AddProject />} />
+            <Route path='/about' element={<About />} />
 
             {/* <Route path='*' element={<NotFound />} /> */}
 

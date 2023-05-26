@@ -101,8 +101,7 @@ function FormDonate() {
     }
     return (
         <div>
-            <Header />
-            <div
+            {/* <div
                 className='w-100 flex justify-center items-center flex-col text-5xl font-bold text-white'
                 style={{
                     backgroundImage: 'url(/tnc_45019999_Large.jpg)', backgroundSize: 'cover', height: '60vh', textShadow: '2px 2px 4px rgba(0,0,0,.35)',
@@ -119,8 +118,8 @@ function FormDonate() {
                 <p className='text-5xl my-5'>{Math.floor(total * 100) / 100} USDT</p>
                 <a href='/donate' className='mt-5 px-8 py-3 bg-green-700  text-white font-bold'>Donate</a>
 
-            </div>
-            <div className='flex my-28 mx-40 items-center'>
+            </div> */}
+            <div className='flex my-28 items-center'>
                 <div className='px-20'>
                     <h2 className='text-4xl font-bold'>Protect nature all year round</h2>
                     <div className='py-6 text-lg'>Donate monthly as a Conservation Champion and provide reliable support to accelerate the pace of conservation today. Plus, receive our special picnic blanket as a thank you gift for protecting nature.</div>
@@ -146,9 +145,6 @@ function FormDonate() {
                         </div>
                     </>
                     }
-                </div>
-                <div className='flex1'>
-                    <img src="/PaintDRTV.jpg" alt="PaintDRTV" />
                 </div>
             </div>
         </div>

@@ -9,6 +9,7 @@ function Projects() {
     const [provider, setProvider] = useState(null);
     const [isConnectMetamask, setIsConnectMetamask] = useState(false);
     const [projects, setProjects] = useState(null);
+    const [currentAddress, SetCurrentAddress] = useState(0);
     const [age, setAge] = useState('');
 
     const handleChange = (event) => {
@@ -62,6 +63,12 @@ function Projects() {
             console.log(allProject)
         }
         handleGetProjects()
+
+        const getAddress = async () => {
+            const addressCurrent = await provider.getSigner().getAddress();
+            SetCurrentAddress(addressCurrent)
+        }
+        getAddress()
     }, [provider]);
 
     return (
@@ -75,18 +82,21 @@ function Projects() {
                         <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>Homepage</a>
                         <a className='mx-2 px-2 py-3 text-lg font-bold' href='/projects'>Projects</a>
                         <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>News & Events</a>
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>Contact Us</a>
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>About Us</a>
-                        <a href="/donate">
+                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/contact-us'>Contact Us</a>
+                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/about'>About Us</a>
+                        {/* <a href="/donate">
                             <button className="px-8 py-3 bg-green-700  text-white font-bold">DONATE</button>
-                        </a>
+                        </a> */}
                     </div>
                 </div>
             </div>
             <div className='relative sm:container mx-auto px-10 pt-32'>
-                <div className='flex justify-end mb-6'>
-                    <Button href='/projects/add' variant="outlined">Thêm mới dự án</Button>
-                </div>
+                {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' &&
+                    <div className='flex justify-end mb-6'>
+                        <Button href='/projects/add' variant="outlined">Thêm mới dự án</Button>
+                    </div>
+                }
+
                 <div className='flex justify-between'>
                     <h1 className='font-bold text-3xl'>Danh sách các dự án</h1>
                     <Box sx={{ minWidth: 220 }}>

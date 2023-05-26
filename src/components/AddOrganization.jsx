@@ -9,7 +9,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { useForm } from "react-hook-form";
 
-function AddProject() {
+function AddOrganization() {
     const [provider, setProvider] = useState(null);
     const [isConnectMetamask, setIsConnectMetamask] = useState(false);
     const [projects, setProjects] = useState(null);
@@ -101,10 +101,7 @@ function AddProject() {
                     <TextField {...register("example1")} fullWidth id="outlined-basic" label="Outlined" variant="outlined" />
                     <TextField {...register("example2")} fullWidth id="outlined-basic" label="Outlined" variant="outlined" />
                     <TextField {...register("example3")} fullWidth id="outlined-basic" label="Outlined" variant="outlined" />
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DateTimePicker {...register("example4")} label="Basic date time picker" />
-                    </LocalizationProvider>
-                    <Button type='submit' variant="contained">Contained</Button>
+                    <Button type='submit' variant="contained">Thêm Tổ Chức Mới</Button>
                 </Box>
             </div>
 
@@ -112,4 +109,4 @@ function AddProject() {
     );
 }
 
-export default AddProject;  
+export default AddOrganization;  

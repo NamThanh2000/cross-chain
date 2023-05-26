@@ -12,6 +12,8 @@ import Projects from "./components/Project";
 import ProjectDetail from "./components/ProjectDetail";
 import About from "./components/About";
 import AddProject from "./components/AddProject";
+import ContactUs from "./components/ContactUs";
+import AddOrganization from "./components/AddOrganization";
 
 
 function App() {
@@ -51,7 +53,9 @@ function App() {
             <Route path='/projects' element={<Projects />} />
             <Route path='/project-detail' element={<ProjectDetail />} />
             <Route path='/projects/add' element={<AddProject />} />
+            <Route path='/contact-us' element={<ContactUs />} />
             <Route path='/about' element={<About />} />
+            <Route path='/organization-add' element={<AddOrganization />} />
 
             {/* <Route path='*' element={<NotFound />} /> */}
 

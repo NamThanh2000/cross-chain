@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import toast from 'react-hot-toast';
 import 'react-spinner-animated/dist/index.css';
 import { donateBNB, donateETH, ethToBsc, getMyBalance } from "../utils";
+import MyDonate from './MyDonate';
+import Withdraw from './Withdraw';
 
 import { CircularProgress } from '@mui/material';
 import './FormDonateStyles.css';
@@ -244,6 +246,8 @@ function FormDonate({ checkTab }) {
                 </div>
 
             }
+            {Number(checkTab) === 2 && <MyDonate />}
+            {Number(checkTab) === 3 && <Withdraw />}
 
             {/* <div>
                 <button onClick={getBalance}>Lấy tổng số Donate</button>

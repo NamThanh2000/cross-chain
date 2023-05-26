@@ -21,7 +21,14 @@ const About = () => {
                     </div>
                 </div>
             </div>
-            <div className='relative sm:container mx-auto px-10 pt-32'>
+            <div className='relative pt-22'>
+                <div style={{ backgroundImage: `url(${'/background_home.png'})`, backgroundSize: 'cover', backgroundPosition: 'center', width: '100%', height: '650px' }}
+                    className="relative w-full h-650 flex items-center after:absolute after:w-full after:h-full after:top-0 after:left-0 after:bg-gradient-to-r after:from-black after:bg-opacity-10 after:to-transparent after:z-0">
+                    <div className="absolute z-20 w-full flex flex-col items-center">
+                        <h1 className=" text-white font-bold text-5xl">Về Chúng Tôi</h1>
+                        {/* <p className="mt-2 text-white font-bold text1xl">Help protect the air you breathe, water you drink and places you call home.</p> */}
+                    </div>
+                </div>
                 <div className="organization">
                     <h2 className="organization-heading">Our Organization</h2>
                     <p className="organization-description">Welcome to our organization! We are dedicated to making a positive impact on the environment and promoting sustainability.</p>

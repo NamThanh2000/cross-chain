@@ -246,7 +246,7 @@ function FormDonate({ checkTab, projectId }) {
                 </div>
 
             }
-            {Number(checkTab) === 2 && <MyDonate />}
+            {Number(checkTab) === 2 && <MyDonate projectId={projectId} />}
             {Number(checkTab) === 3 && <Withdraw />}
 
             {/* <div>

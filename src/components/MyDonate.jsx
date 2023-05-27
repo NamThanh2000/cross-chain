@@ -1,13 +1,12 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
 import React, { useEffect, useState } from "react";
-import { getBalances } from "../utils";
+import { convertBigNumber, getBalances, getListHistoryMyDonateProject, parseUnixTimeStamp } from "../utils";
 import Header from './Header';
 
-function FormDonate() {
+function FormDonate({ projectId }) {
     const [provider, setProvider] = useState(null);
-    const [listMyDonate, SetListMyDonate] = useState([]);
-    const [yourDonations, SetyourDonations] = useState(0);
+    const [listMyDonate, setListMyDonate] = useState([]);
     const [chainId, setChainId] = useState(0);
 
     useEffect(() => {
@@ -35,17 +34,16 @@ function FormDonate() {
     useEffect(() => {
         if (!provider) return;
         const init = async () => {
-            const [testGetBalance, yourDonations] = await getBalances(provider.getSigner(), provider, 3)
-            SetListMyDonate(testGetBalance.reverse())
-            SetyourDonations(yourDonations)
+            const getChainId = async () => {
+                const network = await provider.getNetwork();
+                const chainid = network.chainId;
+                setChainId(chainid)
+            }
+            getChainId()
+            const result = await getListHistoryMyDonateProject(provider.getSigner(), projectId)
+            setListMyDonate(result)
         }
 
-        const getChainId = async () => {
-            const network = await provider.getNetwork();
-            const chainid = network.chainId;
-            setChainId(chainid)
-        }
-        getChainId()
 
         init()
     }, [provider]);
@@ -71,9 +69,9 @@ function FormDonate() {
     }, [chainId])
     return (
         <div>
-            <div className='font-bold pt-4 text-lg'>
-                YOUR TOTAL DONATE: <span className='text-green-700 text-xl'>{yourDonations.toFixed(2)} USDT</span>
-            </div>
+            {/* <div className='font-bold pt-4 text-lg'>
+                            YOUR TOTAL DONATE: <span className='text-green-700 text-xl'>{convertBigNumber(item.amount)} USDT</span>
+                        </div> */}
             <div>
                 <div className='pt-4 pb-1 flex justify-center border-gray-300'
                     style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
@@ -87,13 +85,12 @@ function FormDonate() {
                         className='p-3 flex justify-center border-gray-300'
                         style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                     >
-                        <p className='w-64 font-medium text-green-700 text-lg'>{Number(item.amount).toFixed(2)} USDT</p>
-                        <p className='w-80 font-medium text-green-700 text-lg'>{item.timeStamp}</p>
+                        <p className='w-64 font-medium text-green-700 text-lg'>{convertBigNumber(item.amount).toFixed(4)} USD</p>
+                        <p className='w-80 font-medium text-green-700 text-lg'>{parseUnixTimeStamp(item.timestamp)}</p>
                     </div>
                 })}
             </div>
         </div>
-
     );
 }
 

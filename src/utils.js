@@ -67,9 +67,9 @@ export const getBalances = async (signer, provider, action) => {
         console.log("Total Donations: ", Number(totalDonations), 'USDT');
 
         const addressCurrent = await signer.getAddress();
-        const donateOf = await donationContract.donationOf(addressCurrent);
-        let yourDonations = ethers.utils.formatUnits(donateOf.toString(), 18);
-        console.log("Your Donations: ", Number(yourDonations), 'USDT');
+        // const donateOf = await donationContract.donationOf(addressCurrent);
+        // let yourDonations = ethers.utils.formatUnits(donateOf.toString(), 18);
+        // console.log("Your Donations: ", Number(yourDonations), 'USDT');
 
         const donationHistory = await donationContract.getDonationHistory(addressCurrent);
 
@@ -95,7 +95,7 @@ export const getBalances = async (signer, provider, action) => {
             console.log(`- Timestamp: ${timestamp.toLocaleString()}`);
             console.log('\n');
         }
-        return [data, Number(yourDonations)]
+        return [data]
     }
 };
 
@@ -255,8 +255,11 @@ export const addProject = async (signer, data) => {
 
 
 export const convertBigNumber = (number) => {
-    let result = ethers.utils.formatUnits(number?.toString(), 18);
-    return Number(result)
+    if (number){
+        let result = ethers.utils.formatUnits(number?.toString(), 18);
+        return Number(result)
+    }
+    return 0
 }
 
 
@@ -282,4 +285,13 @@ export const getAllHistoryProject = async (signer, projectId) => {
     const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
     const allHistory = await donationContract.getEntireDonationHistory(projectId);
     return allHistory
+}
+
+
+export const getListHistoryMyDonateProject = async (signer, projectId) => {
+    const donationAddress = "0xcC138083ba38dc7594142Af8E5A6925EdB23414B"
+
+    const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
+    const myDonate = await donationContract.getDonationHistory(projectId)
+    return myDonate
 }

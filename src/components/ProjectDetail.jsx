@@ -1,7 +1,7 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
 import { useEffect, useState } from 'react';
-import { connectMetamask, getAllHistoryProject } from '../utils';
+import { connectMetamask, convertBigNumber, getAllHistoryProject, getProjectDetail, parseUnixTimeStamp } from '../utils';
 import { Box, Button, CircularProgress, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import { TabContext } from '@material-ui/lab';
 import { Tab, Tabs } from '@material-ui/core';
@@ -9,12 +9,15 @@ import FormDonate from './FormDonate';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import "react-circular-progressbar/dist/styles.css";
 import { useParams } from 'react-router-dom';
+import PaidIcon from '@mui/icons-material/Paid';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 
 function ProjectDetail() {
     const [provider, setProvider] = useState(null);
     const [value, setValue] = useState(0);
-    const [currentAddress, SetCurrentAddress] = useState(0);
+    const [currentAddress, setCurrentAddress] = useState(0);
+    const [project, setProject] = useState(0);
     const { param } = useParams();
     const handleChange = (event, newValue) => {
         localStorage.setItem("tab", newValue);
@@ -47,8 +50,10 @@ function ProjectDetail() {
             const signer = provider.getSigner()
             const getAddress = async () => {
                 const addressCurrent = await signer.getAddress();
-                SetCurrentAddress(addressCurrent)
+                setCurrentAddress(addressCurrent)
             }
+            const project = await getProjectDetail(signer, param)
+            setProject(project)
             await getAddress()
             const getALlHistory = async () => {
                 const result = await getAllHistoryProject(signer, param)
@@ -59,7 +64,6 @@ function ProjectDetail() {
         init()
 
     }, [provider]);
-
 
     return (
         <>
@@ -88,14 +92,25 @@ function ProjectDetail() {
                                 style={{
                                     fontFamily: 'Chronicle Text G2 A,Chronicle Text G2 B,ui-serif,Georgia,Cambria,Times New Roman,Times,serif'
                                 }}
-                            >Donate Now to Protect Nature</h1>
+                            >{project.title}</h1>
                             <div className="flex">
-                                <img src="/nature_mag_slice.png" alt="Nature slice" />
+                                <img className='w-40' src={project.imageUrl} alt="Nature slice" />
                                 <div className="ml-6 text-lg">
-                                    <p>Stand up for our natural world with The Nature Conservancy. Every acre we protect, every river mile restored, every species brought back from the brink, begins with you. Your support will help take action on the ground in all 50 states and more than 70 countries.</p>
-                                    <p className="font-bold mt-4">FREE! Get 1 year of the award winning Nature Conservancy Magazine with membership.</p>
+                                    <p>{project.objective}</p>
                                 </div>
                             </div>
+                        </div>
+                        <div>
+                            {project && <div className='flex'>
+                                <div className='flex'>
+                                    <PaidIcon sx={{ marginRight: '4px' }} color='success' />
+                                    {convertBigNumber(project.totalDonations).toFixed(4)}
+                                </div>
+                                <div className='ml-10 flex'>
+                                    <CalendarMonthIcon sx={{ marginRight: '4px' }} color='success' />
+                                    {parseUnixTimeStamp(project.deadline)}
+                                </div>
+                            </div>}
                         </div>
                         <div>
                             <TabContext >
@@ -149,7 +164,11 @@ function ProjectDetail() {
                         <img src="/NCM130311.png" alt="NCM130311" />
                         <div className="px-6 pt-6 flex flex-col items-center">
                             <h4 className="font-bold text-lg">Your gift helps...</h4>
-                            <CircularProgressbar className='w-44 mt-4' value={50} text={`${50}%`} />
+                            {(convertBigNumber(project.totalDonations) / convertBigNumber(project.amount)) * 100 > 100 ?
+
+                                <CircularProgressbar className='w-44 mt-4' value='100' text={`100%`} /> :
+                                <CircularProgressbar className='w-44 mt-4' value={(convertBigNumber(project.totalDonations) / convertBigNumber(project.amount)) * 100} text={`${(convertBigNumber(project.totalDonations) / convertBigNumber(project.amount)) * 100}%`} />
+                        }
                             {/* <div className="flex border-gray-600 py-6" style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}>
                                 <div>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="34px" height="34px" viewBox="0 0 34 34" version="1.1">

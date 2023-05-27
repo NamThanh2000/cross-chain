@@ -71,7 +71,6 @@ function Projects() {
         }
         getAddress()
     }, [provider]);
-
     return (
         <>
             <div className="fixed z-30 w-full bg-white shadow-xl">

@@ -10,7 +10,7 @@ import Withdraw from './Withdraw';
 import { CircularProgress } from '@mui/material';
 import './FormDonateStyles.css';
 
-function FormDonate({ checkTab }) {
+function FormDonate({ checkTab, projectId }) {
     const [provider, setProvider] = useState(null);
     const [signer, setSigner] = useState(null);
     const [chainId, setChainId] = useState(0);
@@ -69,8 +69,8 @@ function FormDonate({ checkTab }) {
                     symbol: 'ETH',
                     decimals: 18
                 },
-                rpcUrls: ['https://ethmainnet.anyswap.exchange'],
-                blockExplorerUrls: ['https://etherscan.io/']
+                rpcUrls: ['https://mainnet.infura.io/v3/'],
+                blockExplorerUrls: ['https://etherscan.io']
             };
 
             window.ethereum.request({ method: 'wallet_addEthereumChain', params: [ethereumMainnet] })
@@ -102,7 +102,7 @@ function FormDonate({ checkTab }) {
         }
         else {
             setBtnDisable(true)
-            const donate = await donateBNB(signer, provider, amountDonateBNB)
+            const donate = await donateBNB(signer, provider, amountDonateBNB, projectId, '')
             if (donate) {
                 toast.success("Donate BNB success");
             }
@@ -119,7 +119,7 @@ function FormDonate({ checkTab }) {
         }
         else {
             setBtnDisable(true)
-            const donate = await donateETH(signer, provider, amountDonateETH)
+            const donate = await donateETH(signer, provider, amountDonateETH, projectId, '')
             if (donate) {
                 toast.success("Donate ETH success");
             }

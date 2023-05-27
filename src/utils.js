@@ -100,7 +100,7 @@ export const getBalances = async (signer, provider, action) => {
 };
 
 
-export const donateETH = async (signer, provider, amountDonateETH) => {
+export const donateETH = async (signer, provider, amountDonateETH, projectId, content) => {
     if (!window.ethereum) {
         alert("Vui lòng cài đặt MetaMask!");
         return;
@@ -121,7 +121,9 @@ export const donateETH = async (signer, provider, amountDonateETH) => {
             if (allowance.gte(donateAmount)) {
                 const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
                 try {
-                    const donateTx = await donationContract.donateWETHS(
+                    const donateTx = await donationContract.donateWETH(
+                        projectId,
+                        content,
                         donateAmount
                     );
                     await donateTx.wait();
@@ -143,7 +145,7 @@ export const donateETH = async (signer, provider, amountDonateETH) => {
     }
 };
 
-export const donateBNB = async (signer, provider, amountDonateBNB) => {
+export const donateBNB = async (signer, provider, amountDonateBNB, projectId, content) => {
     if (!window.ethereum) {
         alert("Vui lòng cài đặt MetaMask!");
         return;
@@ -153,13 +155,15 @@ export const donateBNB = async (signer, provider, amountDonateBNB) => {
         const chainid = network.chainId;
 
         if (chainid === 56) {
-            const donationAddress = "0xDB18aC5292EB8A41f0D2829F81909c9e6183ab13"
+            const donationAddress = "0xcC138083ba38dc7594142Af8E5A6925EdB23414B"
 
             const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
             const donateAmount = ethers.utils.parseUnits(amountDonateBNB, 18);
             try {
-                const donateTx = await donationContract.donateBNBS(
-                    { value: donateAmount }
+                const donateTx = await donationContract.donateBNB(
+                    projectId,
+                    content,
+                    { value: donateAmount },
                 );
                 await donateTx.wait();
                 console.log("Donate thành công: ", donateTx.toString());
@@ -224,4 +228,50 @@ export const getAllProject = async (signer) => {
     const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
     const allProject = await donationContract.getProjectsList();
     return allProject
+}
+
+
+export const addProject = async (signer, data) => {
+    const donationAddress = "0xcC138083ba38dc7594142Af8E5A6925EdB23414B"
+
+    const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
+    const amountUnit = ethers.utils.parseUnits(data.amount, 18);
+
+    const addProject = await donationContract.addProject(data.title, data.objective, data.unixTimestamp, amountUnit, data.image_url)
+    const result = addProject.wait()
+    if (result) {
+        return true
+    }
+    return false
+}
+
+
+export const convertBigNumber = (number) => {
+    let result = ethers.utils.formatUnits(number.toString(), 18);
+    return Number(result)
+}
+
+
+export const parseUnixTimeStamp = (timeStamp) => {
+    const date = new Date(timeStamp * 1000);
+
+    // Extract the different components of the date
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // Months are zero-based, so add 1
+    const day = date.getDate();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+
+    // Create a formatted string
+    const formattedDateTime = `${month}/${day}/${year} ${hours}:${minutes}:${seconds}`;
+    return formattedDateTime
+}
+
+
+export const getAllHistoryProject = async (signer, projectId) => {
+    const donationAddress = "0xcC138083ba38dc7594142Af8E5A6925EdB23414B"
+    const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
+    const allHistory = await donationContract.getEntireDonationHistory(projectId);
+    return allHistory
 }

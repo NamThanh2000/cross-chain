@@ -1,7 +1,7 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
 import { useEffect, useState } from 'react';
-import { connectMetamask, getAllProject } from '../utils';
+import { connectMetamask, convertBigNumber, getAllProject, parseUnixTimeStamp } from '../utils';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 
@@ -11,6 +11,7 @@ function Projects() {
     const [projects, setProjects] = useState(null);
     const [currentAddress, SetCurrentAddress] = useState(0);
     const [age, setAge] = useState('');
+    
 
     const handleChange = (event) => {
         setAge(event.target.value);
@@ -60,7 +61,7 @@ function Projects() {
         if (!provider) return;
         const handleGetProjects = async () => {
             const allProject = await getAllProject(provider.getSigner())
-            console.log(allProject)
+            setProjects(allProject)
         }
         handleGetProjects()
 
@@ -116,42 +117,23 @@ function Projects() {
                         </FormControl>
                     </Box>
                 </div>
-                <div className='flex m-4 p-4'>
-                    <img className='w-40' src="https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-6/309613876_537052435087507_8459997665756261862_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=K4olyZ4GtSQAX_6Z7EQ&_nc_ht=scontent.fsgn2-8.fna&oh=00_AfBGz-IMhBLAQAlep-tM82i6SS8rkCseAZoNzsMeHZ0u_Q&oe=646E67D9" alt="" />
-                    <div className='ml-4'>
-                        <h2 className='font-bold text-lg'>Dự án về các hột giá đình nghèo</h2>
-                        <p>Báo cáo thẩm tra của Uỷ ban Kinh tế cũng cho thấy, tỷ lệ khả năng thanh toán bằng tiền mặt bình quân đạt 0,09 lần (cùng kỳ 2022 là 0,19 lần). Tỷ lệ khả năng thanh toán lãi vay trong ba tháng đầu năm đạt 5,7 lần, giảm 0,8 lần so với cùng kỳ 2021. Nguyên nhân chủ yếu do mặt bằng lãi suất cho vay tăng nhanh và lợi nhuận doanh nghiệp sụt giảm từ đầu năm.</p>
-                        <div>
-                            <div>Mục tiêu: 10000 USD</div>
-                            <div>Tiến độ: 60%</div>
-                            <div>Thời điểm ngừng kêu gọi: 19/07/2024</div>
+                {projects?.map((item) => {
+                    return <a key={convertBigNumber(item.projectId)} href={`project-detail/${convertBigNumber(item.projectId)}`}>
+                        <div className='flex m-4 p-4'>
+                            <img className='w-40' src={item.imageUrl} alt="" />
+                            <div className='ml-4'>
+                                <h2 className='font-bold text-lg'>{item.title}</h2>
+                                <p>{item.objective}</p>
+                                <div>
+                                    <div>Mục tiêu: {convertBigNumber(item.amount)} USD</div>
+                                    <div>Tiến độ: {(item.totalDonations / convertBigNumber(item.amount)) * 100}%</div>
+                                    <div>Thời điểm ngừng kêu gọi: {parseUnixTimeStamp(item.deadline)}</div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div className='flex m-4 p-4'>
-                    <img className='w-40' src="https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-6/309613876_537052435087507_8459997665756261862_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=K4olyZ4GtSQAX_6Z7EQ&_nc_ht=scontent.fsgn2-8.fna&oh=00_AfBGz-IMhBLAQAlep-tM82i6SS8rkCseAZoNzsMeHZ0u_Q&oe=646E67D9" alt="" />
-                    <div className='ml-4'>
-                        <h2 className='font-bold text-lg'>Dự án về các hột giá đình nghèo</h2>
-                        <p>Báo cáo thẩm tra của Uỷ ban Kinh tế cũng cho thấy, tỷ lệ khả năng thanh toán bằng tiền mặt bình quân đạt 0,09 lần (cùng kỳ 2022 là 0,19 lần). Tỷ lệ khả năng thanh toán lãi vay trong ba tháng đầu năm đạt 5,7 lần, giảm 0,8 lần so với cùng kỳ 2021. Nguyên nhân chủ yếu do mặt bằng lãi suất cho vay tăng nhanh và lợi nhuận doanh nghiệp sụt giảm từ đầu năm.</p>
-                        <div>
-                            <div>Mục tiêu: 10000 USD</div>
-                            <div>Tiến độ: 60%</div>
-                            <div>Thời điểm ngừng kêu gọi: 19/07/2024</div>
-                        </div>
-                    </div>
-                </div>
-                <div className='flex m-4 p-4'>
-                    <img className='w-40' src="https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-6/309613876_537052435087507_8459997665756261862_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=K4olyZ4GtSQAX_6Z7EQ&_nc_ht=scontent.fsgn2-8.fna&oh=00_AfBGz-IMhBLAQAlep-tM82i6SS8rkCseAZoNzsMeHZ0u_Q&oe=646E67D9" alt="" />
-                    <div className='ml-4'>
-                        <h2 className='font-bold text-lg'>Dự án về các hột giá đình nghèo</h2>
-                        <p>Báo cáo thẩm tra của Uỷ ban Kinh tế cũng cho thấy, tỷ lệ khả năng thanh toán bằng tiền mặt bình quân đạt 0,09 lần (cùng kỳ 2022 là 0,19 lần). Tỷ lệ khả năng thanh toán lãi vay trong ba tháng đầu năm đạt 5,7 lần, giảm 0,8 lần so với cùng kỳ 2021. Nguyên nhân chủ yếu do mặt bằng lãi suất cho vay tăng nhanh và lợi nhuận doanh nghiệp sụt giảm từ đầu năm.</p>
-                        <div>
-                            <div>Mục tiêu: 10000 USD</div>
-                            <div>Tiến độ: 60%</div>
-                            <div>Thời điểm ngừng kêu gọi: 19/07/2024</div>
-                        </div>
-                    </div>
-                </div>
+                    </a>
+
+                })}
             </div>
 
         </>

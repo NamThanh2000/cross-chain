@@ -1,19 +1,21 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
 import { useEffect, useState } from 'react';
-import { connectMetamask } from '../utils';
+import { connectMetamask, getAllHistoryProject } from '../utils';
 import { Box, Button, CircularProgress, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import { TabContext } from '@material-ui/lab';
 import { Tab, Tabs } from '@material-ui/core';
 import FormDonate from './FormDonate';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import "react-circular-progressbar/dist/styles.css";
+import { useParams } from 'react-router-dom';
+
 
 function ProjectDetail() {
     const [provider, setProvider] = useState(null);
     const [value, setValue] = useState(0);
     const [currentAddress, SetCurrentAddress] = useState(0);
-
+    const { param } = useParams();
     const handleChange = (event, newValue) => {
         localStorage.setItem("tab", newValue);
         setValue(newValue);
@@ -41,12 +43,23 @@ function ProjectDetail() {
 
     useEffect(() => {
         if (!provider) return;
-        const getAddress = async () => {
-            const addressCurrent = await provider.getSigner().getAddress();
-            SetCurrentAddress(addressCurrent)
+        const init = async () => {
+            const signer = provider.getSigner()
+            const getAddress = async () => {
+                const addressCurrent = await signer.getAddress();
+                SetCurrentAddress(addressCurrent)
+            }
+            await getAddress()
+            const getALlHistory = async () => {
+                const result = await getAllHistoryProject(signer, param)
+                console.log(result);
+            }
+            await getALlHistory()
         }
-        getAddress()
+        init()
+
     }, [provider]);
+
 
     return (
         <>
@@ -104,7 +117,7 @@ function ProjectDetail() {
                                         </Tabs>
                                     </Box>
                                 </Box>
-                                <FormDonate checkTab={Number(value)} />
+                                <FormDonate projectId={param} checkTab={Number(value)} />
                             </TabContext >
                         </div>
                         <div className="border-t-4 border-green-700 mb-6">

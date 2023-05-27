@@ -223,6 +223,7 @@ contract DonationContract {
     }
 
     // Lấy danh sách lịch sử donate của bản thân theo project ID
+    // Your Donate
     function getDonationHistory(uint _projectId) external view returns (Donation[] memory) {
         require(_projectId < projects.length, "Invalid project ID.");
         return donationHistory[_projectId][msg.sender];
@@ -257,11 +258,13 @@ contract DonationContract {
     }
 
     // Lấy tổng số token nhận được từ toàn bộ project
+    // full project
     function getAllTotalDonation() external view returns (uint) {
         return totalDonations;
     }
 
     // Lấy tổng số token đã donate cho toàn bộ project
+    // Bản thân mình trong toàn bộ
     function getTotalDonation() external view returns (uint) {
         return donations[msg.sender];
     }

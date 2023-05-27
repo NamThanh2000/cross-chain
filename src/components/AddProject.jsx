@@ -1,26 +1,22 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
 import { useEffect, useState } from 'react';
-import { connectMetamask, getAllProject } from '../utils';
-import { Box, Button, TextField } from '@mui/material';
+import { addProject, connectMetamask, getAllProject } from '../utils';
+import { Box, Button, TextField, TextareaAutosize } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { DateTimePicker } from '@mui/x-date-pickers';
+import { DateTimePicker, StaticDateTimePicker } from '@mui/x-date-pickers';
 import { useForm } from "react-hook-form";
+import { styled } from '@mui/system';
 
 function AddProject() {
     const [provider, setProvider] = useState(null);
     const [isConnectMetamask, setIsConnectMetamask] = useState(false);
     const [projects, setProjects] = useState(null);
-    const [age, setAge] = useState('');
+    const [datetime, setDatetime] = useState('');
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const onSubmit = data => console.log(data);
-
-    const handleChange = (event) => {
-        setAge(event.target.value);
-    };
 
     useEffect(() => {
         const init = async () => {
@@ -61,15 +57,24 @@ function AddProject() {
         }
     }
 
-    useEffect(() => {
-        checkConnectMetamask();
+
+    // const handleSubmitProject = async () => {
+
+    // }
+
+    const onSubmit = async data => {
         if (!provider) return;
-        // const handleGetProjects = async () => {
-        //     const allProject = await getAllProject(provider.getSigner())
-        //     console.log(allProject)
-        // }
-        // handleGetProjects()
-    }, [provider]);
+        const signer = provider.getSigner()
+        const dateStr = datetime.$d ? datetime.$d.toString().slice(0, datetime.$d.toString().indexOf('(')) : ''
+        const date = new Date(dateStr);
+        const unixTimestamp = Math.floor(date.getTime() / 1000);
+        data['unixTimestamp'] = unixTimestamp
+        const result = await addProject(signer, data)
+        if (result) {
+            window.location.href = '/projects'
+        }
+
+    }
 
     return (
         <>
@@ -97,12 +102,21 @@ function AddProject() {
                     noValidate
                     autoComplete="off"
                 >
-                    <TextField {...register("example")} fullWidth id="outlined-basic" label="Outlined" variant="outlined" />
-                    <TextField {...register("example1")} fullWidth id="outlined-basic" label="Outlined" variant="outlined" />
-                    <TextField {...register("example2")} fullWidth id="outlined-basic" label="Outlined" variant="outlined" />
-                    <TextField {...register("example3")} fullWidth id="outlined-basic" label="Outlined" variant="outlined" />
+                    <TextField {...register("title")} fullWidth id="title" label="Tên dự án mới" variant="outlined" />
+                    <TextField {...register("image_url")} fullWidth id="image_url" label="Đường dẫn ảnh" variant="outlined" />
+                    <TextField {...register("amount")} fullWidth id="amount" label="Mục tiêu dự án (USD)" variant="outlined" />
+                    <textarea className='w-full' name="abjactive" {...register("objective")} id="" cols="30" rows="10"></textarea>
+                    {/* <TextField {...register("objective")} fullWidth id="objective" label="Mô tả dự án" variant="outlined" /> */}
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DateTimePicker {...register("example4")} label="Basic date time picker" />
+                        <StaticDateTimePicker
+                            sx={{ width: '400px' }}
+                            name='time'
+                            onChange={(newValue) => setDatetime(newValue)}
+                            label="Hạn chót ủng hộ ádasdasdikajsndijasnd9uasjndsioan9dsajnsiudjn"
+                            orientation="portrait"
+                            ampm={false}
+                            ampmInClock={false}
+                        />
                     </LocalizationProvider>
                     <Button type='submit' variant="contained">Contained</Button>
                 </Box>
@@ -111,5 +125,4 @@ function AddProject() {
         </>
     );
 }
-
-export default AddProject;  
+export default AddProject;

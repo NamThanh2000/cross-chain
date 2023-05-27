@@ -51,7 +51,7 @@ function App() {
             <Route path='/your-donate' element={<MyDonate />} />
             <Route path='/withdraw' element={<Withdraw />} />
             <Route path='/projects' element={<Projects />} />
-            <Route path='/project-detail' element={<ProjectDetail />} />
+            <Route path='/project-detail/:param' element={<ProjectDetail />} />
             <Route path='/projects/add' element={<AddProject />} />
             <Route path='/contact-us' element={<ContactUs />} />
             <Route path='/about' element={<About />} />

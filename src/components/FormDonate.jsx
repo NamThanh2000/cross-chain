@@ -247,7 +247,7 @@ function FormDonate({ checkTab, projectId }) {
 
             }
             {Number(checkTab) === 2 && <MyDonate projectId={projectId} />}
-            {Number(checkTab) === 3 && <Withdraw />}
+            {Number(checkTab) === 3 && <Withdraw projectId={projectId} />}
 
             {/* <div>
                 <button onClick={getBalance}>Lấy tổng số Donate</button>

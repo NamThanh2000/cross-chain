@@ -178,7 +178,7 @@ export const donateBNB = async (signer, provider, amountDonateBNB, projectId, co
     }
 };
 
-export const withdrawUSDT = async (signer, provider, amountWithdrawUSDT) => {
+export const withdrawUSDT = async (signer, provider, amountWithdrawUSDT, projectId) => {
     if (!window.ethereum) {
         alert("Vui lòng cài đặt MetaMask!");
         return;
@@ -192,7 +192,7 @@ export const withdrawUSDT = async (signer, provider, amountWithdrawUSDT) => {
             const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
             const amountWithdraw = ethers.utils.parseUnits(amountWithdrawUSDT, 18);
             try {
-                const donateTx = await donationContract.withdrawUSDT(amountWithdraw);
+                const donateTx = await donationContract.withdraw(projectId, amountWithdraw);
                 await donateTx.wait();
                 console.log("Withdraw thành công: ", donateTx.toString());
                 return true
@@ -294,4 +294,22 @@ export const getListHistoryMyDonateProject = async (signer, projectId) => {
     const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
     const myDonate = await donationContract.getDonationHistory(projectId)
     return myDonate
+}
+
+
+export const getTotalMyDonateProject = async(signer, projectId) => {
+    const donationAddress = "0xcC138083ba38dc7594142Af8E5A6925EdB23414B"
+    const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
+    const myTotalDonate = await donationContract.getMyDonationForProject(projectId)
+    return myTotalDonate
+    
+}
+
+
+export const getListWithdrawProject = async(signer, projectId) => {
+    const donationAddress = "0xcC138083ba38dc7594142Af8E5A6925EdB23414B"
+    const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
+    const listWithdraw = await donationContract.getWithdrawalHistory(projectId)
+    return listWithdraw
+    
 }

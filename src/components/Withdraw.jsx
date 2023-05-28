@@ -2,10 +2,10 @@ import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
 import React, { useEffect, useState } from "react";
 import toast from 'react-hot-toast';
-import { getBalances, withdrawUSDT } from "../utils";
+import { convertBigNumber, getAllHistoryProject, getBalances, getListWithdrawProject, parseUnixTimeStamp, withdrawUSDT } from "../utils";
 import Header from './Header';
 
-function FormDonate() {
+function Withdraw({ projectId }) {
     const [provider, setProvider] = useState(null);
     const [signer, setSigner] = useState(null);
     const [chainId, setChainId] = useState(0);
@@ -13,7 +13,8 @@ function FormDonate() {
     const [currentAddress, SetCurrentAddress] = useState(0);
     const [amountCrossChain, setAmountCrossChain] = useState('');
     const [btnDisable, setBtnDisable] = useState(false);
-    const [total, setTotal] = useState(0);
+    const [listHistoryDonate, setListHistoryDonate] = useState(false);
+    const [listWithdraw, setListWithdraw] = useState([]);
 
     useEffect(() => {
         const init = async () => {
@@ -39,19 +40,25 @@ function FormDonate() {
 
     useEffect(() => {
         if (!provider) return;
-        setSigner(provider.getSigner());
-        const getChainId = async () => {
-            const network = await provider.getNetwork();
-            const chainid = network.chainId;
-            setChainId(chainid)
-        }
-        getChainId()
+        const init = async () => {
+            setSigner(provider.getSigner());
+            const getChainId = async () => {
+                const network = await provider.getNetwork();
+                const chainid = network.chainId;
+                setChainId(chainid)
+            }
+            await getChainId()
 
-        const getAddress = async () => {
-            const addressCurrent = await provider.getSigner().getAddress();
-            SetCurrentAddress(addressCurrent)
+            const getAddress = async () => {
+                const addressCurrent = await provider.getSigner().getAddress();
+                SetCurrentAddress(addressCurrent)
+            }
+            await getAddress()
+            const listWithdraw = await getListWithdrawProject(provider.getSigner(), projectId)
+            setListWithdraw(listWithdraw)
         }
-        getAddress()
+        init()
+
 
     }, [provider]);
 
@@ -74,23 +81,18 @@ function FormDonate() {
                 .catch((error) => console.error(error));
         }
         else if (chainId === 56) {
-            console.log(chainId);
             const init = async () => {
-                const totalDonations = await getBalances(provider.getSigner(), provider, 1)
-                SetTotalDonate(totalDonations)
-                const totalS = await getBalances(provider.getSigner(), provider, 2)
-                setTotal(totalS)
+                const result = await getAllHistoryProject(signer, projectId)
+                setListHistoryDonate(result)
             }
 
             init()
         }
     }, [chainId])
 
-    console.log(total);
-
     const handleWithdraw = async () => {
         setBtnDisable(true)
-        const widthdraw = await withdrawUSDT(signer, provider, amountCrossChain)
+        const widthdraw = await withdrawUSDT(signer, provider, amountCrossChain, projectId)
         if (widthdraw) {
             toast.success("Widthdraw success");
         }
@@ -119,13 +121,34 @@ function FormDonate() {
                 <a href='/donate' className='mt-5 px-8 py-3 bg-green-700  text-white font-bold'>Donate</a>
 
             </div> */}
-            <div className='flex my-28 items-center'>
-                <div className='px-20'>
-                    <h2 className='text-4xl font-bold'>Protect nature all year round</h2>
-                    <div className='py-6 text-lg'>Donate monthly as a Conservation Champion and provide reliable support to accelerate the pace of conservation today. Plus, receive our special picnic blanket as a thank you gift for protecting nature.</div>
+            <div className='mt-4'>
+                <h2 className='text-xl font-bold'>Danh sách donate</h2>
+                <div>
+                    <div className='pt-4 pb-1 flex justify-center border-gray-300'
+                        style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
+                    >
+                        <p className='w-64 font-bold text-lg'>Amount</p>
+                        <p className='w-80 font-bold text-lg'>Timestamp</p>
+                    </div>
+                    {listHistoryDonate && listHistoryDonate.map((item, index) => {
+                        return <div
+                            key={index}
+                            className='p-3 flex justify-center border-gray-300'
+                            style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
+                        >
+                            <p className='w-64 font-medium text-green-700 text-lg'>{convertBigNumber(item.amount).toFixed(4)} USD</p>
+                            <p className='w-80 font-medium text-green-700 text-lg'>{parseUnixTimeStamp(item.timestamp)}</p>
+                        </div>
+                    })}
+                </div>
+            </div>
+            <div className='flex mt-8 items-center'>
+                <div className=''>
+                    <h2 className='text-xl font-bold'>Rút token</h2>
+                    {/* <div className='py-6 text-lg'>Donate monthly as a Conservation Champion and provide reliable support to accelerate the pace of conservation today. Plus, receive our special picnic blanket as a thank you gift for protecting nature.</div> */}
                     {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' && <>
                         <input
-                            className='mt-2 p-4'
+                            className='mt-2 p-4 w-96'
                             value={amountCrossChain}
                             onChange={(e) => setAmountCrossChain(e.target.value)}
                             placeholder='Amount cross chain'
@@ -147,9 +170,35 @@ function FormDonate() {
                     }
                 </div>
             </div>
+            <div className='mt-8'>
+                <h2 className='text-xl font-bold'>Lịch sử rút token</h2>
+                {listWithdraw.length > 0 ? <div>
+                    <div className='pt-4 pb-1 flex justify-center border-gray-300'
+                        style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
+                    >
+                        <p className='w-64 font-bold text-lg'>Amount</p>
+                        <p className='w-80 font-bold text-lg'>Timestamp</p>
+                    </div>
+                    {listWithdraw.map((item, index) => {
+                        return <div
+                            key={index}
+                            className='p-3 flex justify-center border-gray-300'
+                            style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
+                        >
+                            <p className='w-64 font-medium text-green-700 text-lg'>{convertBigNumber(item.amount).toFixed(4)} USD</p>
+                            <p className='w-80 font-medium text-green-700 text-lg'>{parseUnixTimeStamp(item.timestamp)}</p>
+                        </div>
+                    })}
+                </div> :
+                    <div className='mt-6 text-center'>
+                        Chưa có lịch sử rút nào
+                    </div>
+                }
+
+            </div>
         </div>
 
     );
 }
 
-export default FormDonate;  
+export default Withdraw;  

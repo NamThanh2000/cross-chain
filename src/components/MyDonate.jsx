@@ -1,11 +1,12 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
 import React, { useEffect, useState } from "react";
-import { convertBigNumber, getBalances, getListHistoryMyDonateProject, parseUnixTimeStamp } from "../utils";
+import { convertBigNumber, getBalances, getListHistoryMyDonateProject, getTotalMyDonateProject, parseUnixTimeStamp } from "../utils";
 import Header from './Header';
 
 function FormDonate({ projectId }) {
     const [provider, setProvider] = useState(null);
+    const [totalDonate, setTotalDonate] = useState(0);
     const [listMyDonate, setListMyDonate] = useState([]);
     const [chainId, setChainId] = useState(0);
 
@@ -34,14 +35,17 @@ function FormDonate({ projectId }) {
     useEffect(() => {
         if (!provider) return;
         const init = async () => {
+            const signer = provider.getSigner()
             const getChainId = async () => {
                 const network = await provider.getNetwork();
                 const chainid = network.chainId;
                 setChainId(chainid)
             }
             getChainId()
-            const result = await getListHistoryMyDonateProject(provider.getSigner(), projectId)
+            const result = await getListHistoryMyDonateProject(signer, projectId)
             setListMyDonate(result)
+            const totalMyDonate = await getTotalMyDonateProject(signer, projectId)
+            setTotalDonate(totalMyDonate)
         }
 
 
@@ -69,9 +73,9 @@ function FormDonate({ projectId }) {
     }, [chainId])
     return (
         <div>
-            {/* <div className='font-bold pt-4 text-lg'>
-                            YOUR TOTAL DONATE: <span className='text-green-700 text-xl'>{convertBigNumber(item.amount)} USDT</span>
-                        </div> */}
+            <div className='font-bold pt-4 text-lg'>
+                YOUR TOTAL DONATE: <span className='text-green-700 text-xl'>{convertBigNumber(totalDonate).toFixed(4)} USD</span>
+            </div>
             <div>
                 <div className='pt-4 pb-1 flex justify-center border-gray-300'
                     style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}

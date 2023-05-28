@@ -55,11 +55,6 @@ function ProjectDetail() {
             const project = await getProjectDetail(signer, param)
             setProject(project)
             await getAddress()
-            const getALlHistory = async () => {
-                const result = await getAllHistoryProject(signer, param)
-                console.log(result);
-            }
-            await getALlHistory()
         }
         init()
 
@@ -129,7 +124,9 @@ function ProjectDetail() {
                                             <Tab label="Ethereum Platform" value={0} />
                                             <Tab label="Binance smart chain Platform" value={1} />
                                             <Tab label="Your Donate" value={2} />
-                                            <Tab label="Withdraw" value={3} />
+                                            {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' &&
+                                                <Tab label="Withdraw" value={3}/>
+                                            }
                                         </Tabs>
                                     </Box>
                                 </Box>

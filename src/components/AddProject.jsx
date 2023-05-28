@@ -118,7 +118,7 @@ function AddProject() {
                             ampmInClock={false}
                         />
                     </LocalizationProvider>
-                    <Button type='submit' variant="contained">Contained</Button>
+                    <Button type='submit' variant="contained">Tạo dự án mới</Button>
                 </Box>
             </div>
 

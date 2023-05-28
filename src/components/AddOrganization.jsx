@@ -97,10 +97,10 @@ function AddOrganization() {
                     noValidate
                     autoComplete="off"
                 >
-                    <TextField {...register("example")} fullWidth id="outlined-basic" label="Outlined" variant="outlined" />
-                    <TextField {...register("example1")} fullWidth id="outlined-basic" label="Outlined" variant="outlined" />
-                    <TextField {...register("example2")} fullWidth id="outlined-basic" label="Outlined" variant="outlined" />
-                    <TextField {...register("example3")} fullWidth id="outlined-basic" label="Outlined" variant="outlined" />
+                    <TextField {...register("example")} fullWidth id="outlined-basic" label="Tên tổ chức" variant="outlined" />
+                    <TextField {...register("example1")} fullWidth id="outlined-basic" label="Mô tả" variant="outlined" />
+                    <TextField {...register("example2")} fullWidth id="outlined-basic" label="Đường dẫn ảnh của tổ chức" variant="outlined" />
+                    <TextField {...register("example3")} fullWidth id="outlined-basic" label="Ví tổ chức" variant="outlined" />
                     <Button type='submit' variant="contained">Thêm Tổ Chức Mới</Button>
                 </Box>
             </div>

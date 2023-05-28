@@ -1,13 +1,14 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
 import { useEffect, useState } from 'react';
-import { connectMetamask, getAllProject } from '../utils';
+import { addOrganization, connectMetamask, getAllProject } from '../utils';
 import { Box, Button, TextField } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { useForm } from "react-hook-form";
+import { async } from 'q';
 
 function AddOrganization() {
     const [provider, setProvider] = useState(null);
@@ -16,7 +17,14 @@ function AddOrganization() {
     const [age, setAge] = useState('');
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const onSubmit = data => console.log(data);
+    const onSubmit = async data => {
+        if (!provider) return;
+        const signer = provider.getSigner()
+        const result = await addOrganization(signer, data)
+        if (result) {
+            window.location.href = '/projects'
+        }
+    }
 
     const handleChange = (event) => {
         setAge(event.target.value);
@@ -97,10 +105,10 @@ function AddOrganization() {
                     noValidate
                     autoComplete="off"
                 >
-                    <TextField {...register("example")} fullWidth id="outlined-basic" label="Tên tổ chức" variant="outlined" />
-                    <TextField {...register("example1")} fullWidth id="outlined-basic" label="Mô tả" variant="outlined" />
-                    <TextField {...register("example2")} fullWidth id="outlined-basic" label="Đường dẫn ảnh của tổ chức" variant="outlined" />
-                    <TextField {...register("example3")} fullWidth id="outlined-basic" label="Ví tổ chức" variant="outlined" />
+                    <TextField {...register("name")} fullWidth id="outlined-basic" label="Tên tổ chức" variant="outlined" />
+                    <TextField {...register("description")} fullWidth id="outlined-basic" label="Mô tả" variant="outlined" />
+                    <TextField {...register("imageUrl")} fullWidth id="outlined-basic" label="Đường dẫn ảnh của tổ chức" variant="outlined" />
+                    <TextField {...register("wallet")} fullWidth id="outlined-basic" label="Ví tổ chức" variant="outlined" />
                     <Button type='submit' variant="contained">Thêm Tổ Chức Mới</Button>
                 </Box>
             </div>

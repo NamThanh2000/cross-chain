@@ -262,6 +262,20 @@ export const addProject = async (signer, data) => {
 }
 
 
+export const addOrganization = async (signer, data) => {
+    const donationAddress = "0xcC138083ba38dc7594142Af8E5A6925EdB23414B"
+
+    const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
+
+    const addProject = await donationContract.addOrganization(data.name, data.description, data.imageUrl, data.wallet)
+    const result = addProject.wait()
+    if (result) {
+        return true
+    }
+    return false
+}
+
+
 export const convertBigNumber = (number) => {
     if (number){
         let result = ethers.utils.formatUnits(number?.toString(), 18);
@@ -337,5 +351,12 @@ export const getTotalProjectMyDonate = async(signer) => {
     const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
     const totalProjectMyDonate = await donationContract.getTotalDonation()
     return totalProjectMyDonate
-    
+}
+
+
+export const getOrganizationsProject = async(signer) => {
+    const donationAddress = "0xcC138083ba38dc7594142Af8E5A6925EdB23414B"
+    const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
+    const organizationsProject = await donationContract.getOrganizationsForProject()
+    return organizationsProject
 }

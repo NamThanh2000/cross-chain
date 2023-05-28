@@ -1,7 +1,7 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
 import { useEffect, useState } from 'react';
-import { connectMetamask, convertBigNumber, getAllHistoryProject, getProjectDetail, parseUnixTimeStamp } from '../utils';
+import { connectMetamask, convertBigNumber, getAllHistoryProject, getOrganizationsProject, getProjectDetail, parseUnixTimeStamp } from '../utils';
 import { Box, Button, CircularProgress, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import { TabContext } from '@material-ui/lab';
 import { Tab, Tabs } from '@material-ui/core';
@@ -55,6 +55,8 @@ function ProjectDetail() {
             const project = await getProjectDetail(signer, param)
             setProject(project)
             await getAddress()
+
+            // const listOrganization = await getOrganizationsProject(signer)
         }
         init()
 

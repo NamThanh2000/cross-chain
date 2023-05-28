@@ -11,7 +11,7 @@ function Projects() {
     const [projects, setProjects] = useState(null);
     const [currentAddress, SetCurrentAddress] = useState(0);
     const [age, setAge] = useState('');
-    
+
 
     const handleChange = (event) => {
         setAge(event.target.value);
@@ -81,7 +81,7 @@ function Projects() {
                     <div className="flex items-center">
                         <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>Homepage</a>
                         <a className='mx-2 px-2 py-3 text-lg font-bold' href='/projects'>Projects</a>
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>News & Events</a>
+                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/profile'>Profile</a>
                         <a className='mx-2 px-2 py-3 text-lg font-bold' href='/contact-us'>Contact Us</a>
                         <a className='mx-2 px-2 py-3 text-lg font-bold' href='/about'>About Us</a>
                         {/* <a href="/donate">
@@ -124,8 +124,16 @@ function Projects() {
                                 <h2 className='font-bold text-lg'>{item.title}</h2>
                                 <p>{item.objective}</p>
                                 <div>
-                                    <div>Mục tiêu: {convertBigNumber(item.amount)} USD</div>
-                                    <div>Tiến độ: {(item.totalDonations / convertBigNumber(item.amount)) * 100}%</div>
+                                    <div>Mục tiêu: {convertBigNumber(item.amount)} <span className='font-bold'>USD</span></div>
+                                    <div className='flex'>
+                                        <p>Tiến độ:</p>
+                                        <p className='ml-2'>
+                                            {(convertBigNumber(item && item.totalDonations) / convertBigNumber(item && item.amount)) * 100 > 100 ?
+                                                100 : (item.totalDonations / convertBigNumber(item.amount)) * 100
+                                            }
+                                            %
+                                        </p>
+                                    </div>
                                     <div>Thời điểm ngừng kêu gọi: {parseUnixTimeStamp(item.deadline)}</div>
                                 </div>
                             </div>

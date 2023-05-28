@@ -313,3 +313,21 @@ export const getListWithdrawProject = async(signer, projectId) => {
     return listWithdraw
     
 }
+
+
+export const getListProjectMyDonate = async(signer) => {
+    const donationAddress = "0xcC138083ba38dc7594142Af8E5A6925EdB23414B"
+    const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
+    const listProjectMyDonate = await donationContract.getDonatedProjects()
+    return listProjectMyDonate
+    
+}
+
+
+export const getTotalProjectMyDonate = async(signer) => {
+    const donationAddress = "0xcC138083ba38dc7594142Af8E5A6925EdB23414B"
+    const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
+    const totalProjectMyDonate = await donationContract.getTotalDonation()
+    return totalProjectMyDonate
+    
+}

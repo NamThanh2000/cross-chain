@@ -14,6 +14,7 @@ import About from "./components/About";
 import AddProject from "./components/AddProject";
 import ContactUs from "./components/ContactUs";
 import AddOrganization from "./components/AddOrganization";
+import Profile from "./components/Profile";
 
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
             <Route path='/projects' element={<Projects />} />
             <Route path='/project-detail/:param' element={<ProjectDetail />} />
             <Route path='/projects/add' element={<AddProject />} />
+            <Route path='profile' element={<Profile />} />
             <Route path='/contact-us' element={<ContactUs />} />
             <Route path='/about' element={<About />} />
             <Route path='/organization-add' element={<AddOrganization />} />

@@ -70,7 +70,7 @@ function ProjectDetail() {
                     <div className="flex items-center">
                         <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>Homepage</a>
                         <a className='mx-2 px-2 py-3 text-lg font-bold' href='/projects'>Projects</a>
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>News & Events</a>
+                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/profile'>Profile</a>
                         <a className='mx-2 px-2 py-3 text-lg font-bold' href='/contact-us'>Contact Us</a>
                         <a className='mx-2 px-2 py-3 text-lg font-bold' href='/about'>About Us</a>
                         {/* <a href="/donate">
@@ -125,7 +125,7 @@ function ProjectDetail() {
                                             <Tab label="Binance smart chain Platform" value={1} />
                                             <Tab label="Your Donate" value={2} />
                                             {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' &&
-                                                <Tab label="Withdraw" value={3}/>
+                                                <Tab label="Withdraw" value={3} />
                                             }
                                         </Tabs>
                                     </Box>

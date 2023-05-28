@@ -122,7 +122,7 @@ function Withdraw({ projectId }) {
 
             </div> */}
             <div className='mt-4'>
-                <h2 className='text-xl font-bold'>Danh sách donate</h2>
+                <h2 className='text-xl font-bold'>Danh sách ủng hộ</h2>
                 <div>
                     <div className='pt-4 pb-1 flex justify-center border-gray-300'
                         style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}

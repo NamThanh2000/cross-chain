@@ -1,7 +1,7 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
 import { useEffect, useState } from 'react';
-import { connectMetamask, convertBigNumber, getAllProject, parseUnixTimeStamp } from '../utils';
+import { connectMetamask, convertBigNumber, getAllProject, getListActiveProject, parseUnixTimeStamp } from '../utils';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 
@@ -10,11 +10,11 @@ function Projects() {
     const [isConnectMetamask, setIsConnectMetamask] = useState(false);
     const [projects, setProjects] = useState(null);
     const [currentAddress, SetCurrentAddress] = useState(0);
-    const [age, setAge] = useState('');
+    const [filterProject, setFilterProject] = useState(0);
 
 
     const handleChange = (event) => {
-        setAge(event.target.value);
+        setFilterProject(event.target.value);
     };
 
     useEffect(() => {
@@ -58,25 +58,34 @@ function Projects() {
 
     useEffect(() => {
         checkConnectMetamask();
-        if (!provider) return;
-        const handleGetProjects = async () => {
-            const allProject = await getAllProject(provider.getSigner())
-            setProjects(allProject)
-        }
-        handleGetProjects()
+        const init = async () => {
+            if (!provider) return;
+            const handleGetProjects = async () => {
+                let listProject
+                if (filterProject === 0) {
+                    listProject = await getAllProject(provider.getSigner())
+                }
+                else if (filterProject === 1) {
+                    listProject = await getListActiveProject(provider.getSigner())
+                }
+                setProjects(listProject)
+            }
+            await handleGetProjects()
 
-        const getAddress = async () => {
-            const addressCurrent = await provider.getSigner().getAddress();
-            SetCurrentAddress(addressCurrent)
+            const getAddress = async () => {
+                const addressCurrent = await provider.getSigner().getAddress();
+                SetCurrentAddress(addressCurrent)
+            }
+            await getAddress()
         }
-        getAddress()
+        init()
     }, [provider]);
     return (
         <>
             <div className="fixed z-30 w-full bg-white shadow-xl">
                 <div className="px-8 p-2 flex justify-between ">
                     <div className="flex items-end">
-                        <img className="w-26 h-12 mr-10 text-gray-700" src="/tnc-logo-primary-registered-dark-text.svg" alt="logo" />
+                        <img className="w-26 h-12 mr-10 text-gray-700" src="/350232362_194904190170121_8724430467209331448_n.png" alt="logo" />
                     </div>
                     <div className="flex items-center">
                         <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>Homepage</a>
@@ -101,17 +110,16 @@ function Projects() {
                     <h1 className='font-bold text-3xl'>Danh sách các dự án</h1>
                     <Box sx={{ minWidth: 220 }}>
                         <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                            {/* <InputLabel id="demo-simple-select-label">Age</InputLabel> */}
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={age}
-                                label="Age"
+                                value={filterProject}
+                                // label="Lọc"
                                 onChange={handleChange}
                             >
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
+                                <MenuItem value={0}>Tất cả dự án</MenuItem>
+                                <MenuItem value={1}>Dự án đang mở ủng hộ</MenuItem>
                             </Select>
                         </FormControl>
                     </Box>

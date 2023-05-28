@@ -65,7 +65,7 @@ function ProjectDetail() {
             <div className="fixed z-30 w-full bg-white shadow-xl">
                 <div className="px-8 p-2 flex justify-between ">
                     <div className="flex items-end">
-                        <img className="w-26 h-12 mr-10 text-gray-700" src="/tnc-logo-primary-registered-dark-text.svg" alt="logo" />
+                        <img className="w-26 h-12 mr-10 text-gray-700" src="/350232362_194904190170121_8724430467209331448_n.png" alt="logo" />
                     </div>
                     <div className="flex items-center">
                         <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>Homepage</a>
@@ -159,9 +159,9 @@ function ProjectDetail() {
                         </div>
                     </div>
                     <div className="xl:mx-10 mx-4 md:mx-4 sm:mx-4">
-                        <img src="/NCM130311.png" alt="NCM130311" />
+                        {/* <img className='h-56' src="/o-nhiem-3786.jpg" alt="NCM130311" /> */}
                         <div className="px-6 pt-6 flex flex-col items-center">
-                            <h4 className="font-bold text-lg">Your gift helps...</h4>
+                            <h4 className="font-bold text-lg">Tiến độ đạt được</h4>
                             {project &&
                                 (convertBigNumber(project && project.totalDonations) / convertBigNumber(project && project.amount)) * 100 > 100 ?
 

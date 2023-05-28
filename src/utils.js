@@ -231,6 +231,14 @@ export const getAllProject = async (signer) => {
 }
 
 
+export const getListActiveProject = async (signer) => {
+    const donationAddress = "0xcC138083ba38dc7594142Af8E5A6925EdB23414B"
+    const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
+    const listActiveProject = await donationContract.getActiveProjects();
+    return listActiveProject
+}
+
+
 export const getProjectDetail = async (signer, projectIt) => {
     const donationAddress = "0xcC138083ba38dc7594142Af8E5A6925EdB23414B"
     const donationContract = new ethers.Contract(donationAddress, donationABI, signer);

@@ -62,6 +62,9 @@ function ProjectDetail() {
 
     }, [provider]);
 
+    console.log(project && (convertBigNumber(project && project.totalDonations) / convertBigNumber(project && project.amount)) * 100);
+    console.log(project && (convertBigNumber(project && project.totalDonations) / convertBigNumber(project && project.amount)) * 100);
+
     return (
         <>
             <div className="fixed z-30 w-full bg-white shadow-xl">
@@ -168,7 +171,7 @@ function ProjectDetail() {
                                 (convertBigNumber(project && project.totalDonations) / convertBigNumber(project && project.amount)) * 100 > 100 ?
 
                                 <CircularProgressbar className='w-44 mt-4' value='100' text={`100%`} /> :
-                                <CircularProgressbar className='w-44 mt-4' value={(convertBigNumber(project && project.totalDonations) / convertBigNumber(project && project.amount)) * 100} text={`${(convertBigNumber(project && project.totalDonations) / convertBigNumber(project && project.amount)) * 100}%`} />
+                                <CircularProgressbar className='w-44 mt-4' value={(convertBigNumber(project && project.totalDonations) / convertBigNumber(project && project.amount)) * 100} text={`${project ? (((convertBigNumber(project && project.totalDonations) / convertBigNumber(project && project.amount)) * 100).toFixed(1)) : 0}%`} />
 
                             }
 

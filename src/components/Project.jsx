@@ -1,7 +1,7 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
 import { useEffect, useState } from 'react';
-import { connectMetamask, convertBigNumber, getAllProject, getListActiveProject, parseUnixTimeStamp } from '../utils';
+import { connectMetamask, convertBigNumber, convertProjectId, getAllProject, getListActiveProject, parseUnixTimeStamp } from '../utils';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 
@@ -68,6 +68,7 @@ function Projects() {
                 else if (filterProject === 1) {
                     listProject = await getListActiveProject(provider.getSigner())
                 }
+                console.log(listProject);
                 setProjects(listProject)
             }
             await handleGetProjects()
@@ -125,7 +126,7 @@ function Projects() {
                     </Box>
                 </div>
                 {projects?.map((item) => {
-                    return <a key={convertBigNumber(item.projectId)} href={`project-detail/${convertBigNumber(item.projectId)}`}>
+                    return <a key={convertProjectId(item.projectId)} href={`project-detail/${convertProjectId(item.projectId)}`}>
                         <div className='flex m-4 p-4'>
                             <img className='w-40' src={item.imageUrl} alt="" />
                             <div className='ml-4'>
@@ -137,7 +138,7 @@ function Projects() {
                                         <p>Tiến độ:</p>
                                         <p className='ml-2'>
                                             {(convertBigNumber(item && item.totalDonations) / convertBigNumber(item && item.amount)) * 100 > 100 ?
-                                                100 : (item.totalDonations / convertBigNumber(item.amount)) * 100
+                                                100 : ((convertBigNumber(item.totalDonations) / convertBigNumber(item.amount)) * 100).toFixed(1)
                                             }
                                             %
                                         </p>

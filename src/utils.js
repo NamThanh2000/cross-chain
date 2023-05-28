@@ -285,6 +285,15 @@ export const convertBigNumber = (number) => {
 }
 
 
+export const convertProjectId = (number) => {
+    if (number){
+        let result = ethers.utils.formatUnits(number?.toString(), 0);
+        return Number(result)
+    }
+    return 0
+}
+
+
 export const parseUnixTimeStamp = (timeStamp) => {
     const date = new Date(timeStamp * 1000);
 

@@ -59,6 +59,7 @@ function Projects() {
     useEffect(() => {
         checkConnectMetamask();
         const init = async () => {
+            console.log(provider);
             if (!provider) return;
             const handleGetProjects = async () => {
                 let listProject
@@ -71,13 +72,19 @@ function Projects() {
                 console.log(listProject);
                 setProjects(listProject)
             }
-            await handleGetProjects()
+            try {
+                await handleGetProjects()
+            } catch {
+            }
 
             const getAddress = async () => {
                 const addressCurrent = await provider.getSigner().getAddress();
                 SetCurrentAddress(addressCurrent)
             }
-            await getAddress()
+            try {
+                await getAddress()
+            } catch {
+            }
         }
         init()
     }, [provider]);

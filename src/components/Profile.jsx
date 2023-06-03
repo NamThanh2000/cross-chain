@@ -26,11 +26,13 @@ const Profile = () => {
         const init = async () => {
             if (!provider) return;
             const signer = provider.getSigner()
-            const listProjectMyDonate = await getListProjectMyDonate(signer)
-            setListProjectMyDonate(listProjectMyDonate)
-
-            const totalProjectMyDonate = await getTotalProjectMyDonate(signer)
-            setTotalProjectMyDonate(totalProjectMyDonate)
+            try {
+                const listProjectMyDonate = await getListProjectMyDonate(signer)
+                setListProjectMyDonate(listProjectMyDonate)
+    
+                const totalProjectMyDonate = await getTotalProjectMyDonate(signer)
+                setTotalProjectMyDonate(totalProjectMyDonate)
+            } catch {}
         }
         init()
 

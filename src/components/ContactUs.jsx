@@ -57,11 +57,16 @@ function ContactUs() {
     useEffect(() => {
         checkConnectMetamask();
         if (!provider) return;
+
         const handleGetProjects = async () => {
-            const allProject = await getAllProject(provider.getSigner())
-            console.log(allProject)
+            try {
+                const allProject = await getAllProject(provider.getSigner())
+            } catch { }
         }
+
         handleGetProjects()
+
+
     }, [provider]);
 
     return (

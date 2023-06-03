@@ -64,11 +64,11 @@ function HomeLayout() {
             <div className="mr-6 text-white font-bold">ABOUT US</div> */}
           </div>
           <div className="flex items-center">
-            <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>Homepage</a>
-            <a className='mx-2 px-2 py-3 text-lg font-bold' href='/projects'>Projects</a>
-            <a className='mx-2 px-2 py-3 text-lg font-bold' href='/profile'>Profile</a>
-            <a className='mx-2 px-2 py-3 text-lg font-bold' href='/contact-us'>Contact Us</a>
-            <a className='mx-2 px-2 py-3 text-lg font-bold' href='/about'>About Us</a>
+            <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>TRANG CHỦ</a>
+            <a className='mx-2 px-2 py-3 text-lg font-bold' href='/projects'> CÁC DỰ ÁN</a>
+            <a className='mx-2 px-2 py-3 text-lg font-bold' href='/profile'>THÔNG TIN CỦA BẠN</a>
+            <a className='mx-2 px-2 py-3 text-lg font-bold' href='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</a>
+            <a className='mx-2 px-2 py-3 text-lg font-bold' href='/about'>VỀ CHÚNG TÔI</a>
             {/* <a href="/donate">
               <button className="px-8 py-3 bg-green-700  text-white font-bold">DONATE</button>
             </a> */}
@@ -83,8 +83,8 @@ function HomeLayout() {
         >
         </div> */}
         <div className="absolute z-20 lg:mx-60 mx-5">
-          <h1 className=" text-white font-bold text-5xl">Protect What Nature Gives You</h1>
-          <p className="mt-2 text-white font-bold text1xl">Help protect the air you breathe, water you drink and places you call home.</p>
+          <h1 className=" text-white font-bold text-5xl">Bảo vệ những gì thiên nhiên ban tặng cho bạn</h1>
+          <p className="mt-2 text-white font-bold text1xl">Hãy giúp bảo vệ không khí bạn hít thở, nước bạn uống và những nơi bạn gọi là nhà.</p>
           {isConnectMetamask && <button onClick={connectMetamask} className="mt-6 px-8 py-3 bg-white text-green-700 font-bold">Connect To MetaMask Wallet</button>}
         </div>
       </div>
@@ -96,31 +96,32 @@ function HomeLayout() {
           <div
             className='py-6 px-4 lg:w-4/5'
           >
-            <h2 className='text-3xl font-bold'>Stepping Up Progress in this Defining Decade</h2>
-            <p className='mt-3'>Alongside communities, we're urgently clearing obstacles and finding solutions to the climate and biodiversity crises.</p>
+            <img className='w-90 h-full' src="./tnc_90495476_Full.jpg" alt="" />
+            {/* <h2 className='text-3xl font-bold'>Stepping Up Progress in this Defining Decade</h2>
+            <p className='mt-3'>Alongside communities, we're urgently clearing obstacles and finding solutions to the climate and biodiversity crises.</p> */}
           </div>
-          <div className='grid lggrid-cols-2 px-4 '>
+          <div className='grid lg:grid-cols-2 px-4 '>
             <div
               className='lg:mx-6 py-6 border-gray-600'
               style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
             >
-              <h3 className='text-2xl text-green-700 font-bold'>Who We Are</h3>
-              <p className='mt-2'>We are dedicated staff, scientists and members advancing effective, lasting conservation in more than 70 countries and territories.</p>
+              <h3 className='text-2xl text-green-700 font-bold'>Chúng tôi là ai</h3>
+              <p className='mt-2'>Chúng tôi là những nhân viên, nhà khoa học và thành viên tận tâm thúc đẩy hoạt động bảo tồn hiệu quả.</p>
             </div>
             <div
               className='lg:mx-6 py-6 border-gray-600'
               style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
             >
-              <h3 className='text-2xl text-green-700 font-bold'>What We Do</h3>
-              <p className='mt-2'>To make the highest possible impact on the climate and biodiversity crises between now and 2030, we're developing breakthrough ideas, amplifying local leaders and influencing policy.</p>
+              <h3 className='text-2xl text-green-700 font-bold'>Chúng tôi làm gì</h3>
+              <p className='mt-2'>Để tạo ra tác động cao nhất có thể đối với khủng hoảng khí hậu và đa dạng sinh học từ nay đến năm 2030, chúng tôi đang phát triển các ý tưởng đột phá, khuếch đại các nhà lãnh đạo địa phương và tác động đến chính sách.</p>
             </div>
             <div className='lg:mx-6 py-6'>
-              <h3 className='text-2xl text-green-700 font-bold'>How To Help</h3>
-              <p className='mt-2'>There are so many ways to make positive change for our planet. Volunteer with us. Learn how to reduce your carbon footprint. Donate to conservation work.</p>
+              <h3 className='text-2xl text-green-700 font-bold'>Làm thế nào để giúp đỡ</h3>
+              <p className='mt-2'>Có rất nhiều cách để tạo ra sự thay đổi tích cực cho hành tinh của chúng ta. Tình nguyện với chúng tôi. Tìm hiểu làm thế nào để giảm lượng khí thải carbon của bạn. Đóng góp cho công việc bảo tồn.</p>
             </div>
             <div className='lg:mx-6 py-6'>
-              <h3 className='text-2xl text-green-700 font-bold'>Where We Work</h3>
-              <p className='mt-2'>Dense rainforests, remote coral reefs and the hearts of major cities. Our strategies are as diverse as the habitats and geographies in which we work.</p>
+              <h3 className='text-2xl text-green-700 font-bold'>Nơi chúng tôi làm việc</h3>
+              <p className='mt-2'>Rừng nhiệt đới dày đặc, rạn san hô xa xôi và trung tâm của các thành phố lớn. Các chiến lược của chúng tôi cũng đa dạng như môi trường sống và khu vực địa lý nơi chúng tôi làm việc.</p>
             </div>
           </div>
         </div>

@@ -1,8 +1,5 @@
-import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
-import { useEffect, useState } from 'react';
-import { connectMetamask, getAllProject } from '../utils';
-import { Box, Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { useEffect } from 'react';
 
 
 function ContactUs() {

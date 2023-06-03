@@ -128,9 +128,9 @@ function HomeLayout() {
         <div className='my-20 lg:flex lg:items-center'>
           <img src="/WOPA160517.jpg" alt="WOPA160517" />
           <div className='lg:ml-20'>
-            <p className='font-bold text-sm py-4'>OUR MISSION</p>
-            <h2 className='text-5xl font-bold'>Conserving the lands and waters on which all life depends</h2>
-            <p className='py-8'>Every acre we protect and every river mile we restore begins with you. Your support helps us take on the dual threats of climate change and biodiversity loss across 70+ countries and territories.</p>
+            <p className='font-bold text-sm py-4'>NHIỆM VỤ CỦA CHÚNG TA</p>
+            <h2 className='text-5xl font-bold'>Bảo tồn các vùng đất và vùng nước mà tất cả sự sống phụ thuộc vào</h2>
+            <p className='py-8'>Mỗi mẫu đất chúng tôi bảo vệ và mỗi dặm sông chúng tôi khôi phục đều bắt đầu với bạn. Sự hỗ trợ của bạn giúp chúng tôi đối phó với các mối đe dọa kép của biến đổi khí hậu và suy giảm đa dạng sinh học trên hơn 70 quốc gia và vùng lãnh thổ.</p>
             <a href="/donate">
               <button className="px-8 py-3 bg-green-700  text-white font-bold">DONATE NOW</button>
             </a>
@@ -143,8 +143,8 @@ function HomeLayout() {
             className='py-6 px-4'
             style={{ width: '80%' }}
           >
-            <h2 className='text-3xl font-bold'>Our Goals for 2030</h2>
-            <p className='mt-3'>We're racing to hit these targets to help the world reverse climate change and biodiversity loss. Together, we find the paths to make change possible.</p>
+            <h2 className='text-3xl font-bold'>Mục tiêu của chúng tôi cho năm 2030</h2>
+            <p className='mt-3'>Chúng tôi đang chạy đua để đạt được những mục tiêu này nhằm giúp thế giới đảo ngược tình trạng biến đổi khí hậu và suy giảm đa dạng sinh học. Cùng nhau, chúng ta tìm ra những con đường để biến sự thay đổi thành có thể.</p>
           </div>
           <div className='grid lg:grid-cols-3 px-4 '>
             <div
@@ -154,7 +154,7 @@ function HomeLayout() {
                 <img className='w-14' src="/Icon_CO2.svg" alt="Icon_CO2" />
                 <h3 className='text-5xl font-bold ml-2'>3B</h3>
               </div>
-              <p className='mt-2'>Avoid or sequester 3 billion metric tons of carbon dioxide emissions annually—the same as taking 650 million cars off the road every year.</p>
+              <p className='mt-2'>Tránh hoặc cô lập 3 tỷ tấn khí thải carbon dioxide hàng năm—tương đương với việc loại bỏ 650 triệu ô tô trên đường mỗi năm.</p>
             </div>
             <div
               className='lg:mx-6 py-6'
@@ -163,7 +163,7 @@ function HomeLayout() {
                 <img className='w-14' src="/Icon_People.svg" alt="Icon_People" />
                 <h3 className='text-5xl font-bold ml-2'>100M</h3>
               </div>
-              <p className='mt-2'>Help 100 million people at severe risk of climate-related emergencies by safeguarding habitats that protect communities.</p>
+              <p className='mt-2'>Giúp 100 triệu người có nguy cơ nghiêm trọng trong các trường hợp khẩn cấp liên quan đến khí hậu bằng cách bảo vệ môi trường sống bảo vệ cộng đồng.</p>
             </div>
             <div
               className='lg:mx-6 py-6'
@@ -172,7 +172,7 @@ function HomeLayout() {
                 <img className='w-14' src="/Icon_Land.svg" alt="Icon_Land" />
                 <h3 className='text-5xl font-bold ml-2'>650M</h3>
               </div>
-              <p className='mt-2'>Conserve 650 million hectares—a land area twice the size of India—of biodiverse habitats such as forests, grasslands and desert.</p>
+              <p className='mt-2'>Bảo tồn 650 triệu ha—diện tích đất rộng gấp đôi Ấn Độ—của các môi trường sống đa dạng sinh học như rừng, đồng cỏ và sa mạc.</p>
             </div>
             <div
               className='lg:mx-6 py-6'
@@ -181,7 +181,7 @@ function HomeLayout() {
                 <img className='w-14' src="/Icon_Ocean.svg" alt="Icon_Ocean" />
                 <h3 className='text-5xl font-bold ml-2'>4B</h3>
               </div>
-              <p className='mt-2'>Conserve 4 billion hectares of marine habitat—more than 10% of the world's oceans—through protected areas, sustainable fishing and more.</p>
+              <p className='mt-2'>Bảo tồn 4 tỷ ha môi trường sống biển—hơn 10% diện tích đại dương trên thế giới—thông qua các khu bảo tồn, đánh bắt bền vững, v.v.</p>
             </div>
             <div
               className='lg:mx-6 py-6'
@@ -190,7 +190,7 @@ function HomeLayout() {
                 <img className='w-14' src="/Icon_River.svg" alt="Icon_River" />
                 <h3 className='text-5xl font-bold ml-2'>30M</h3>
               </div>
-              <p className='mt-2'>Conserve 1 million kilometers of rivers—enough to stretch 25 times around the globe—plus 30 million hectares of lakes and wetlands.</p>
+              <p className='mt-2'>Bảo tồn 1 triệu km sông—đủ để kéo dài 25 lần vòng quanh thế giới—cùng với 30 triệu ha hồ và vùng đất ngập nước.</p>
             </div>
             <div
               className='lg:mx-6 py-6'
@@ -199,7 +199,7 @@ function HomeLayout() {
                 <img className='w-14' src="/Icon_Partnership.svg" alt="Icon_Partnership" />
                 <h3 className='text-5xl font-bold ml-2'>45M</h3>
               </div>
-              <p className='mt-2'>Support the leadership of 45 million people from Indigenous and local communities in stewarding their environment and securing rights.</p>
+              <p className='mt-2'>Hỗ trợ sự lãnh đạo của 45 triệu người từ các cộng đồng bản địa và địa phương trong việc quản lý môi trường của họ và đảm bảo các quyền.</p>
             </div>
           </div>
         </div>

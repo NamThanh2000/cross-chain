@@ -6,14 +6,6 @@ import { Box, Button, FormControl, InputLabel, MenuItem, Select } from '@mui/mat
 
 
 function ContactUs() {
-    const [provider, setProvider] = useState(null);
-    const [isConnectMetamask, setIsConnectMetamask] = useState(false);
-    const [projects, setProjects] = useState(null);
-    const [age, setAge] = useState('');
-
-    const handleChange = (event) => {
-        setAge(event.target.value);
-    };
 
     useEffect(() => {
         const init = async () => {
@@ -22,8 +14,6 @@ function ContactUs() {
                 console.error("Không tìm thấy MetaMask");
                 return;
             }
-
-            setProvider(new Web3Provider(ethereumProvider));
 
             ethereumProvider.on("chainChanged", () => {
                 window.location.reload();
@@ -36,38 +26,6 @@ function ContactUs() {
 
         init();
     }, []);
-
-    async function checkConnectMetamask() {
-        if (typeof window.ethereum === 'undefined') {
-            setIsConnectMetamask(true);
-            return;
-        }
-        try {
-            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-            if (!accounts || accounts.length === 0) {
-                setIsConnectMetamask(true);
-                return;
-            }
-        } catch (error) {
-            setIsConnectMetamask(true);
-            return;
-        }
-    }
-
-    useEffect(() => {
-        checkConnectMetamask();
-        if (!provider) return;
-
-        const handleGetProjects = async () => {
-            try {
-                const allProject = await getAllProject(provider.getSigner())
-            } catch { }
-        }
-
-        handleGetProjects()
-
-
-    }, [provider]);
 
     return (
         <>

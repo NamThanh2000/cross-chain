@@ -1,7 +1,7 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
 import { useEffect, useState } from 'react';
-import { connectMetamask, convertBigNumber, getAllHistoryProject, getOrganizationsProject, getProjectDetail, parseUnixTimeStamp } from '../utils';
+import { connectMetamask, convertBigNumber, getAllHistoryProject, getOrganizationsProject, getProjectDetail, parseUnixTimeStamp, getListWithdrawProject } from '../utils';
 import { Box, Button, CircularProgress, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import { TabContext } from '@material-ui/lab';
 import { Tab, Tabs } from '@material-ui/core';
@@ -19,6 +19,7 @@ function ProjectDetail() {
     const [currentAddress, setCurrentAddress] = useState(0);
     const [project, setProject] = useState(null);
     const { param } = useParams();
+    const [listWithdraw, setListWithdraw] = useState([]);
     const handleChange = (event, newValue) => {
         localStorage.setItem("tab", newValue);
         setValue(newValue);
@@ -55,7 +56,8 @@ function ProjectDetail() {
             const project = await getProjectDetail(signer, param)
             setProject(project)
             await getAddress()
-
+            const listWithdraw = await getListWithdrawProject(provider.getSigner(), param)
+            setListWithdraw(listWithdraw)
             // const listOrganization = await getOrganizationsProject(signer)
         }
         init()
@@ -70,7 +72,9 @@ function ProjectDetail() {
             <div className="fixed z-30 w-full bg-white shadow-xl">
                 <div className="px-8 p-2 flex justify-between ">
                     <div className="flex items-end">
-                        <img className="w-26 h-12 mr-10 text-gray-700" src="/350232362_194904190170121_8724430467209331448_n.png" alt="logo" />
+                        <a href="/">
+                            <img className="w-26 h-12 mr-10 text-gray-700" src="/350232362_194904190170121_8724430467209331448_n.png" alt="logo" />
+                        </a>
                     </div>
                     <div className="flex items-center">
                         <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>TRANG CHỦ</a>
@@ -126,17 +130,43 @@ function ProjectDetail() {
                                             aria-label="basic tabs example"
                                             textColor="primary"
                                         >
-                                            <Tab label="Ethereum Platform" value={0} />
-                                            <Tab label="Binance smart chain Platform" value={1} />
-                                            <Tab label="Your Donate" value={2} />
+                                            <Tab label="Nền tảng Ethereum" value={0} />
+                                            <Tab label="Nền tảng Binance smart chain" value={1} />
+                                            <Tab label="Ủng hộ của bạn" value={2} />
                                             {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' &&
-                                                <Tab label="Withdraw" value={3} />
+                                                <Tab label="Rút tiền" value={3} />
                                             }
                                         </Tabs>
                                     </Box>
                                 </Box>
                                 <FormDonate projectId={param} checkTab={Number(value)} />
                             </TabContext >
+                        </div>
+                        <div className='mt-10 border-t-4 border-green-700'>
+                            <h2 className='text-2xl font-bold'>Lịch sử rút token</h2>
+                            {listWithdraw.length > 0 ? <div>
+                                <div className='pt-4 pb-1 flex justify-center border-gray-300'
+                                    style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
+                                >
+                                    <p className='w-64 font-bold text-lg'>Amount</p>
+                                    <p className='w-80 font-bold text-lg'>Timestamp</p>
+                                </div>
+                                {listWithdraw.map((item, index) => {
+                                    return <div
+                                        key={index}
+                                        className='p-3 flex justify-center border-gray-300'
+                                        style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
+                                    >
+                                        <p className='w-64 font-medium text-green-700 text-lg'>{convertBigNumber(item.amount).toFixed(4)} USD</p>
+                                        <p className='w-80 font-medium text-green-700 text-lg'>{parseUnixTimeStamp(item.timestamp)}</p>
+                                    </div>
+                                })}
+                            </div> :
+                                <div className='mt-6 text-center'>
+                                    Chưa có lịch sử rút nào
+                                </div>
+                            }
+
                         </div>
                         <div className="mt-10 border-t-4 border-green-700 mb-6">
                             <div>
@@ -179,7 +209,39 @@ function ProjectDetail() {
                     </div>
                 </div>
             </div>
-
+            <div className='py-8 px-44 h-82 bg-black'>
+                <div>
+                    <div className='flex justify-around'>
+                        <div className=''>
+                            <div className='w-64'>
+                                <a href="/">
+                                    <img className="w-26 h-12 mr-10 text-gray-700" src="/350232362_194904190170121_8724430467209331448_n.png" alt="logo" />
+                                </a>
+                            </div>
+                            <div className='mt-4 text-white text-xs w-96'>
+                                Chào mừng bạn đến với tổ chức quyên góp quỹ thiện nguyện! Chúng tôi cam kết xây dựng một thế giới tốt đẹp hơn thông qua những hành động thiện nguyện. Với sứ mệnh hỗ trợ cộng đồng và giúp đỡ những người gặp khó khăn, chúng tôi tập trung vào việc gây quỹ và chia sẻ tài nguyên để tạo ra những tác động tích cực. Hãy cùng nhau chung tay để thay đổi cuộc sống và lan tỏa tình yêu thương đến tất cả mọi người.
+                            </div>
+                            <div className='mt-8 text-white text-xs'>
+                                © 2023-Quyên góp vì môi trường
+                            </div>
+                        </div>
+                        <div>
+                            <h3 className='text-white'>Kết Nối</h3>
+                            <div className='mt-4'>
+                                <div className='text-white text-xs'>Giới thiệu</div>
+                                <div className='text-white text-xs'>Liên hệ với chúng tôi</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 className=' text-white'>Ủng Hộ</h3>
+                            <div className='mt-4'>
+                                <div className='text-white text-xs'>Dự án</div>
+                                <div className='text-white text-xs'>Ủng hộ</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div >
         </>
     );
 }

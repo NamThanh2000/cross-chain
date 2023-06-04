@@ -29,7 +29,9 @@ function ContactUs() {
             <div className="fixed z-30 w-full bg-white shadow-xl">
                 <div className="px-8 p-2 flex justify-between ">
                     <div className="flex items-end">
-                        <img className="w-26 h-12 mr-10 text-gray-700" src="/350232362_194904190170121_8724430467209331448_n.png" alt="logo" />
+                        <a href="/">
+                            <img className="w-26 h-12 mr-10 text-gray-700" src="/350232362_194904190170121_8724430467209331448_n.png" alt="logo" />
+                        </a>
                     </div>
                     <div className="flex items-center">
                         <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>TRANG CHỦ</a>
@@ -53,25 +55,58 @@ function ContactUs() {
                 </div>
                 <div className="flex justify-center px-4 mt-20">
                     <div className="w-64 h-50 bg-gray-200 px-4 py-8 mx-8 rounded">
-                        <h3 className="text-xl font-semibold text-center" style={{color: "#1a1a1a"}}>Địa Chỉ</h3>
-                        <p className="mt-8 text-md" style={{color: "#1a1a1a", fontFamily: "sans-serif"}}>Đường Hàn Thuyên, khu phố 6 P, Thủ Đức, Thành phố Hồ Chí Minh</p>
+                        <h3 className="text-xl font-semibold text-center" style={{ color: "#1a1a1a" }}>Địa Chỉ</h3>
+                        <p className="mt-8 text-md" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}>Đường Hàn Thuyên, khu phố 6 P, Thủ Đức, Thành phố Hồ Chí Minh</p>
                     </div>
                     <div className="w-64 h-50 bg-gray-200 px-4 py-8 mx-8 rounded">
-                        <h3 className="text-xl font-semibold text-center" style={{color: "#1a1a1a"}}>Số Điện Thoại Liên Hệ</h3>
-                        <p className="mt-8 text-md text-center" style={{color: "#1a1a1a", fontFamily: "sans-serif"}}>+84 382893332</p>
-                        <p className="mt-4 text-md text-center" style={{color: "#1a1a1a", fontFamily: "sans-serif"}}>+84 815102000</p>
+                        <h3 className="text-xl font-semibold text-center" style={{ color: "#1a1a1a" }}>Số Điện Thoại Liên Hệ</h3>
+                        <p className="mt-8 text-md text-center" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}>+84 382893332</p>
+                        <p className="mt-4 text-md text-center" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}>+84 815102000</p>
                     </div>
                     <div className="w-64 h-50 bg-gray-200 px-4 py-8 mx-8 rounded">
-                        <h3 className="text-xl font-semibold text-center" style={{color: "#1a1a1a"}}>Địa Chỉ Email</h3>
-                        <p className="mt-8 text-md text-center" style={{color: "#1a1a1a", fontFamily: "sans-serif"}}>18520729@gm.uit.edu.vn</p>
-                        <p className="mt-4 text-md text-center" style={{color: "#1a1a1a", fontFamily: "sans-serif"}}>18521124@gm.uit.edu.vn</p>
+                        <h3 className="text-xl font-semibold text-center" style={{ color: "#1a1a1a" }}>Địa Chỉ Email</h3>
+                        <p className="mt-8 text-md text-center" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}>18520729@gm.uit.edu.vn</p>
+                        <p className="mt-4 text-md text-center" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}>18521124@gm.uit.edu.vn</p>
                     </div>
                     <div className="w-64 h-50 bg-gray-200 px-4 py-8 mx-8 rounded">
-                        <h3 className="text-xl font-semibold text-center" style={{color: "#1a1a1a"}}>Trang web</h3>
-                        <p className="mt-8 text-md text-center" style={{color: "#1a1a1a", fontFamily: "sans-serif"}}><a href="oceanover.tech">oceanover.tech</a></p>
+                        <h3 className="text-xl font-semibold text-center" style={{ color: "#1a1a1a" }}>Trang web</h3>
+                        <p className="mt-8 text-md text-center" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}><a href="oceanover.tech">oceanover.tech</a></p>
                     </div>
                 </div>
             </div>
+            <div className='py-8 px-44 h-82 bg-black'>
+                <div>
+                    <div className='flex justify-around'>
+                        <div className=''>
+                            <div className='w-64'>
+                                <a href="/">
+                                    <img className="w-26 h-12 mr-10 text-gray-700" src="/350232362_194904190170121_8724430467209331448_n.png" alt="logo" />
+                                </a>
+                            </div>
+                            <div className='mt-4 text-white text-xs w-96'>
+                                Chào mừng bạn đến với tổ chức quyên góp quỹ thiện nguyện! Chúng tôi cam kết xây dựng một thế giới tốt đẹp hơn thông qua những hành động thiện nguyện. Với sứ mệnh hỗ trợ cộng đồng và giúp đỡ những người gặp khó khăn, chúng tôi tập trung vào việc gây quỹ và chia sẻ tài nguyên để tạo ra những tác động tích cực. Hãy cùng nhau chung tay để thay đổi cuộc sống và lan tỏa tình yêu thương đến tất cả mọi người.
+                            </div>
+                            <div className='mt-8 text-white text-xs'>
+                                © 2023-Quyên góp vì môi trường
+                            </div>
+                        </div>
+                        <div>
+                            <h3 className='text-white'>Kết Nối</h3>
+                            <div className='mt-4'>
+                                <div className='text-white text-xs'>Giới thiệu</div>
+                                <div className='text-white text-xs'>Liên hệ với chúng tôi</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 className=' text-white'>Ủng Hộ</h3>
+                            <div className='mt-4'>
+                                <div className='text-white text-xs'>Dự án</div>
+                                <div className='text-white text-xs'>Ủng hộ</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div >
 
         </>
     );

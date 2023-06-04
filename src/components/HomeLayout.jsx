@@ -57,7 +57,9 @@ function HomeLayout() {
       <div className="fixed z-30 w-full bg-white shadow-xl">
         <div className="px-8 p-2 flex justify-between ">
           <div className="flex items-end">
-            <img className="w-26 h-12 mr-10 text-gray-700" src="/350232362_194904190170121_8724430467209331448_n.png" alt="logo" />
+            <a href="/">
+              <img className="w-26 h-12 mr-10 text-gray-700" src="/350232362_194904190170121_8724430467209331448_n.png" alt="logo" />
+            </a>
             {/* <div className="mr-6 text-white font-bold">WHAT WE DO</div>
             <div className="mr-6 text-white font-bold">GET INVOLVED</div>
             <div className="mr-6 text-white font-bold">MEMBERSGIP & GIVING</div>
@@ -131,7 +133,7 @@ function HomeLayout() {
             <p className='font-bold text-sm py-4'>NHIỆM VỤ CỦA CHÚNG TA</p>
             <h2 className='text-5xl font-bold'>Bảo tồn các vùng đất và vùng nước mà tất cả sự sống phụ thuộc vào</h2>
             <p className='py-8'>Mỗi mẫu đất chúng tôi bảo vệ và mỗi dặm sông chúng tôi khôi phục đều bắt đầu với bạn. Sự hỗ trợ của bạn giúp chúng tôi đối phó với các mối đe dọa kép của biến đổi khí hậu và suy giảm đa dạng sinh học trên hơn 70 quốc gia và vùng lãnh thổ.</p>
-            <a href="/donate">
+            <a href="/project-detail/0">
               <button className="px-8 py-3 bg-green-700  text-white font-bold">DONATE NOW</button>
             </a>
           </div>
@@ -204,6 +206,39 @@ function HomeLayout() {
           </div>
         </div>
       </div>
+      <div className='py-8 px-44 h-82 bg-black'>
+        <div>
+          <div className='flex justify-around'>
+            <div className=''>
+              <div className='w-64'>
+                <a href="/">
+                  <img className="w-26 h-12 mr-10 text-gray-700" src="/350232362_194904190170121_8724430467209331448_n.png" alt="logo" />
+                </a>
+              </div>
+              <div className='mt-4 text-white text-xs w-96'>
+                Chào mừng bạn đến với tổ chức quyên góp quỹ thiện nguyện! Chúng tôi cam kết xây dựng một thế giới tốt đẹp hơn thông qua những hành động thiện nguyện. Với sứ mệnh hỗ trợ cộng đồng và giúp đỡ những người gặp khó khăn, chúng tôi tập trung vào việc gây quỹ và chia sẻ tài nguyên để tạo ra những tác động tích cực. Hãy cùng nhau chung tay để thay đổi cuộc sống và lan tỏa tình yêu thương đến tất cả mọi người.
+              </div>
+              <div className='mt-8 text-white text-xs'>
+                © 2023-Quyên góp vì môi trường
+              </div>
+            </div>
+            <div>
+              <h3 className='text-white'>Kết Nối</h3>
+              <div className='mt-4'>
+                <div className='text-white text-xs'>Giới thiệu</div>
+                <div className='text-white text-xs'>Liên hệ với chúng tôi</div>
+              </div>
+            </div>
+            <div>
+              <h3 className=' text-white'>Ủng Hộ</h3>
+              <div className='mt-4'>
+                <div className='text-white text-xs'>Dự án</div>
+                <div className='text-white text-xs'>Ủng hộ</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div >
     </>
 
   );

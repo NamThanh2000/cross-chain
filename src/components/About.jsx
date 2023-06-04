@@ -93,7 +93,7 @@ const About = () => {
                     </div>
                 </div>
                 <div className="organization flex my-8 px-52 pb-10 border-gray-600" style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}>
-                    <img className='w-1/3 h-full' src="https://nosewash.rohto.com.vn/wp-content/uploads/2022/03/o-nhiem-khong-khi-nguyen-nhan-va-mot-so-bien-phap-khac-phuc.jpg" alt="" />
+                    <img className='w-1/3 h-full' src="./o-nhiem-khong-khi-nguyen-nhan-va-mot-so-bien-phap-khac-phuc.jpg" alt="" />
                     <div className='ml-4'>
                         <h2 className="organization-heading">Tổ chức của chúng tôi</h2>
                         <p className="organization-description">Chào mừng bạn đến với tổ chức của chúng tôi! Chúng tôi cam kết tạo ra tác động tích cực đối với môi trường và thúc đẩy bền vững.</p>

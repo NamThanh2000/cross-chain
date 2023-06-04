@@ -43,47 +43,32 @@ function ContactUs() {
                     </div>
                 </div>
             </div>
-            <div className='relative sm:container mx-auto px-10 pt-32'>
-                <div className='my-20 lg:flex lg:items-center'>
-                    <div className='w-1/2'>
-                        <img className='mb-2 w-full' src="https://static.kinhtedothi.vn/w960/images/upload/2022/10/12/quang-nam-2.jpg" alt="quang-nam-2" />
-                        <img className='w-full' src="http://tapchibaohiemxahoi.gov.vn/media/articles/images/tranght/032022/c3c42b63-ce15-42cb-8f2c-91c40902118d.png" alt="" />
-                    </div>
-                    <div className='lg:ml-20'>
-                        {/* <p className='font-bold text-sm py-4'>OUR MISSION</p> */}
-                        <h2 className='text-5xl font-bold'>Hãy chung tay góp sức vì cộng đồng</h2>
-                        <p className='py-4'>
-                            Hãy đồng hành cùng chúng tôi vì một tương lai tốt đẹp hơn
-                        </p>
-                        <p>
-                            Những lời kêu gọi của bạn sẽ giúp ít rất nhiều cho cộng đồng và xã hội của đất nước ta càng ngày càng lớn mạnh.
-                        </p>
+            <div className='relative pt-22 mb-20'>
+                <div style={{ backgroundImage: `url(${'/tnc_59935937.jpg'})`, backgroundSize: 'cover', backgroundPosition: 'center', width: '100%', height: '650px' }}
+                    className="relative w-full h-650 flex items-center">
+                    <div className="absolute z-20 w-full flex flex-col items-center">
+                        <h1 className=" text-white font-bold text-5xl">Liên Hệ Với Chúng Tôi</h1>
+                        {/* <p className="mt-2 text-white font-bold text1xl">Help protect the air you breathe, water you drink and places you call home.</p> */}
                     </div>
                 </div>
-                <div>
-                    <h2>Your easy, powerful, and trusted home for help.</h2>
-                    <div>
-                        <div>
-                            <img src="" alt="" />
-                            <div>
-                                <h3>Easy</h3>
-                                <p>Start fundraising in just a few steps</p>
-                            </div>
-                        </div>
-                        <div>
-                            <img src="" alt="" />
-                            <div>
-                                <h3>Powerful</h3>
-                                <p>Connect with your community and amplify your cause</p>
-                            </div>
-                        </div>
-                        <div>
-                            <img src="" alt="" />
-                            <div>
-                                <h3>Trusted</h3>
-                                <p>Chosen by over 100 million donors worldwide</p>
-                            </div>
-                        </div>
+                <div className="flex justify-center px-4 mt-20">
+                    <div className="w-64 h-50 bg-gray-200 px-4 py-8 mx-8 rounded">
+                        <h3 className="text-xl font-semibold text-center" style={{color: "#1a1a1a"}}>Địa Chỉ</h3>
+                        <p className="mt-8 text-md" style={{color: "#1a1a1a", fontFamily: "sans-serif"}}>Đường Hàn Thuyên, khu phố 6 P, Thủ Đức, Thành phố Hồ Chí Minh</p>
+                    </div>
+                    <div className="w-64 h-50 bg-gray-200 px-4 py-8 mx-8 rounded">
+                        <h3 className="text-xl font-semibold text-center" style={{color: "#1a1a1a"}}>Số Điện Thoại Liên Hệ</h3>
+                        <p className="mt-8 text-md text-center" style={{color: "#1a1a1a", fontFamily: "sans-serif"}}>+84 382893332</p>
+                        <p className="mt-4 text-md text-center" style={{color: "#1a1a1a", fontFamily: "sans-serif"}}>+84 815102000</p>
+                    </div>
+                    <div className="w-64 h-50 bg-gray-200 px-4 py-8 mx-8 rounded">
+                        <h3 className="text-xl font-semibold text-center" style={{color: "#1a1a1a"}}>Địa Chỉ Email</h3>
+                        <p className="mt-8 text-md text-center" style={{color: "#1a1a1a", fontFamily: "sans-serif"}}>18520729@gm.uit.edu.vn</p>
+                        <p className="mt-4 text-md text-center" style={{color: "#1a1a1a", fontFamily: "sans-serif"}}>18521124@gm.uit.edu.vn</p>
+                    </div>
+                    <div className="w-64 h-50 bg-gray-200 px-4 py-8 mx-8 rounded">
+                        <h3 className="text-xl font-semibold text-center" style={{color: "#1a1a1a"}}>Trang web</h3>
+                        <p className="mt-8 text-md text-center" style={{color: "#1a1a1a", fontFamily: "sans-serif"}}>https://oceanover.tech/</p>
                     </div>
                 </div>
             </div>

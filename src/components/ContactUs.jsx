@@ -60,6 +60,32 @@ function ContactUs() {
                         </p>
                     </div>
                 </div>
+                <div>
+                    <h2>Your easy, powerful, and trusted home for help.</h2>
+                    <div>
+                        <div>
+                            <img src="" alt="" />
+                            <div>
+                                <h3>Easy</h3>
+                                <p>Start fundraising in just a few steps</p>
+                            </div>
+                        </div>
+                        <div>
+                            <img src="" alt="" />
+                            <div>
+                                <h3>Powerful</h3>
+                                <p>Connect with your community and amplify your cause</p>
+                            </div>
+                        </div>
+                        <div>
+                            <img src="" alt="" />
+                            <div>
+                                <h3>Trusted</h3>
+                                <p>Chosen by over 100 million donors worldwide</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </>

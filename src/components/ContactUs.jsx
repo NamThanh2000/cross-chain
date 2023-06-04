@@ -68,7 +68,7 @@ function ContactUs() {
                     </div>
                     <div className="w-64 h-50 bg-gray-200 px-4 py-8 mx-8 rounded">
                         <h3 className="text-xl font-semibold text-center" style={{color: "#1a1a1a"}}>Trang web</h3>
-                        <p className="mt-8 text-md text-center" style={{color: "#1a1a1a", fontFamily: "sans-serif"}}>https://oceanover.tech/</p>
+                        <p className="mt-8 text-md text-center" style={{color: "#1a1a1a", fontFamily: "sans-serif"}}><a href="oceanover.tech">oceanover.tech</a></p>
                     </div>
                 </div>
             </div>

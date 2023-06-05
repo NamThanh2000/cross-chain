@@ -15,6 +15,7 @@ contract DonationContract {
     mapping(uint => mapping(address => Donation[])) private donationHistory;
     mapping(uint => address[]) private addressDonationHistory;
     mapping(uint => mapping(address => uint)) private projectDonations;
+    mapping(uint => mapping(uint => string[])) private withdrawalImages;
     mapping(uint => mapping(address => bool)) private isAllowedOrganizationWallet;
     mapping(uint => address[]) private addressOrganization;
     mapping(address => Organization) private organizations;
@@ -33,6 +34,7 @@ contract DonationContract {
     }
 
     struct Withdrawal {
+        uint withdrawalId;
         uint amount;
         uint timestamp;
         string content;
@@ -67,7 +69,7 @@ contract DonationContract {
 
     // Thêm project
     // Chỉ owner(người tạo ra website) mới có thể thêm project
-    function addProject(string memory _title, string memory _objective, uint _deadline, uint _amount, string memory _imageUrl) external {
+    function addProject(string memory _title, string memory _objective, uint _deadline, uint _amount, string memory _imageUrl) external returns (uint) {
         require(msg.sender == owner, "Only the contract owner can add a project.");
         require(_deadline > block.timestamp, "Deadline must be greater than the current timestamp.");
         projects.push(Project({
@@ -80,6 +82,7 @@ contract DonationContract {
             totalDonations: 0,
             imageUrl: _imageUrl
         }));
+        return projects.length;
     }
 
     // Thêm địa chỉ ví(wallet address) của tổ chức vào project
@@ -87,7 +90,6 @@ contract DonationContract {
     // Chỉ owner mới có thể thêm tổ chức vào project để quản lý project đó hỗ trợ cho owner
     function addOrganizationWallet(uint _projectId, address _organizationWallet) external {
         require(msg.sender == owner, "Only the contract owner can add an organization wallet.");
-        require(_projectId < projects.length, "Invalid project ID.");
         require(!isAllowedOrganizationWallet[_projectId][_organizationWallet], "This wallet is already an allowed organization.");
         isAllowedOrganizationWallet[_projectId][_organizationWallet] = true;
         bool alreadyAdded = false;
@@ -103,13 +105,14 @@ contract DonationContract {
         }
     }
 
-    // Xóa địa chỉ ví(wallet address) của tổ chức vào project
-    // Chỉ owner mới có thể xóa tổ chức vào project
-    function removeOrganizationWallet(uint _projectId, address _organizationWallet) external {
-        require(msg.sender == owner || (isAllowedOrganizationWallet[_projectId][msg.sender] && _organizationWallet == msg.sender), "Only the contract owner can remove an organization wallet.");
-        require(_projectId < projects.length, "Invalid project ID.");
-        require(isAllowedOrganizationWallet[_projectId][_organizationWallet], "This wallet is not an allowed organization.");
-        isAllowedOrganizationWallet[_projectId][_organizationWallet] = false;
+    function addWithdrawImage(uint _projectId, uint _withdrawalId, string memory _imageUrl) external {
+        require(msg.sender == owner || isAllowedOrganizationWallet[_projectId][msg.sender], "Only the contract owner or the allowed organization can add an image.");
+        withdrawalImages[_projectId][_withdrawalId].push(_imageUrl);
+    }
+
+    function getWithdrawImage(uint _projectId, uint _withdrawalId) external view returns (string[] memory) {
+        require(msg.sender == owner || projectDonations[_projectId][msg.sender] > 0 || isAllowedOrganizationWallet[_projectId][msg.sender] , "Only the contract owner or donors or the allowed organization can see withdrawal history.");
+        return withdrawalImages[_projectId][_withdrawalId];
     }
 
     // Thêm thông tin tổ chức theo địa chỉ ví
@@ -156,7 +159,6 @@ contract DonationContract {
     // Donate bằng BNB token
     function donateBNB(uint _projectId, string memory _content) external payable {
         require(msg.value > 0, "Please send a non-zero donation amount.");
-        require(_projectId < projects.length, "Invalid project ID.");
         require(block.timestamp < projects[_projectId].deadline, "This project's donation period has expired.");
         address[] memory path = new address[](2);
         path[0] = pancakeRouter.WETH();
@@ -175,7 +177,6 @@ contract DonationContract {
     // Donate bằng WETH token
     function donateWETH(uint _projectId, string memory _content, uint256 _wethAmount) external {
         require(_wethAmount > 0, "Please send a non-zero donation amount.");
-        require(_projectId < projects.length, "Invalid project ID.");
         require(block.timestamp < projects[_projectId].deadline, "This project's donation period has expired.");
         address[] memory path = new address[](2);
         path[0] = address(wethToken);
@@ -197,11 +198,11 @@ contract DonationContract {
     // Chỉ owner và những tổ chức thuộc project mới có thể withdraw
     function withdraw(uint _projectId, uint _amount, string memory _content) external {
         require(msg.sender == owner || isAllowedOrganizationWallet[_projectId][msg.sender], "Only the contract owner or the allowed organization can withdraw funds to another organization.");
-        require(_projectId < projects.length, "Invalid project ID.");
         require(_amount > 0, "Please enter a non-zero withdrawal amount.");
         require(_amount < (projects[_projectId].totalDonations - projects[_projectId].totalWithdrawn), "Insufficient funds for project withdrawal.");
         usdtToken.transfer(msg.sender, _amount);
         Withdrawal memory newWithdrawal = Withdrawal({
+            withdrawalId: withdrawalHistory[_projectId].length,
             amount: _amount,
             timestamp: block.timestamp,
             content: _content,
@@ -213,7 +214,6 @@ contract DonationContract {
 
     // Lấy danh sách tổ chức theo project ID
     function getOrganizationsForProject(uint _projectId) external view returns (Organization[] memory) {
-        require(_projectId < projects.length, "Invalid project ID.");
         address[] memory orgAddresses = addressOrganization[_projectId];
         Organization[] memory orgs = new Organization[](orgAddresses.length);
         for (uint i = 0; i < orgAddresses.length; i++) {
@@ -225,7 +225,6 @@ contract DonationContract {
     // Lấy danh sách lịch sử donate của bản thân theo project ID
     // Your Donate
     function getDonationHistory(uint _projectId) external view returns (Donation[] memory) {
-        require(_projectId < projects.length, "Invalid project ID.");
         return donationHistory[_projectId][msg.sender];
     }
 
@@ -233,14 +232,12 @@ contract DonationContract {
     // Chỉ owner và tổ chức thuộc project và người đã từng donate mới có thể xem lịch sử donate
     function getWithdrawalHistory(uint _projectId) external view returns (Withdrawal[] memory) {
         require(msg.sender == owner || projectDonations[_projectId][msg.sender] > 0 || isAllowedOrganizationWallet[_projectId][msg.sender] , "Only the contract owner or donors or the allowed organization can see withdrawal history.");
-        require(_projectId < projects.length, "Invalid project ID.");
         return withdrawalHistory[_projectId];
     }
 
     // Lấy danh sách lịch sử của tất cả người donate theo project ID
     function getEntireDonationHistory(uint _projectId) external view returns (Donation[] memory) {
         require(msg.sender == owner || isAllowedOrganizationWallet[_projectId][msg.sender], "Only the contract owner or the allowed organization can see the entire donation history.");
-        require(_projectId < projects.length, "Invalid project ID.");
         address[] memory addressEntireDonationHistory = addressDonationHistory[_projectId];
         uint totalDonationsCount = 0;
         for (uint i = 0; i < addressEntireDonationHistory.length; i++) {
@@ -271,13 +268,11 @@ contract DonationContract {
 
     // Lấy thông tin chi tiết project theo project ID
     function getProject(uint _projectId) external view returns (Project memory) {
-        require(_projectId < projects.length, "Invalid project ID.");
         return projects[_projectId];
     }
 
     // Lấy tổng số token đã donate cho mỗi project theo project ID
     function getMyDonationForProject(uint _projectId) external view returns (uint) {
-        require(_projectId < projects.length, "Invalid project ID.");
         return projectDonations[_projectId][msg.sender];
     }
 

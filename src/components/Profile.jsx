@@ -26,11 +26,13 @@ const Profile = () => {
         const init = async () => {
             if (!provider) return;
             const signer = provider.getSigner()
-            const listProjectMyDonate = await getListProjectMyDonate(signer)
-            setListProjectMyDonate(listProjectMyDonate)
+            try {
+                const listProjectMyDonate = await getListProjectMyDonate(signer)
+                setListProjectMyDonate(listProjectMyDonate)
 
-            const totalProjectMyDonate = await getTotalProjectMyDonate(signer)
-            setTotalProjectMyDonate(totalProjectMyDonate)
+                const totalProjectMyDonate = await getTotalProjectMyDonate(signer)
+                setTotalProjectMyDonate(totalProjectMyDonate)
+            } catch { }
         }
         init()
 
@@ -40,14 +42,19 @@ const Profile = () => {
             <div className="fixed z-30 w-full bg-white shadow-xl">
                 <div className="px-8 p-2 flex justify-between ">
                     <div className="flex items-end">
-                        <img className="w-26 h-12 mr-10 text-gray-700" src="/350232362_194904190170121_8724430467209331448_n.png" alt="logo" />
+                        <a href="/">
+                            <img className="w-26 h-12 mr-10 text-gray-700" src="/350232362_194904190170121_8724430467209331448_n.png" alt="logo" />
+                        </a>
                     </div>
                     <div className="flex items-center">
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>Homepage</a>
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/projects'>Projects</a>
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/profile'>Profile</a>
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/contact-us'>Contact Us</a>
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/about'>About Us</a>
+                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>TRANG CHỦ</a>
+                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/projects'> CÁC DỰ ÁN</a>
+                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/profile'>THÔNG TIN CỦA BẠN</a>
+                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</a>
+                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/about'>VỀ CHÚNG TÔI</a>
+                        {/* <a href="/donate">
+              <button className="px-8 py-3 bg-green-700  text-white font-bold">DONATE</button>
+            </a> */}
                     </div>
                 </div>
             </div>
@@ -93,6 +100,39 @@ const Profile = () => {
                     })}
                 </div>
             </div>
+            <div className='py-8 px-44 h-82 bg-black'>
+                <div>
+                    <div className='flex justify-around'>
+                        <div className=''>
+                            <div className='w-64'>
+                                <a href="/">
+                                    <img className="w-26 h-12 mr-10 text-gray-700" src="/350232362_194904190170121_8724430467209331448_n.png" alt="logo" />
+                                </a>
+                            </div>
+                            <div className='mt-4 text-white text-xs w-96'>
+                                Chào mừng bạn đến với tổ chức quyên góp quỹ thiện nguyện! Chúng tôi cam kết xây dựng một thế giới tốt đẹp hơn thông qua những hành động thiện nguyện. Với sứ mệnh hỗ trợ cộng đồng và giúp đỡ những người gặp khó khăn, chúng tôi tập trung vào việc gây quỹ và chia sẻ tài nguyên để tạo ra những tác động tích cực. Hãy cùng nhau chung tay để thay đổi cuộc sống và lan tỏa tình yêu thương đến tất cả mọi người.
+                            </div>
+                            <div className='mt-8 text-white text-xs'>
+                                © 2023-Quyên góp vì môi trường
+                            </div>
+                        </div>
+                        <div>
+                            <h3 className='text-white'>Kết Nối</h3>
+                            <div className='mt-4'>
+                                <div className='text-white text-xs'>Giới thiệu</div>
+                                <div className='text-white text-xs'>Liên hệ với chúng tôi</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 className=' text-white'>Ủng Hộ</h3>
+                            <div className='mt-4'>
+                                <div className='text-white text-xs'>Dự án</div>
+                                <div className='text-white text-xs'>Ủng hộ</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div >
         </div>
     );
 };

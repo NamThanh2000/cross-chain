@@ -74,14 +74,14 @@ function FormDonate({ projectId }) {
     return (
         <div>
             <div className='font-bold pt-4 text-lg'>
-                YOUR TOTAL DONATE: <span className='text-green-700 text-xl'>{convertBigNumber(totalDonate).toFixed(4)} USD</span>
+                TỔNG SỐ TIỀN BẠN ĐÃ ỦNG HỘ: <span className='text-green-700 text-xl'>{convertBigNumber(totalDonate).toFixed(4)} USD</span>
             </div>
             <div>
                 <div className='pt-4 pb-1 flex justify-center border-gray-300'
                     style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                 >
-                    <p className='w-64 font-bold text-lg'>Amount</p>
-                    <p className='w-80 font-bold text-lg'>Timestamp</p>
+                    <p className='w-64 font-bold text-lg'>Số tiền</p>
+                    <p className='w-80 font-bold text-lg'>Thời điểm</p>
                 </div>
                 {listMyDonate && listMyDonate.map((item, index) => {
                     return <div

@@ -1,19 +1,8 @@
-import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
-import { useEffect, useState } from 'react';
-import { connectMetamask, getAllProject } from '../utils';
-import { Box, Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { useEffect } from 'react';
 
 
 function ContactUs() {
-    const [provider, setProvider] = useState(null);
-    const [isConnectMetamask, setIsConnectMetamask] = useState(false);
-    const [projects, setProjects] = useState(null);
-    const [age, setAge] = useState('');
-
-    const handleChange = (event) => {
-        setAge(event.target.value);
-    };
 
     useEffect(() => {
         const init = async () => {
@@ -22,8 +11,6 @@ function ContactUs() {
                 console.error("Không tìm thấy MetaMask");
                 return;
             }
-
-            setProvider(new Web3Provider(ethereumProvider));
 
             ethereumProvider.on("chainChanged", () => {
                 window.location.reload();
@@ -37,70 +24,89 @@ function ContactUs() {
         init();
     }, []);
 
-    async function checkConnectMetamask() {
-        if (typeof window.ethereum === 'undefined') {
-            setIsConnectMetamask(true);
-            return;
-        }
-        try {
-            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-            if (!accounts || accounts.length === 0) {
-                setIsConnectMetamask(true);
-                return;
-            }
-        } catch (error) {
-            setIsConnectMetamask(true);
-            return;
-        }
-    }
-
-    useEffect(() => {
-        checkConnectMetamask();
-        if (!provider) return;
-        const handleGetProjects = async () => {
-            const allProject = await getAllProject(provider.getSigner())
-            console.log(allProject)
-        }
-        handleGetProjects()
-    }, [provider]);
-
     return (
         <>
             <div className="fixed z-30 w-full bg-white shadow-xl">
                 <div className="px-8 p-2 flex justify-between ">
                     <div className="flex items-end">
-                        <img className="w-26 h-12 mr-10 text-gray-700" src="/350232362_194904190170121_8724430467209331448_n.png" alt="logo" />
+                        <a href="/">
+                            <img className="w-26 h-12 mr-10 text-gray-700" src="/350232362_194904190170121_8724430467209331448_n.png" alt="logo" />
+                        </a>
                     </div>
                     <div className="flex items-center">
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>Homepage</a>
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/projects'>Projects</a>
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/profile'>Profile</a>
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/contact-us'>Contact Us</a>
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/about'>About Us</a>
+                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>TRANG CHỦ</a>
+                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/projects'> CÁC DỰ ÁN</a>
+                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/profile'>THÔNG TIN CỦA BẠN</a>
+                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</a>
+                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/about'>VỀ CHÚNG TÔI</a>
                         {/* <a href="/donate">
-                            <button className="px-8 py-3 bg-green-700  text-white font-bold">DONATE</button>
-                        </a> */}
+              <button className="px-8 py-3 bg-green-700  text-white font-bold">DONATE</button>
+            </a> */}
                     </div>
                 </div>
             </div>
-            <div className='relative sm:container mx-auto px-10 pt-32'>
-                <div className='my-20 lg:flex lg:items-center'>
-                    <div className='w-1/2'>
-                        <img className='mb-2 w-full' src="https://static.kinhtedothi.vn/w960/images/upload/2022/10/12/quang-nam-2.jpg" alt="quang-nam-2" />
-                        <img className='w-full' src="http://tapchibaohiemxahoi.gov.vn/media/articles/images/tranght/032022/c3c42b63-ce15-42cb-8f2c-91c40902118d.png" alt="" />
+            <div className='relative pt-22 mb-20'>
+                <div style={{ backgroundImage: `url(${'/tnc_59935937.jpg'})`, backgroundSize: 'cover', backgroundPosition: 'center', width: '100%', height: '650px' }}
+                    className="relative w-full h-650 flex items-center">
+                    <div className="absolute z-20 w-full flex flex-col items-center">
+                        <h1 className=" text-white font-bold text-5xl">Liên Hệ Với Chúng Tôi</h1>
+                        {/* <p className="mt-2 text-white font-bold text1xl">Help protect the air you breathe, water you drink and places you call home.</p> */}
                     </div>
-                    <div className='lg:ml-20'>
-                        {/* <p className='font-bold text-sm py-4'>OUR MISSION</p> */}
-                        <h2 className='text-5xl font-bold'>Hãy chung tay góp sức vì cộng đồng</h2>
-                        <p className='py-4'>
-                            Hãy đồng hành cùng chúng tôi vì một tương lai tốt đẹp hơn
-                        </p>
-                        <p>
-                            Những lời kêu gọi của bạn sẽ giúp ít rất nhiều cho cộng đồng và xã hội của đất nước ta càng ngày càng lớn mạnh.
-                        </p>
+                </div>
+                <div className="flex justify-center px-4 mt-20">
+                    <div className="w-64 h-50 bg-gray-200 px-4 py-8 mx-8 rounded">
+                        <h3 className="text-xl font-semibold text-center" style={{ color: "#1a1a1a" }}>Địa Chỉ</h3>
+                        <p className="mt-8 text-md" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}>Đường Hàn Thuyên, khu phố 6 P, Thủ Đức, Thành phố Hồ Chí Minh</p>
+                    </div>
+                    <div className="w-64 h-50 bg-gray-200 px-4 py-8 mx-8 rounded">
+                        <h3 className="text-xl font-semibold text-center" style={{ color: "#1a1a1a" }}>Số Điện Thoại Liên Hệ</h3>
+                        <p className="mt-8 text-md text-center" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}>+84 382893332</p>
+                        <p className="mt-4 text-md text-center" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}>+84 815102000</p>
+                    </div>
+                    <div className="w-64 h-50 bg-gray-200 px-4 py-8 mx-8 rounded">
+                        <h3 className="text-xl font-semibold text-center" style={{ color: "#1a1a1a" }}>Địa Chỉ Email</h3>
+                        <p className="mt-8 text-md text-center" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}>18520729@gm.uit.edu.vn</p>
+                        <p className="mt-4 text-md text-center" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}>18521124@gm.uit.edu.vn</p>
+                    </div>
+                    <div className="w-64 h-50 bg-gray-200 px-4 py-8 mx-8 rounded">
+                        <h3 className="text-xl font-semibold text-center" style={{ color: "#1a1a1a" }}>Trang web</h3>
+                        <p className="mt-8 text-md text-center" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}><a href="oceanover.tech">oceanover.tech</a></p>
                     </div>
                 </div>
             </div>
+            <div className='py-8 px-44 h-82 bg-black'>
+                <div>
+                    <div className='flex justify-around'>
+                        <div className=''>
+                            <div className='w-64'>
+                                <a href="/">
+                                    <img className="w-26 h-12 mr-10 text-gray-700" src="/350232362_194904190170121_8724430467209331448_n.png" alt="logo" />
+                                </a>
+                            </div>
+                            <div className='mt-4 text-white text-xs w-96'>
+                                Chào mừng bạn đến với tổ chức quyên góp quỹ thiện nguyện! Chúng tôi cam kết xây dựng một thế giới tốt đẹp hơn thông qua những hành động thiện nguyện. Với sứ mệnh hỗ trợ cộng đồng và giúp đỡ những người gặp khó khăn, chúng tôi tập trung vào việc gây quỹ và chia sẻ tài nguyên để tạo ra những tác động tích cực. Hãy cùng nhau chung tay để thay đổi cuộc sống và lan tỏa tình yêu thương đến tất cả mọi người.
+                            </div>
+                            <div className='mt-8 text-white text-xs'>
+                                © 2023-Quyên góp vì môi trường
+                            </div>
+                        </div>
+                        <div>
+                            <h3 className='text-white'>Kết Nối</h3>
+                            <div className='mt-4'>
+                                <div className='text-white text-xs'>Giới thiệu</div>
+                                <div className='text-white text-xs'>Liên hệ với chúng tôi</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 className=' text-white'>Ủng Hộ</h3>
+                            <div className='mt-4'>
+                                <div className='text-white text-xs'>Dự án</div>
+                                <div className='text-white text-xs'>Ủng hộ</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div >
 
         </>
     );

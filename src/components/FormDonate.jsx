@@ -168,7 +168,7 @@ function FormDonate({ checkTab, projectId }) {
                         placeholder='Amount ETH Cross Chain'
                         type='number'
                     />
-                    {myBalance &&  <p className='mt-2 text-sm italic'>Balance: {myBalance[0]} ETH</p>}
+                    {myBalance && <p className='mt-2 text-sm italic'>Balance: {myBalance[0]} ETH</p>}
                     <div>
                         <button
                             disabled={btnDisable}
@@ -199,10 +199,10 @@ function FormDonate({ checkTab, projectId }) {
                                 // defaultValue={1}
                                 value={amountDonateBNB}
                                 onChange={(e) => setAmountDonateBNB(e.target.value)}
-                                placeholder='Amount BNB'
+                                placeholder='Số BNB'
                                 type='number'
                             />
-                            {myBalance &&  <p className='mt-2 text-sm italic'>Balance: {myBalance[0]} BNB</p>}
+                            {myBalance && <p className='mt-2 text-sm italic'>Số BNB của bạn: {myBalance[0]} BNB</p>}
                             {/* Donate bằng BNB trên BSC network */}
                             <div>
                                 <button
@@ -211,7 +211,7 @@ function FormDonate({ checkTab, projectId }) {
                                     className='w-fit mt-4 px-8 py-2 bg-green-700 text-white font-bold text-lg'
                                     onClick={donateBNBHandle}
                                 >
-                                    Donate
+                                    Ủng hộ
                                 </button>
                             </div>
                         </div>
@@ -222,10 +222,10 @@ function FormDonate({ checkTab, projectId }) {
                                 className='mt-2 p-4'
                                 value={amountDonateETH}
                                 onChange={(e) => setAmountDonateETH(e.target.value)}
-                                placeholder='Amount ETH'
+                                placeholder='Số ETH'
                                 type='number'
                             />
-                            {myBalance &&  <p className='mt-2 text-sm italic'>Balance: {myBalance[1]} ETH</p>}
+                            {myBalance && <p className='mt-2 text-sm italic'>Số ETH của bạn: {myBalance[1]} ETH</p>}
                             {/* Donate bằng ETH trên BSC network */}
                             <div>
                                 <button
@@ -234,7 +234,7 @@ function FormDonate({ checkTab, projectId }) {
                                     className='w-fit mt-4 px-8 py-2 bg-green-700 text-white font-bold text-lg'
                                     onClick={donateETHHandle}
                                 >
-                                    Donate
+                                    Ủng hộ
                                 </button>
                             </div>
                         </div>

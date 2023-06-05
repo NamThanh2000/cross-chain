@@ -122,13 +122,13 @@ function Withdraw({ projectId }) {
 
             </div> */}
             <div className='mt-4'>
-                <h2 className='text-xl font-bold'>Danh sách ủng hộ</h2>
+                <h2 className='text-xl font-bold'>DANH SÁCH ỦNG HỘ</h2>
                 <div>
                     <div className='pt-4 pb-1 flex justify-center border-gray-300'
                         style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                     >
-                        <p className='w-64 font-bold text-lg'>Amount</p>
-                        <p className='w-80 font-bold text-lg'>Timestamp</p>
+                        <p className='w-64 font-bold text-lg'>Số tiền</p>
+                        <p className='w-80 font-bold text-lg'>Thời điểm</p>
                     </div>
                     {listHistoryDonate && listHistoryDonate.map((item, index) => {
                         return <div
@@ -154,7 +154,7 @@ function Withdraw({ projectId }) {
                             placeholder='Amount cross chain'
                             type='number'
                         />
-                        <p className='mt-2 text-sm italic'>Your Pool: {totalDonate}</p>
+                        <p className='mt-2 text-sm italic'>Số dư: {totalDonate}</p>
                         <div>
                             <button
                                 onClick={handleWithdraw}
@@ -169,33 +169,7 @@ function Withdraw({ projectId }) {
                     </>
                     }
                 </div>
-            </div>
-            <div className='mt-8'>
-                <h2 className='text-xl font-bold'>Lịch sử rút token</h2>
-                {listWithdraw.length > 0 ? <div>
-                    <div className='pt-4 pb-1 flex justify-center border-gray-300'
-                        style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
-                    >
-                        <p className='w-64 font-bold text-lg'>Amount</p>
-                        <p className='w-80 font-bold text-lg'>Timestamp</p>
-                    </div>
-                    {listWithdraw.map((item, index) => {
-                        return <div
-                            key={index}
-                            className='p-3 flex justify-center border-gray-300'
-                            style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
-                        >
-                            <p className='w-64 font-medium text-green-700 text-lg'>{convertBigNumber(item.amount).toFixed(4)} USD</p>
-                            <p className='w-80 font-medium text-green-700 text-lg'>{parseUnixTimeStamp(item.timestamp)}</p>
-                        </div>
-                    })}
-                </div> :
-                    <div className='mt-6 text-center'>
-                        Chưa có lịch sử rút nào
-                    </div>
-                }
-
-            </div>
+            </div>           
         </div>
 
     );

@@ -1,14 +1,12 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
-import { useEffect, useState } from 'react';
-import { addProject, connectMetamask, getAllProject } from '../utils';
-import { Box, Button, TextField, TextareaAutosize } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
+import { StaticDateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { DateTimePicker, StaticDateTimePicker } from '@mui/x-date-pickers';
+import { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
-import { styled } from '@mui/system';
+import { addProject } from '../utils';
 
 function AddProject() {
     const [provider, setProvider] = useState(null);
@@ -79,18 +77,18 @@ function AddProject() {
     return (
         <>
             <div className="fixed z-30 w-full bg-white shadow-xl">
-                <div className="px-8 p-2 flex justify-between ">
-                    <div className="flex items-end">
+                <div className="px-8 flex justify-between ">
+                    <div className="flex items-center">
                         <a href="/">
                             <img className="w-26 h-12 mr-10 text-gray-700" src="/350232362_194904190170121_8724430467209331448_n.png" alt="logo" />
                         </a>
                     </div>
                     <div className="flex items-center">
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>TRANG CHỦ</a>
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/projects'> CÁC DỰ ÁN</a>
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/profile'>THÔNG TIN CỦA BẠN</a>
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</a>
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/about'>VỀ CHÚNG TÔI</a>
+                        <a className='mx-2 px-2 py-4 text-lg' href='/'>TRANG CHỦ</a>
+                        <a style={{ "color": "#49A942" }} className='mx-2 px-2 py-4 text-lg' href='/projects'> CÁC DỰ ÁN</a>
+                        <a className='mx-2 px-2 py-4 text-lg' href='/profile'>THÔNG TIN CỦA BẠN</a>
+                        <a className='mx-2 px-2 py-4 text-lg' href='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</a>
+                        <a className='mx-2 px-2 py-4 text-lg' href='/about'>VỀ CHÚNG TÔI</a>
                         {/* <a href="/donate">
               <button className="px-8 py-3 bg-green-700  text-white font-bold">DONATE</button>
             </a> */}

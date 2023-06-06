@@ -1,16 +1,16 @@
 import { Web3Provider } from '@ethersproject/providers';
-import detectEthereumProvider from "@metamask/detect-provider";
-import { useEffect, useState } from 'react';
-import { connectMetamask, convertBigNumber, getAllHistoryProject, getOrganizationsProject, getProjectDetail, parseUnixTimeStamp, getListWithdrawProject } from '../utils';
-import { Box, Button, CircularProgress, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
-import { TabContext } from '@material-ui/lab';
 import { Tab, Tabs } from '@material-ui/core';
-import FormDonate from './FormDonate';
+import { TabContext } from '@material-ui/lab';
+import detectEthereumProvider from "@metamask/detect-provider";
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import PaidIcon from '@mui/icons-material/Paid';
+import { Box, Button } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import "react-circular-progressbar/dist/styles.css";
 import { useParams } from 'react-router-dom';
-import PaidIcon from '@mui/icons-material/Paid';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import { convertBigNumber, getListWithdrawProject, getProjectDetail, parseUnixTimeStamp } from '../utils';
+import FormDonate from './FormDonate';
 
 
 function ProjectDetail() {
@@ -70,26 +70,26 @@ function ProjectDetail() {
     return (
         <>
             <div className="fixed z-30 w-full bg-white shadow-xl">
-                <div className="px-8 p-2 flex justify-between ">
-                    <div className="flex items-end">
+                <div className="px-8 flex justify-between ">
+                    <div className="flex items-center">
                         <a href="/">
                             <img className="w-26 h-12 mr-10 text-gray-700" src="/350232362_194904190170121_8724430467209331448_n.png" alt="logo" />
                         </a>
                     </div>
                     <div className="flex items-center">
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/'>TRANG CHỦ</a>
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/projects'> CÁC DỰ ÁN</a>
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/profile'>THÔNG TIN CỦA BẠN</a>
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</a>
-                        <a className='mx-2 px-2 py-3 text-lg font-bold' href='/about'>VỀ CHÚNG TÔI</a>
+                        <a className='mx-2 px-2 py-4 text-lg' href='/'>TRANG CHỦ</a>
+                        <a style={{ "color": "#49A942" }} className='mx-2 px-2 py-4 text-lg' href='/projects'> CÁC DỰ ÁN</a>
+                        <a className='mx-2 px-2 py-4 text-lg' href='/profile'>THÔNG TIN CỦA BẠN</a>
+                        <a className='mx-2 px-2 py-4 text-lg' href='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</a>
+                        <a className='mx-2 px-2 py-4 text-lg' href='/about'>VỀ CHÚNG TÔI</a>
                         {/* <a href="/donate">
               <button className="px-8 py-3 bg-green-700  text-white font-bold">DONATE</button>
             </a> */}
                     </div>
                 </div>
             </div>
-            <div className='relative sm:container mx-auto px-10 pt-32'>
-                <div className="flex px-5 xl:px-38 md:px-16 sm:px-16 mt-20">
+            <div className='relative sm:container mx-auto px-10 pt-20'>
+                <div className="flex px-5 xl:px-38 md:px-16 sm:px-16 mt-15">
                     <div className="mx-10">
                         <div className="border-t-4 border-green-700 mb-6">
                             <h1 className="text-3xl my-6"

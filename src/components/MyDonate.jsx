@@ -1,8 +1,7 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
 import React, { useEffect, useState } from "react";
-import { convertBigNumber, getBalances, getListHistoryMyDonateProject, getTotalMyDonateProject, parseUnixTimeStamp } from "../utils";
-import Header from './Header';
+import { convertBigNumber, getListHistoryMyDonateProject, getTotalMyDonateProject, parseUnixTimeStamp } from "../utils";
 
 function FormDonate({ projectId }) {
     const [provider, setProvider] = useState(null);
@@ -73,15 +72,15 @@ function FormDonate({ projectId }) {
     }, [chainId])
     return (
         <div>
-            <div className='font-bold pt-4 text-lg'>
-                TỔNG SỐ TIỀN BẠN ĐÃ ỦNG HỘ: <span className='text-green-700 text-xl'>{convertBigNumber(totalDonate).toFixed(4)} USD</span>
+            <div className='font-medium mt-6 text-lg'>
+                DANH SÁCH NHỮNG LẦN QUYÊN GÓP CỦA BẢN THÂN CHO DỰ ÁN NÀY:
             </div>
             <div>
-                <div className='pt-4 pb-1 flex justify-center border-gray-300'
+                <div className='pt-10 pb-1 flex justify-center border-gray-300'
                     style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                 >
-                    <p className='w-64 font-bold text-lg'>Số tiền</p>
-                    <p className='w-80 font-bold text-lg'>Thời điểm</p>
+                    <p className='w-64 font-medium text-lg text-center'>Số USDT</p>
+                    <p className='w-80 font-medium text-lg text-center'>Thời điểm</p>
                 </div>
                 {listMyDonate && listMyDonate.map((item, index) => {
                     return <div
@@ -89,10 +88,13 @@ function FormDonate({ projectId }) {
                         className='p-3 flex justify-center border-gray-300'
                         style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                     >
-                        <p className='w-64 font-medium text-green-700 text-lg'>{convertBigNumber(item.amount).toFixed(4)} USD</p>
-                        <p className='w-80 font-medium text-green-700 text-lg'>{parseUnixTimeStamp(item.timestamp)}</p>
+                        <p className='w-64 text-green-700 text-lg text-center'>{convertBigNumber(item.amount).toFixed(4)}</p>
+                        <p className='w-80 text-green-700 text-lg text-center'>{parseUnixTimeStamp(item.timestamp)}</p>
                     </div>
                 })}
+            </div>
+            <div className='mt-4 text-lg font-medium'>
+                Tổng: <span className='text-green-700'>{convertBigNumber(totalDonate).toFixed(4)} USDT</span>
             </div>
         </div>
     );

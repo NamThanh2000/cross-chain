@@ -1,9 +1,9 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
+import { Button } from '@mui/material';
 import React, { useEffect, useState } from "react";
 import toast from 'react-hot-toast';
-import { convertBigNumber, getAllHistoryProject, getBalances, getListWithdrawProject, parseUnixTimeStamp, withdrawUSDT } from "../utils";
-import Header from './Header';
+import { convertBigNumber, getAllHistoryProject, getListWithdrawProject, parseUnixTimeStamp, withdrawUSDT } from "../utils";
 
 function Withdraw({ projectId }) {
     const [provider, setProvider] = useState(null);
@@ -122,13 +122,13 @@ function Withdraw({ projectId }) {
 
             </div> */}
             <div className='mt-4'>
-                <h2 className='text-xl font-bold'>DANH SÁCH ỦNG HỘ</h2>
+                <h2 className='font-medium mt-6 text-lg'>DANH SÁCH NHỮNG QUYÊN GÓP CỦA TẤT CẢ NGƯỜI QUYÊN GÓP:</h2>
                 <div>
-                    <div className='pt-4 pb-1 flex justify-center border-gray-300'
+                    <div className='pt-10 pb-1 flex justify-center border-gray-300'
                         style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                     >
-                        <p className='w-64 font-bold text-lg'>Số tiền</p>
-                        <p className='w-80 font-bold text-lg'>Thời điểm</p>
+                        <p className='w-64 font-bold text-lg font-medium text-center'>Số tiền</p>
+                        <p className='w-80 font-bold text-lg font-medium text-center'>Thời điểm</p>
                     </div>
                     {listHistoryDonate && listHistoryDonate.map((item, index) => {
                         return <div
@@ -136,39 +136,29 @@ function Withdraw({ projectId }) {
                             className='p-3 flex justify-center border-gray-300'
                             style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                         >
-                            <p className='w-64 font-medium text-green-700 text-lg'>{convertBigNumber(item.amount).toFixed(4)} USD</p>
-                            <p className='w-80 font-medium text-green-700 text-lg'>{parseUnixTimeStamp(item.timestamp)}</p>
+                            <p className='w-64 text-green-700 text-lg text-center'>{convertBigNumber(item.amount).toFixed(4)} USD</p>
+                            <p className='w-80 text-green-700 text-lg text-center'>{parseUnixTimeStamp(item.timestamp)}</p>
                         </div>
                     })}
                 </div>
             </div>
-            <div className='flex mt-8 items-center'>
-                <div className=''>
-                    <h2 className='text-xl font-bold'>Rút token</h2>
+            <div className='mt-8'>
+                <p className='font-bold'>Rút tiền</p>
                     {/* <div className='py-6 text-lg'>Donate monthly as a Conservation Champion and provide reliable support to accelerate the pace of conservation today. Plus, receive our special picnic blanket as a thank you gift for protecting nature.</div> */}
-                    {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' && <>
-                        <input
-                            className='mt-2 p-4 w-96'
-                            value={amountCrossChain}
-                            onChange={(e) => setAmountCrossChain(e.target.value)}
-                            placeholder='Amount cross chain'
-                            type='number'
-                        />
-                        <p className='mt-2 text-sm italic'>Số dư: {totalDonate}</p>
-                        <div>
-                            <button
-                                onClick={handleWithdraw}
-                                disabled={btnDisable}
-                                style={{ opacity: `${btnDisable ? 0.7 : 1}` }}
-                                className='mt-4 px-8 py-3 bg-green-700  text-white font-bold'
-                                href="/donate"
-                            >
-                                Withdraw
-                            </button>
+                {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' && <>
+                        <div className='flex items-center mt-5'>
+                            <input
+                                className='p-3 rounded'
+                                value={amountCrossChain}
+                                onChange={(e) => setAmountCrossChain(e.target.value)}
+                                placeholder='Nhập số lượng USDT muốn rút'
+                                type='number'
+                            />
+                            <Button sx={{ marginLeft: 5 }} variant="contained" disabled={btnDisable} color="success" size="large" onClick={handleWithdraw}>Rút Tiền</Button>
                         </div>
+                        <p className='mt-2 text-sm italic'>Số dư USDT: <span className='font-bold' style={{ color: "#2E7D32"}}>{totalDonate} USDT</span></p>
                     </>
-                    }
-                </div>
+                }
             </div>           
         </div>
 

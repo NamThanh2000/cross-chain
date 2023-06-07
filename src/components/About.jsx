@@ -78,7 +78,7 @@ const About = () => {
                         <a className='mx-2 px-2 py-4 text-lg' href='/projects'> CÁC DỰ ÁN</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/profile'>THÔNG TIN CỦA BẠN</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</a>
-                        <a style={{ "color": "#49A942" }} className='mx-2 px-2 py-4 text-lg' href='/about'>VỀ CHÚNG TÔI</a>
+                        <a style={{ "color": "#15803D" }} className='mx-2 px-2 py-4 text-lg' href='/about'>VỀ CHÚNG TÔI</a>
                         {/* <a href="/donate">
               <button className="px-8 py-3 bg-green-700  text-white font-bold">DONATE</button>
             </a> */}

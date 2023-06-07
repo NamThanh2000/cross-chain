@@ -4,10 +4,9 @@ import { TabContext } from '@material-ui/lab';
 import detectEthereumProvider from "@metamask/detect-provider";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PaidIcon from '@mui/icons-material/Paid';
+import CircularProgress from '@mui/joy/CircularProgress';
 import { Box, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { CircularProgressbar } from 'react-circular-progressbar';
-import "react-circular-progressbar/dist/styles.css";
 import { useParams } from 'react-router-dom';
 import { convertBigNumber, getListWithdrawProject, getProjectDetail, parseUnixTimeStamp } from '../utils';
 import FormDonate from './FormDonate';
@@ -78,7 +77,7 @@ function ProjectDetail() {
                     </div>
                     <div className="flex items-center">
                         <a className='mx-2 px-2 py-4 text-lg' href='/'>TRANG CHỦ</a>
-                        <a style={{ "color": "#49A942" }} className='mx-2 px-2 py-4 text-lg' href='/projects'> CÁC DỰ ÁN</a>
+                        <a style={{ "color": "#15803D" }} className='mx-2 px-2 py-4 text-lg' href='/projects'> CÁC DỰ ÁN</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/profile'>THÔNG TIN CỦA BẠN</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/about'>VỀ CHÚNG TÔI</a>
@@ -88,47 +87,50 @@ function ProjectDetail() {
                     </div>
                 </div>
             </div>
-            <div className='relative sm:container mx-auto px-10 pt-20'>
-                <div className="flex px-5 xl:px-38 md:px-16 sm:px-16 mt-15">
+            <div className='relative sm:container mx-auto px-10 pt-28'>
+                <div className="flex px-5 xl:px-38 md:px-16 sm:px-16">
                     <div className="mx-10">
-                        <div className="border-t-4 border-green-700 mb-6">
-                            <h1 className="text-3xl my-6"
-                                style={{
-                                    fontFamily: 'Chronicle Text G2 A,Chronicle Text G2 B,ui-serif,Georgia,Cambria,Times New Roman,Times,serif'
+                        <div className="border-t-4 border-green-700 pt-8">
+                            <Box
+                                sx={{
+                                    boxShadow: 2,
+                                    display: "flex",
+                                    bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#101010' : '#fff'),
+                                    color: (theme) =>
+                                        theme.palette.mode === 'dark' ? 'grey.300' : 'grey.800',
+                                    p: 1,
+                                    m: 1,
+                                    borderRadius: 2,
+                                    textAlign: 'center',
+                                    fontSize: '0.875rem',
+                                    fontWeight: '700',
                                 }}
-                            >{project && project.title}</h1>
-                            <div className="flex">
-                                <img className='w-40' src={project && project.imageUrl} alt="Nature slice" />
-                                <div className="ml-6 text-lg">
-                                    <p>{project && project.objective}</p>
+                            >
+                                <img className='w-full' src={project && project.imageUrl} alt="Nature slice" />
+                                <div className='flex flex-col'>
+                                    <h1 className="text-3xl mx-6 my-6 text-center">{project && project.title}</h1>
+                                    <div className="mx-8 text-base">
+                                        {project && project.objective}
+                                    </div>
                                 </div>
-                            </div>
+                            </Box>
                         </div>
-                        <div>
-                            {project && <div className='flex'>
-                                <div className='flex'>
-                                    <PaidIcon sx={{ marginRight: '4px' }} color='success' />
-                                    {convertBigNumber(project.totalDonations).toFixed(4)}
-                                    <p className=' ml-2 font-bold'>USD</p>
-                                </div>
-                                <div className='ml-10 flex'>
-                                    <CalendarMonthIcon sx={{ marginRight: '4px' }} color='success' />
-                                    {parseUnixTimeStamp(project && project.deadline)}
-                                </div>
-                            </div>}
-                        </div>
-                        <div>
-                            <TabContext >
-                                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div className='flex my-10 justify-between'>
+                            <div className='w-full'>
+                                <TabContext >
+                                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                         {/* <h4 className="text-base font-bold text-green-700">ENTER YOUR GIFT AMOUNT</h4> */}
                                         <Tabs
                                             value={Number(value)}
                                             onChange={handleChange}
-                                            variant="scrollable"
+                                            variant="fullWidth"
                                             scrollButtons={false}
                                             aria-label="basic tabs example"
-                                            textColor="primary"
+                                            TabIndicatorProps={{
+                                                style: {
+                                                backgroundColor: "#15803D"
+                                                },
+                                            }}
                                         >
                                             <Tab label="Nền tảng Ethereum" value={0} />
                                             <Tab label="Nền tảng Binance smart chain" value={1} />
@@ -138,75 +140,96 @@ function ProjectDetail() {
                                             }
                                         </Tabs>
                                     </Box>
-                                </Box>
-                                <FormDonate projectId={param} checkTab={Number(value)} />
-                            </TabContext >
-                        </div>
-                        <div className='mt-10 border-t-4 border-green-700'>
-                            <h2 className='text-2xl font-bold'>Lịch sử rút token</h2>
-                            {listWithdraw.length > 0 ? <div>
-                                <div className='pt-4 pb-1 flex justify-center border-gray-300'
-                                    style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
-                                >
-                                    <p className='w-64 font-bold text-lg'>Amount</p>
-                                    <p className='w-80 font-bold text-lg'>Timestamp</p>
+                                    <FormDonate projectId={param} checkTab={Number(value)} />
+                                </TabContext >
+                            </div>
+                            <div className='ml-16 flex flex-col items-center mt-12'>
+                                <div className="xl:mx-10 mx-4 md:mx-4 sm:mx-4">
+                                    <div className="flex flex-col items-center">
+                                        {project &&
+                                            (convertBigNumber(project && project.totalDonations) / convertBigNumber(project && project.amount)) * 100 > 100 ?
+                                            <CircularProgress thickness={14} color='success' sx={{ '--CircularProgress-size': '160px' }} determinate value={100}>
+                                                {100}%
+                                            </CircularProgress> :
+                                            <CircularProgress
+                                                thickness={14} 
+                                                color='success' 
+                                                sx={{ '--CircularProgress-size': '160px' }}
+                                                size="lg" 
+                                                determinate
+                                                value={(convertBigNumber(project && project.totalDonations) / convertBigNumber(project && project.amount)) * 100}
+                                            > 
+                                                {`${project ? (((convertBigNumber(project && project.totalDonations) / convertBigNumber(project && project.amount)) * 100).toFixed(1)) : 0}%`} 
+                                            </CircularProgress>
+                                        }
+                                    </div>
                                 </div>
-                                {listWithdraw.map((item, index) => {
-                                    return <div
-                                        key={index}
-                                        className='p-3 flex justify-center border-gray-300'
+                                {project && <div className='mt-10'>
+                                    <div>
+                                        <PaidIcon sx={{ marginRight: '4px' }} color='success' />
+                                        {convertBigNumber(project.totalDonations).toFixed(4)}
+                                        <span className=' ml-2 font-bold'>USDT</span>
+                                    </div>
+                                    <div className='mt-3'>
+                                        <CalendarMonthIcon sx={{ marginRight: '4px' }} color='success' />
+                                        {parseUnixTimeStamp(project && project.deadline)}
+                                    </div>
+                                </div>}
+                            </div>
+                        </div>
+                        <div className='flex'>
+                            <div className='border-t-4 border-green-700 flex-1 mr-5 px-5'>
+                                <h2 className='my-6 text-xl font-bold'>Lịch sử rút token</h2>
+                                {listWithdraw.length > 0 ? <div>
+                                    <div className='pt-4 pb-1 flex justify-center border-gray-300'
                                         style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                                     >
-                                        <p className='w-64 font-medium text-green-700 text-lg'>{convertBigNumber(item.amount).toFixed(4)} USD</p>
-                                        <p className='w-80 font-medium text-green-700 text-lg'>{parseUnixTimeStamp(item.timestamp)}</p>
+                                        <p className='w-64 font-bold text-lg'>Amount</p>
+                                        <p className='w-80 font-bold text-lg'>Timestamp</p>
                                     </div>
-                                })}
-                            </div> :
-                                <div className='mt-6 text-center'>
-                                    Chưa có lịch sử rút nào
-                                </div>
-                            }
-
-                        </div>
-                        <div className="mt-10 border-t-4 border-green-700 mb-6">
-                            <div>
-                                <h2 className='mt-6 text-2xl font-bold'>Các Tổ Chức Cùng Đồng Hành</h2>
-                                {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' &&
-                                    <div className='flex justify-end mb-6'>
-                                        <Button href='/organization-add' variant="outlined">Thêm Tổ Chức</Button>
+                                    {listWithdraw.map((item, index) => {
+                                        return <div
+                                            key={index}
+                                            className='p-3 flex justify-center border-gray-300'
+                                            style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
+                                        >
+                                            <p className='w-64 font-medium text-green-700 text-lg'>{convertBigNumber(item.amount).toFixed(4)} USD</p>
+                                            <p className='w-80 font-medium text-green-700 text-lg'>{parseUnixTimeStamp(item.timestamp)}</p>
+                                        </div>
+                                    })}
+                                </div> :
+                                    <div className='mt-6 text-center'>
+                                        Chưa có thông tin
                                     </div>
                                 }
+
                             </div>
-                            <div className='mt-4'>
-                                <h3 className='text-xl font-bold'>1. VietComBank</h3>
-                                <div className='flex items-start  mt-4'>
-                                    <img className='w-40' src="https://admin.tamlyvietphap.vn/uploaded/Images/Original/2020/10/16/logo_vietcombank_1610091313.jpg" alt="" />
-                                    <p className='ml-6'>Ngân hàng TMCP Ngoại thương Việt Nam tên viết tắt: "Vietcombank", là công ty lớn nhất trên thị trường chứng khoán Việt Nam tính theo vốn hóa. Hiện tại Ngân hàng nhà nước Việt Nam nắm giữ 75% cổ phần và là cổ đông lớn nhất.</p>
+                            <div className="border-t-4 border-green-700 mb-10 flex-1 ml-5 px-5">
+                                <div className='my-6 flex justify-between items-center'>
+                                    <h2 className='text-xl font-bold'>Các Tổ Chức Cùng Đồng Hành</h2>
+                                    {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' &&
+                                        <Button color="success" href='/organization-add' variant="outlined">Thêm Tổ Chức</Button>
+                                    }
                                 </div>
-                            </div>
-                            <div className='mt-4'>
-                                <h3 className='text-xl font-bold'>2. BIDV</h3>
-                                <div className='flex items-start  mt-4'>
-                                    <img className='w-40' src="https://cdn.tgdd.vn/2020/03/GameApp/image(14)-200x200-1.png" alt="" />
-                                    <p className='ml-6'>Ngân hàng TMCP Đầu tư và Phát triển Việt Nam tên gọi tắt: "BIDV", là ngân hàng thương mại lớn nhất Việt Nam tính theo quy mô tài sản năm 2019 và là doanh nghiệp đứng thứ 10 trong danh sách 1000 doanh nghiệp đóng thuế thu nhập doanh nghiệp lớn nhất năm 2018.</p>
+                                <div className='text-center'>Chưa có thông tin</div>
+                                {/* <div className='mt-4'>
+                                    <h3 className='text-xl font-bold'>1. VietComBank</h3>
+                                    <div className='flex items-start  mt-4'>
+                                        <img className='w-40' src="https://admin.tamlyvietphap.vn/uploaded/Images/Original/2020/10/16/logo_vietcombank_1610091313.jpg" alt="" />
+                                        <p className='ml-6'>Ngân hàng TMCP Ngoại thương Việt Nam tên viết tắt: "Vietcombank", là công ty lớn nhất trên thị trường chứng khoán Việt Nam tính theo vốn hóa. Hiện tại Ngân hàng nhà nước Việt Nam nắm giữ 75% cổ phần và là cổ đông lớn nhất.</p>
+                                    </div>
                                 </div>
+                                <div className='mt-4'>
+                                    <h3 className='text-xl font-bold'>2. BIDV</h3>
+                                    <div className='flex items-start  mt-4'>
+                                        <img className='w-40' src="https://cdn.tgdd.vn/2020/03/GameApp/image(14)-200x200-1.png" alt="" />
+                                        <p className='ml-6'>Ngân hàng TMCP Đầu tư và Phát triển Việt Nam tên gọi tắt: "BIDV", là ngân hàng thương mại lớn nhất Việt Nam tính theo quy mô tài sản năm 2019 và là doanh nghiệp đứng thứ 10 trong danh sách 1000 doanh nghiệp đóng thuế thu nhập doanh nghiệp lớn nhất năm 2018.</p>
+                                    </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>
-                    <div className="xl:mx-10 mx-4 md:mx-4 sm:mx-4">
-                        {/* <img className='h-56' src="/o-nhiem-3786.jpg" alt="NCM130311" /> */}
-                        <div className="px-6 pt-6 flex flex-col items-center">
-                            <h4 className="font-bold text-lg">Tiến độ đạt được</h4>
-                            {project &&
-                                (convertBigNumber(project && project.totalDonations) / convertBigNumber(project && project.amount)) * 100 > 100 ?
 
-                                <CircularProgressbar className='w-44 mt-4' value='100' text={`100%`} /> :
-                                <CircularProgressbar className='w-44 mt-4' value={(convertBigNumber(project && project.totalDonations) / convertBigNumber(project && project.amount)) * 100} text={`${project ? (((convertBigNumber(project && project.totalDonations) / convertBigNumber(project && project.amount)) * 100).toFixed(1)) : 0}%`} />
-
-                            }
-
-                        </div>
-                    </div>
                 </div>
             </div>
             <div className='py-8 px-44 h-82 bg-black'>

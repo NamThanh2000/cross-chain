@@ -66,7 +66,7 @@ function HomeLayout() {
             <div className="mr-6 text-white font-bold">ABOUT US</div> */}
           </div>
           <div className="flex items-center">
-            <a style={{ "color": "#49A942" }} className='mx-2 px-2 py-4 text-lg' href='/'>TRANG CHỦ</a>
+            <a style={{ "color": "#15803D" }} className='mx-2 px-2 py-4 text-lg' href='/'>TRANG CHỦ</a>
             <a className='mx-2 px-2 py-4 text-lg' href='/projects'> CÁC DỰ ÁN</a>
             <a className='mx-2 px-2 py-4 text-lg' href='/profile'>THÔNG TIN CỦA BẠN</a>
             <a className='mx-2 px-2 py-4 text-lg' href='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</a>

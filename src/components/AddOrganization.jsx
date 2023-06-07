@@ -85,7 +85,7 @@ function AddOrganization() {
                     </div>
                     <div className="flex items-center">
                         <a className='mx-2 px-2 py-3 text-lg' href='/'>TRANG CHỦ</a>
-                        <a style={{ "color": "#49A942" }} className='mx-2 px-2 py-3 text-lg' href='/projects'> CÁC DỰ ÁN</a>
+                        <a style={{ "color": "#15803D" }} className='mx-2 px-2 py-3 text-lg' href='/projects'> CÁC DỰ ÁN</a>
                         <a className='mx-2 px-2 py-3 text-lg' href='/profile'>THÔNG TIN CỦA BẠN</a>
                         <a className='mx-2 px-2 py-3 text-lg' href='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</a>
                         <a className='mx-2 px-2 py-3 text-lg' href='/about'>VỀ CHÚNG TÔI</a>
@@ -96,6 +96,7 @@ function AddOrganization() {
                 </div>
             </div>
             <div className='relative sm:container mx-auto px-10 pt-32'>
+                <div className='font-medium mt-6 text-lg text-center'>THÊM TỔ CHỨC MỚI CHO DỰ ÁN</div>
                 <Box
                     component="form"
                     onSubmit={handleSubmit(onSubmit)}
@@ -104,12 +105,12 @@ function AddOrganization() {
                     }}
                     noValidate
                     autoComplete="off"
-                >
-                    <TextField {...register("name")} fullWidth id="outlined-basic" label="Tên tổ chức" variant="outlined" />
-                    <TextField {...register("description")} fullWidth id="outlined-basic" label="Mô tả" variant="outlined" />
-                    <TextField {...register("imageUrl")} fullWidth id="outlined-basic" label="Đường dẫn ảnh của tổ chức" variant="outlined" />
-                    <TextField {...register("wallet")} fullWidth id="outlined-basic" label="Ví tổ chức" variant="outlined" />
-                    <Button type='submit' variant="contained">Thêm Tổ Chức Mới</Button>
+                >   
+                    <TextField color="success" {...register("name")} fullWidth id="outlined-basic" label="Tên tổ chức" variant="outlined" />
+                    <TextField color="success" {...register("description")} fullWidth id="outlined-basic" label="Mô tả" variant="outlined" />
+                    <TextField color="success" {...register("imageUrl")} fullWidth id="outlined-basic" label="Đường dẫn ảnh của tổ chức" variant="outlined" />
+                    <TextField color="success" {...register("wallet")} fullWidth id="outlined-basic" label="Ví tổ chức" variant="outlined" />
+                    <Button color="success" type='submit' variant="contained">Thêm Tổ Chức Mới</Button>
                 </Box>
             </div>
             <div className='py-8 px-44 h-82 bg-black'>

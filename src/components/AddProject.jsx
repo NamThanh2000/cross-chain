@@ -85,7 +85,7 @@ function AddProject() {
                     </div>
                     <div className="flex items-center">
                         <a className='mx-2 px-2 py-4 text-lg' href='/'>TRANG CHỦ</a>
-                        <a style={{ "color": "#49A942" }} className='mx-2 px-2 py-4 text-lg' href='/projects'> CÁC DỰ ÁN</a>
+                        <a style={{ "color": "#15803D" }} className='mx-2 px-2 py-4 text-lg' href='/projects'> CÁC DỰ ÁN</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/profile'>THÔNG TIN CỦA BẠN</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/about'>VỀ CHÚNG TÔI</a>
@@ -96,6 +96,7 @@ function AddProject() {
                 </div>
             </div>
             <div className='relative sm:container mx-auto px-10 pt-32'>
+                <div className='font-medium mt-6 text-lg text-center'>THÊM DỰ ÁN MỚI</div>
                 <Box
                     component="form"
                     onSubmit={handleSubmit(onSubmit)}
@@ -105,14 +106,14 @@ function AddProject() {
                     noValidate
                     autoComplete="off"
                 >
-                    <TextField {...register("title")} fullWidth id="title" label="Tên dự án mới" variant="outlined" />
-                    <TextField {...register("image_url")} fullWidth id="image_url" label="Đường dẫn ảnh" variant="outlined" />
-                    <TextField {...register("amount")} fullWidth id="amount" label="Mục tiêu dự án (USD)" variant="outlined" />
-                    <textarea className='w-full' name="abjactive" {...register("objective")} id="" cols="30" rows="10"></textarea>
+                    <TextField color="success" {...register("title")} fullWidth id="title" label="Tên dự án mới" variant="outlined" />
+                    <TextField color="success" {...register("image_url")} fullWidth id="image_url" label="Đường dẫn ảnh" variant="outlined" />
+                    <TextField color="success" {...register("amount")} fullWidth id="amount" label="Mục tiêu dự án (USD)" variant="outlined" />
+                    <TextField color="success" {...register("objective")} multiline fullWidth id="amount" label="Giới thiệu về dự án" variant="outlined" />
                     {/* <TextField {...register("objective")} fullWidth id="objective" label="Mô tả dự án" variant="outlined" /> */}
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <StaticDateTimePicker
-                            sx={{ width: '400px' }}
+                            sx={{ width: '300px' }}
                             name='time'
                             onChange={(newValue) => setDatetime(newValue)}
                             label="Hạn chót ủng hộ ádasdasdikajsndijasnd9uasjndsioan9dsajnsiudjn"
@@ -121,7 +122,7 @@ function AddProject() {
                             ampmInClock={false}
                         />
                     </LocalizationProvider>
-                    <Button type='submit' variant="contained">Tạo dự án mới</Button>
+                    <Button type='submit' color="success" variant="contained">Tạo dự án mới</Button>
                 </Box>
             </div>
             <div className='py-8 px-44 h-82 bg-black'>

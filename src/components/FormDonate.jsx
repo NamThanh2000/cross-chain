@@ -1,14 +1,13 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
+import { Button, CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from "react";
 import toast from 'react-hot-toast';
 import 'react-spinner-animated/dist/index.css';
 import { donateBNB, donateETH, ethToBsc, getMyBalance } from "../utils";
+import './FormDonateStyles.css';
 import MyDonate from './MyDonate';
 import Withdraw from './Withdraw';
-
-import { CircularProgress } from '@mui/material';
-import './FormDonateStyles.css';
 
 function FormDonate({ checkTab, projectId }) {
     const [provider, setProvider] = useState(null);
@@ -192,51 +191,36 @@ function FormDonate({ checkTab, projectId }) {
                         <div className='p-8 border-gray-600'
                             style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                         >
-                            <p className='font-bold'>Donation using BNB</p>
-                            <input
-
-                                className='mt-2 p-4'
-                                // defaultValue={1}
-                                value={amountDonateBNB}
-                                onChange={(e) => setAmountDonateBNB(e.target.value)}
-                                placeholder='Số BNB'
-                                type='number'
-                            />
-                            {myBalance && <p className='mt-2 text-sm italic'>Số BNB của bạn: {myBalance[0]} BNB</p>}
-                            {/* Donate bằng BNB trên BSC network */}
-                            <div>
-                                <button
-                                    disabled={btnDisable}
-                                    style={{ opacity: `${btnDisable ? 0.7 : 1}` }}
-                                    className='w-fit mt-4 px-8 py-2 bg-green-700 text-white font-bold text-lg'
-                                    onClick={donateBNBHandle}
-                                >
-                                    Ủng hộ
-                                </button>
+                            <p className='font-bold'>Quyên góp bằng BNB</p>
+                            <div className='flex items-center mt-5'>
+                                <input
+                                    className='p-3 rounded'
+                                    // defaultValue={1}
+                                    value={amountDonateBNB}
+                                    onChange={(e) => setAmountDonateBNB(e.target.value)}
+                                    placeholder='Số BNB'
+                                    type='number'
+                                />
+                                <Button sx={{ marginLeft: 5 }} variant="contained" disabled={btnDisable} color="success" size="large" onClick={donateBNBHandle}>Quyên góp ngay bằng BNB</Button>
                             </div>
+                            {myBalance && <p className='mt-2 text-sm italic'>Số dư BNB của bạn: <span className='font-bold' style={{ color: "#2E7D32"}}>{myBalance[0]} BNB</span></p>}
+                            {/* Donate bằng BNB trên BSC network */}
                         </div>
                         <div className='p-8'>
-                            <p className='font-bold'>Donation using ETH</p>
-                            <input
-                                // defaultValue={1}
-                                className='mt-2 p-4'
-                                value={amountDonateETH}
-                                onChange={(e) => setAmountDonateETH(e.target.value)}
-                                placeholder='Số ETH'
-                                type='number'
-                            />
-                            {myBalance && <p className='mt-2 text-sm italic'>Số ETH của bạn: {myBalance[1]} ETH</p>}
-                            {/* Donate bằng ETH trên BSC network */}
-                            <div>
-                                <button
-                                    disabled={btnDisable}
-                                    style={{ opacity: `${btnDisable ? 0.7 : 1}` }}
-                                    className='w-fit mt-4 px-8 py-2 bg-green-700 text-white font-bold text-lg'
-                                    onClick={donateETHHandle}
-                                >
-                                    Ủng hộ
-                                </button>
+                            <p className='font-bold'>Quyên góp bằng ETH</p>
+                            <div className='flex items-center mt-5'>
+                                <input
+                                    // defaultValue={1}
+                                    className='p-3 rounded'
+                                    value={amountDonateETH}
+                                    onChange={(e) => setAmountDonateETH(e.target.value)}
+                                    placeholder='Số ETH'
+                                    type='number'
+                                />
+                                <Button sx={{ marginLeft: 5 }} variant="contained" disabled={btnDisable} color="success" size="large" onClick={donateETHHandle}>Quyên góp ngay bằng ETH</Button>
                             </div>
+                            {myBalance && <p className='mt-2 text-sm italic'>Số dư ETH của bạn: <span className='font-bold' style={{ color: "#2E7D32"}}>{myBalance[1]} ETH</span></p>}
+                            {/* Donate bằng ETH trên BSC network */}
                         </div>
                     </div>
                     }

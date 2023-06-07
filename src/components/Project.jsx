@@ -1,9 +1,13 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
 import { Box, Button, FormControl, MenuItem, Select } from '@mui/material';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import { convertBigNumber, convertProjectId, getAllProject, getListActiveProject, parseUnixTimeStamp } from '../utils';
-
 
 function Projects() {
     const [provider, setProvider] = useState(null);
@@ -99,7 +103,7 @@ function Projects() {
                     </div>
                     <div className="flex items-center">
                         <a className='mx-2 px-2 py-4 text-lg' href='/'>TRANG CHỦ</a>
-                        <a style={{ "color": "#49A942" }} className='mx-2 px-2 py-4 text-lg' href='/projects'> CÁC DỰ ÁN</a>
+                        <a style={{ "color": "#15803D" }} className='mx-2 px-2 py-4 text-lg' href='/projects'> CÁC DỰ ÁN</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/profile'>THÔNG TIN CỦA BẠN</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/about'>VỀ CHÚNG TÔI</a>
@@ -109,15 +113,9 @@ function Projects() {
                     </div>
                 </div>
             </div>
-            <div className='relative sm:container mx-auto px-10 pt-32'>
-                {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' &&
-                    <div className='flex justify-end mb-6'>
-                        <Button href='/projects/add' variant="outlined">Thêm mới dự án</Button>
-                    </div>
-                }
-
-                <div className='flex justify-between'>
-                    <h1 className='font-bold text-3xl'>Danh sách các dự án</h1>
+            <div className='relative sm:container mx-auto px-10 pt-28'>
+                <div className='flex justify-between mb-10'>
+                    <h1 className='font-bold text-3xl flex items-center'>Danh sách các dự án</h1>
                     <Box sx={{ minWidth: 220 }}>
                         <FormControl fullWidth>
                             {/* <InputLabel id="demo-simple-select-label">Age</InputLabel> */}
@@ -134,31 +132,56 @@ function Projects() {
                         </FormControl>
                     </Box>
                 </div>
-                {projects?.map((item) => {
-                    return <a key={convertProjectId(item.projectId)} href={`project-detail/${convertProjectId(item.projectId)}`}>
-                        <div className='flex m-4 p-4'>
-                            <img className='w-40' src={item.imageUrl} alt="" />
-                            <div className='ml-4'>
-                                <h2 className='font-bold text-lg'>{item.title}</h2>
-                                <p>{item.objective}</p>
-                                <div>
-                                    <div>Mục tiêu: {convertBigNumber(item.amount)} <span className='font-bold'>USD</span></div>
-                                    <div className='flex'>
-                                        <p>Tiến độ:</p>
-                                        <p className='ml-2'>
+                {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' &&
+                    <div className='flex justify-end mb-6'>
+                        <Button color="success" href='/projects/add' variant="outlined">Thêm mới dự án</Button>
+                    </div>
+                }
+                <div className='flex mb-20'>
+                    {projects?.map((item) => {
+                        return <Card key={convertProjectId(item.projectId)} sx={{ maxWidth: 400, margin: "10px", height: "100%" }}>
+                            <CardMedia
+                                component="img"
+                                alt="green iguana"
+                                height="140"
+                                image={item.imageUrl}
+                                sx={{ maxWidth: 450, maxHeight: 209, overflow: "hidden" }}
+                            />
+                            <CardContent>
+                                <Typography gutterBottom variant="h6" component="div">
+                                    {item.title}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    <p 
+                                        style={{ 
+                                            display: "-webkit-box",
+                                            "-webkit-line-clamp": "4",
+                                            "-webkit-box-orient": "vertical",
+                                            overflow: "hidden",
+                                            "text-overflow": "ellipsis"
+                                        }}
+                                    >
+                                        {item.objective}
+                                    </p>
+                                    <div className='mt-5'>
+                                        <div>Mục tiêu: <span style={{ color: "#2E7D32" }} className='font-bold'>{convertBigNumber(item.amount) > 0.01 ? convertBigNumber(item.amount) : 0} USDT</span></div>
+                                        <div>Tiến độ: <span style={{ color: "#2E7D32" }} className='font-bold'>
                                             {(convertBigNumber(item && item.totalDonations) / convertBigNumber(item && item.amount)) * 100 > 100 ?
                                                 100 : ((convertBigNumber(item.totalDonations) / convertBigNumber(item.amount)) * 100).toFixed(1)
                                             }
                                             %
-                                        </p>
+                                            </span>
+                                        </div>
+                                        <div>Ngày hết hạn: <span style={{ color: "#2E7D32" }} className='font-bold'>{parseUnixTimeStamp(item.deadline)}</span></div>
                                     </div>
-                                    <div>Thời điểm ngừng kêu gọi: {parseUnixTimeStamp(item.deadline)}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                })}
+                                </Typography>
+                            </CardContent>
+                            <CardActions>
+                                <Button color="success" size="small"><a href={`project-detail/${convertProjectId(item.projectId)}`}>Quyên góp ngay</a></Button>
+                            </CardActions>
+                        </Card>
+                    })}
+                </div>
             </div>
             <div className='py-8 px-44 h-82 bg-black'>
                 <div>

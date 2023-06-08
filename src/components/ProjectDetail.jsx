@@ -166,10 +166,10 @@ function ProjectDetail() {
                                     </div>
                                 </div>
                                 {project && <div className='mt-10'>
-                                    <div>
+                                    <div className='text-center'>
                                         <PaidIcon sx={{ marginRight: '4px' }} color='success' />
                                         {convertBigNumber(project.totalDonations).toFixed(4)}
-                                        <span className=' ml-2 font-bold'>USDT</span>
+                                        <span className='ml-1'>USDT</span>
                                     </div>
                                     <div className='mt-3'>
                                         <CalendarMonthIcon sx={{ marginRight: '4px' }} color='success' />

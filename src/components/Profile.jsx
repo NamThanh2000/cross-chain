@@ -1,8 +1,58 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from '@metamask/detect-provider';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
 import React, { useEffect, useState } from 'react';
 import { convertBigNumber, getListProjectMyDonate, getTotalProjectMyDonate, parseUnixTimeStamp } from '../utils';
 
+const data_sample = [
+    {
+        projectId: 0,
+        imageUrl: "https://o.rada.vn/data/image/2021/08/02/viec-lam-bao-ve-moi-truong.jpg",
+        title: "Quyên góp hỗ trợ trồng cây vì môi trường",
+        objective: "Quyên góp vì môi trường là một hoạt động quan trọng và cần thiết trong việc bảo vệ và cải thiện môi trường sống tại Việt Nam. Việt Nam đang đối mặt với nhiều thách thức về môi trường, bao gồm ô nhiễm không khí, ô nhiễm nước, suy thoái đất đai và sự suy giảm của các nguồn tài nguyên thiên nhiên. Quyên góp vì môi trường có thể được hiểu là sự đóng góp tài chính, tài nguyên hoặc thời gian của cá nhân, tổ chức và cộng đồng để thúc đẩy các hoạt động bảo vệ môi trường và xây dựng một tương lai bền vững cho Việt Nam",
+        amount: "1000000000000000000000",
+        totalDonations: "700100000000000000000",
+        deadline: "1688116926"
+    },
+    {
+        projectId: 1,
+        imageUrl: "http://dinte.gov.vn/TinTuc/Lists/ThuVien/Attachments/1171/3.jpg",
+        title: "Cải thiện bộ phận xử lý khí đốt",
+        objective: "Nhiều nhà phê bình cũng chỉ ra rằng việc khuyến khích các dự án khí đốt tự nhiên mới sẽ cản trở nghiêm trọng mục tiêu cắt giảm 55% lượng khí thải CO2 của EU vào cuối thập kỷ này, đi ngược lại với khuyến nghị của IPCC rằng thế giới cần ngừng xây dựng tất cả các dự án nhiên liệu hóa thạch mới về cơ bản ngay bây giờ, và có thể tước đi nguồn tài chính cần thiết của các dự án điện gió, điện mặt trời và các dự án năng lượng tái tạo khác.",
+        amount: "500000000000000000000000",
+        totalDonations: "8002300000000000000000",
+        deadline: "1746004926"
+    },
+    {
+        projectId: 2,
+        imageUrl: "https://media.tapchitaichinh.vn/w1480/images/upload/vantruongtc/10272022/o-nhiem-khoi-bui.jpg",
+        title: "Quyên góp cho việc lọc sạch không khí ô nhiễm vì phương tiện giao thông",
+        objective: "Trong hoạt động giao thông, điểm cần nhắc đến trước hết là phương tiện cá nhân, trong đó chủ yếu xe máy là nguồn phát thải rất lớn do chưa kiểm định được phương tiện giống như ô tô. Xe máy cũ hầu như vẫn lưu thông, chưa bị siết. Bên cạnh đó, tiêu chuẩn khí thải áp dụng cho xe máy mới ở nước ta cũng mới là Euro 3, không phải là tiêu chuẩn cao. Trong khi đó, tại nhiều nước trên thế giới, tiêu chuẩn khí thải cũng cao hơn, và phương tiện được kiểm định thường xuyên, có niên hạn sử dụng.",
+        amount: "10700000000000000000000",
+        totalDonations: "800023000000000000000",
+        deadline: "1719825726"
+    },
+    {
+        projectId: 5,
+        imageUrl: "https://vietthaisinh.com/wp-content/uploads/2021/11/o-nhiem-moi-truong.jpg",
+        title: "Hạn chế thải nước thải chưa qua xử lý ra xuống sông ngòi",
+        objective: "Ô nhiễm môi trường nước là vấn đề cấp bách và đòi hỏi sự tham gia của toàn xã hội, từ các nhà khoa học, quản lý môi trường cho đến công chúng. Những ảnh về ô nhiễm môi trường nước và giải pháp khắc phục chính là tín hiệu tích cực, khơi gợi và truyền tải thông điệp về việc bảo vệ môi trường. Hãy cùng nhau đóng góp cho một môi trường trong lành và bền vững hơn.",
+        amount: "15000000000000000000000",
+        totalDonations: "6052203000000000000000",
+        deadline: "1830331326"
+    },
+    {
+        projectId: 6,
+        imageUrl: "https://photo-mekongasean.epicdn.me/w950/Uploaded/2023/tmgtng/2022_07_16/logo-broader1-7290.jpeg",
+        title: "Quyên góp ủng hộ bộ phận sản xuất những đò dùng có thể tái chế",
+        objective: "Trong bối cảnh đó, khái niệm kinh tế tuần hoàn đã được ra đời với mục tiêu xây dựng một hệ thống công nghiệp có thể phục hồi hoặc tái tạo theo ý định. Điều này cũng tương đương với việc khái niệm “kết thúc vòng đời sử dụng” sẽ bị loại bỏ hoàn toàn và khái niệm 'sử dụng năng lượng tái tạo' sẽ lên ngôi.",
+        amount: "25000000000000000000000",
+        totalDonations: "6052203000000000000000",
+        deadline: "1742030526"
+    }
+]
 
 const Profile = () => {
     const [provider, setProvider] = useState(null);
@@ -58,7 +108,7 @@ const Profile = () => {
                     </div>
                 </div>
             </div>
-            <div className='relative sm:container mx-auto px-40 pt-32'>
+            <div className='relative sm:container mx-auto px-40 pt-20'>
                 <h1 className='font-bold text-4xl text-center'>Thông tin của bạn</h1>
                 <div className='mt-4 mb-2 flex flex-col items-center'>
                     <div className='flex'>
@@ -71,36 +121,41 @@ const Profile = () => {
                     </div>
                 </div>
                 <div className='mt-12'>
-                    <div className='flex justify-between'>
+                    <div className='flex justify-between mb-12'>
                         <h1 className='font-bold text-2xl'>Danh sách các dự án bạn đã ủng hộ</h1>
                     </div>
-                    {listProjectMyDonate && listProjectMyDonate?.map((item) => {
-                        return <a key={convertBigNumber(item.projectId)} href={`project-detail/${convertBigNumber(item.projectId)}`}>
-                            <div className='flex m-4 p-4'>
-                                <img className='w-40' src={item.imageUrl} alt="" />
-                                <div className='ml-4'>
-                                    <h2 className='font-bold text-lg'>{item.title}</h2>
-                                    <div>
-                                        <div>Mục tiêu: {convertBigNumber(item.amount)} <span className='font-bold'>USD</span></div>
-                                        <div className='flex'>
-                                            <p>Tiến độ:</p>
-                                            <p className='ml-2'>
-                                                {(convertBigNumber(item && item.totalDonations) / convertBigNumber(item && item.amount)) * 100 > 100 ?
-                                                    100 : ((convertBigNumber(item.totalDonations) / convertBigNumber(item.amount)) * 100).toFixed(1)
-                                                }
-                                                %
-                                            </p>
+                    {listProjectMyDonate && data_sample?.map((item) => {
+                        return <div className='mt-5'>
+                            <List component="nav" aria-label="main mailbox folders">
+                                <ListItemButton
+                                // onClick={(event) => handleListItemClick(event, 0)}
+                                >
+                                    <ListItemIcon>
+                                        <img className='rounded' style={{ width: 200, height: 120, overflow: "hidden" }} src={item.imageUrl} alt="" />
+                                    </ListItemIcon>
+                                    <div className='ml-4'>
+                                        <h2 className='font-bold text-lg'>{item.title}</h2>
+                                        <div>
+                                            <div>Mục tiêu: {convertBigNumber(item.amount)} <span className='font-bold'>USD</span></div>
+                                            <div className='flex'>
+                                                <p>Tiến độ:</p>
+                                                <p className='ml-2'>
+                                                    {(convertBigNumber(item && item.totalDonations) / convertBigNumber(item && item.amount)) * 100 > 100 ?
+                                                        100 : ((convertBigNumber(item.totalDonations) / convertBigNumber(item.amount)) * 100).toFixed(1)
+                                                    }
+                                                    %
+                                                </p>
+                                            </div>
+                                            <div>Thời điểm ngừng kêu gọi: {parseUnixTimeStamp(item.deadline)}</div>
                                         </div>
-                                        <div>Thời điểm ngừng kêu gọi: {parseUnixTimeStamp(item.deadline)}</div>
                                     </div>
-                                </div>
-                            </div>
-                        </a>
-
+                                </ListItemButton>
+                            </List>
+                        </div>
                     })}
                 </div>
             </div>
-            <div className='py-8 px-44 h-82 bg-black'>
+            <div className='py-8 px-44 h-82 bg-black mt-16'>
                 <div>
                     <div className='flex justify-around'>
                         <div className=''>

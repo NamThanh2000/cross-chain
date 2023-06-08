@@ -127,8 +127,8 @@ function Withdraw({ projectId }) {
                     <div className='pt-10 pb-1 flex justify-center border-gray-300'
                         style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                     >
-                        <p className='w-64 font-bold text-lg font-medium text-center'>Số tiền</p>
-                        <p className='w-80 font-bold text-lg font-medium text-center'>Thời điểm</p>
+                        <p className='w-64 text-lg font-medium text-center'>Số tiền</p>
+                        <p className='w-80 text-lg font-medium text-center'>Thời điểm</p>
                     </div>
                     {listHistoryDonate && listHistoryDonate.map((item, index) => {
                         return <div
@@ -145,7 +145,7 @@ function Withdraw({ projectId }) {
             <div className='mt-8'>
                 <p className='font-bold'>Rút tiền</p>
                     {/* <div className='py-6 text-lg'>Donate monthly as a Conservation Champion and provide reliable support to accelerate the pace of conservation today. Plus, receive our special picnic blanket as a thank you gift for protecting nature.</div> */}
-                {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' && <>
+                    {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' && <>
                         <div className='flex items-center mt-5'>
                             <input
                                 className='p-3 rounded'

@@ -59,7 +59,7 @@ export const getBalances = async (signer, provider, action) => {
     const network = await provider.getNetwork();
     const chainid = network.chainId;
 
-    const donationAddress = "0xDB18aC5292EB8A41f0D2829F81909c9e6183ab13"
+    const donationAddress = "0xcC138083ba38dc7594142Af8E5A6925EdB23414B"
     if (chainid === 56) {
         const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
         const donateBalance = await donationContract.getContractBalance();
@@ -111,7 +111,7 @@ export const donateETH = async (signer, provider, amountDonateETH, projectId, co
         const chainid = network.chainId;
         if (chainid === 56) {
             const donateAmount = ethers.utils.parseUnits(amountDonateETH, 18);
-            const donationAddress = "0xDB18aC5292EB8A41f0D2829F81909c9e6183ab13"
+            const donationAddress = "0xcC138083ba38dc7594142Af8E5A6925EdB23414B"
 
             const wethAddress = '0x2170Ed0880ac9A755fd29B2688956BD959F933F8'
             const wethToken = new ethers.Contract(wethAddress, wethABI, signer);
@@ -187,12 +187,12 @@ export const withdrawUSDT = async (signer, provider, amountWithdrawUSDT, project
         const network = await provider.getNetwork();
         const chainid = network.chainId;
         if (chainid === 56) {
-            const donationAddress = "0xDB18aC5292EB8A41f0D2829F81909c9e6183ab13"
+            const donationAddress = "0xcC138083ba38dc7594142Af8E5A6925EdB23414B"
 
             const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
             const amountWithdraw = ethers.utils.parseUnits(amountWithdrawUSDT, 18);
             try {
-                const donateTx = await donationContract.withdraw(projectId, amountWithdraw);
+                const donateTx = await donationContract.withdraw(projectId, amountWithdraw, "");
                 await donateTx.wait();
                 console.log("Withdraw thành công: ", donateTx.toString());
                 return true

@@ -3,14 +3,18 @@ import { Tab, Tabs } from '@material-ui/core';
 import { TabContext } from '@material-ui/lab';
 import detectEthereumProvider from "@metamask/detect-provider";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PaidIcon from '@mui/icons-material/Paid';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { Box, Button } from '@mui/material';
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { convertBigNumber, getListWithdrawProject, getProjectDetail, parseUnixTimeStamp } from '../utils';
 import FormDonate from './FormDonate';
-
 
 function ProjectDetail() {
     const [provider, setProvider] = useState(null);
@@ -63,9 +67,6 @@ function ProjectDetail() {
 
     }, [provider]);
 
-    console.log(project && (convertBigNumber(project && project.totalDonations) / convertBigNumber(project && project.amount)) * 100);
-    console.log(project && (convertBigNumber(project && project.totalDonations) / convertBigNumber(project && project.amount)) * 100);
-
     return (
         <>
             <div className="fixed z-30 w-full bg-white shadow-xl">
@@ -106,7 +107,7 @@ function ProjectDetail() {
                                     fontWeight: '700',
                                 }}
                             >
-                                <img className='w-full' src={project && project.imageUrl} alt="Nature slice" />
+                                <img style={{ width: 700 }} src={project && project.imageUrl} alt="Nature slice" />
                                 <div className='flex flex-col'>
                                     <h1 className="text-3xl mx-6 my-6 text-center">{project && project.title}</h1>
                                     <div className="mx-8 text-base">
@@ -179,13 +180,13 @@ function ProjectDetail() {
                         </div>
                         <div className='flex'>
                             <div className='border-t-4 border-green-700 flex-1 mr-5 px-5'>
-                                <h2 className='my-6 text-xl font-bold'>Lịch sử rút token</h2>
+                                <h2 className='my-6 text-xl font-bold'>Lịch sử rút USDT</h2>
                                 {listWithdraw.length > 0 ? <div>
                                     <div className='pt-4 pb-1 flex justify-center border-gray-300'
                                         style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                                     >
-                                        <p className='w-64 font-bold text-lg'>Amount</p>
-                                        <p className='w-80 font-bold text-lg'>Timestamp</p>
+                                        <p className='w-64 text-lg font-medium text-center'>Số tiền</p>
+                                        <p className='w-80 text-lg font-medium text-center'>Thời điểm</p>
                                     </div>
                                     {listWithdraw.map((item, index) => {
                                         return <div
@@ -193,8 +194,8 @@ function ProjectDetail() {
                                             className='p-3 flex justify-center border-gray-300'
                                             style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                                         >
-                                            <p className='w-64 font-medium text-green-700 text-lg'>{convertBigNumber(item.amount).toFixed(4)} USD</p>
-                                            <p className='w-80 font-medium text-green-700 text-lg'>{parseUnixTimeStamp(item.timestamp)}</p>
+                                            <p className='w-64 text-green-700 text-lg text-center'>{convertBigNumber(item.amount).toFixed(4)} USD</p>
+                                            <p className='w-80 text-green-700 text-lg text-center'>{parseUnixTimeStamp(item.timestamp)}</p>
                                         </div>
                                     })}
                                 </div> :
@@ -211,28 +212,50 @@ function ProjectDetail() {
                                         <Button color="success" href='/organization-add' variant="outlined">Thêm Tổ Chức</Button>
                                     }
                                 </div>
-                                <div className='text-center'>Chưa có thông tin</div>
-                                {/* <div className='mt-4'>
-                                    <h3 className='text-xl font-bold'>1. VietComBank</h3>
-                                    <div className='flex items-start  mt-4'>
-                                        <img className='w-40' src="https://admin.tamlyvietphap.vn/uploaded/Images/Original/2020/10/16/logo_vietcombank_1610091313.jpg" alt="" />
-                                        <p className='ml-6'>Ngân hàng TMCP Ngoại thương Việt Nam tên viết tắt: "Vietcombank", là công ty lớn nhất trên thị trường chứng khoán Việt Nam tính theo vốn hóa. Hiện tại Ngân hàng nhà nước Việt Nam nắm giữ 75% cổ phần và là cổ đông lớn nhất.</p>
-                                    </div>
-                                </div>
-                                <div className='mt-4'>
-                                    <h3 className='text-xl font-bold'>2. BIDV</h3>
-                                    <div className='flex items-start  mt-4'>
-                                        <img className='w-40' src="https://cdn.tgdd.vn/2020/03/GameApp/image(14)-200x200-1.png" alt="" />
-                                        <p className='ml-6'>Ngân hàng TMCP Đầu tư và Phát triển Việt Nam tên gọi tắt: "BIDV", là ngân hàng thương mại lớn nhất Việt Nam tính theo quy mô tài sản năm 2019 và là doanh nghiệp đứng thứ 10 trong danh sách 1000 doanh nghiệp đóng thuế thu nhập doanh nghiệp lớn nhất năm 2018.</p>
-                                    </div>
-                                </div> */}
+                                {/* <div className='text-center'>Chưa có thông tin</div> */}
+                                <Accordion>
+                                    <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1a-content"
+                                    id="panel1a-header"
+                                    >
+                                        <Typography variant="button">Hội bảo vệ thiên nhiên và môi trường Việt Nam</Typography>
+                                    </AccordionSummary>
+                                    <AccordionDetails>
+                                        <Typography>
+                                            <div className='flex flex-col items-center'>
+                                                <img style={{ height: 86 }} className='mb-5' src="http://www.vacne.org.vn/images/advert/189.jpg" alt="" />
+                                                <Typography>
+                                                    Hội Bảo vệ Thiên nhiên và Môi trường Việt Nam được thành lập theo quyết định số 299/CT ngày 23/11/1988 của Chủ tịch Hội đồng Bộ trưởng (nay là Thủ tướng Chính phủ). Từ đó đến nay Hội đã trải qua 7 lần Đại hội vào các năm 1988, 1993, 1998, 2003, 2008, 2013 và 2018.
+                                                </Typography>
+                                            </div>
+                                        </Typography>
+                                    </AccordionDetails>
+                                </Accordion>
+                                <Accordion>
+                                    <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1a-content"
+                                    id="panel1a-header"
+                                    >
+                                        <Typography variant="button">Trung tâm giáo dục thiên nhiên</Typography>
+                                    </AccordionSummary>
+                                    <AccordionDetails>
+                                        <div className='flex flex-col items-center'>
+                                            <img style={{ height: 86 }} className='mb-5' src="https://thiennhien.org/uploads/logo-env3.webp" alt="" />
+                                            <Typography>
+                                                Ngân hàng TMCP Đầu tư và Phát triển Việt Nam tên gọi tắt: "BIDV", là ngân hàng thương mại lớn nhất Việt Nam tính theo quy mô tài sản năm 2019 và là doanh nghiệp đứng thứ 10 trong danh sách 1000 doanh nghiệp đóng thuế thu nhập doanh nghiệp lớn nhất năm 2018.
+                                            </Typography>
+                                        </div>
+                                    </AccordionDetails>
+                                </Accordion>
                             </div>
                         </div>
                     </div>
 
                 </div>
             </div>
-            <div className='py-8 px-44 h-82 bg-black'>
+            <div className='py-8 px-44 h-82 bg-black mt-20'>
                 <div>
                     <div className='flex justify-around'>
                         <div className=''>

@@ -113,7 +113,7 @@ function AddOrganization() {
                     <Button color="success" type='submit' variant="contained">Thêm Tổ Chức Mới</Button>
                 </Box>
             </div>
-            <div className='py-8 px-44 h-82 bg-black'>
+            <div className='py-8 px-44 h-82 bg-black mt-20'>
                 <div>
                     <div className='flex justify-around'>
                         <div className=''>

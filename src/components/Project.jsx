@@ -183,7 +183,7 @@ function Projects() {
                 <div className='flex justify-between mb-10'>
                     <h1 className='font-bold text-3xl flex items-center'>Danh sách các dự án</h1>
                     <Box sx={{ minWidth: 220 }}>
-                        <FormControl fullWidth>
+                        <FormControl color="success" fullWidth>
                             {/* <InputLabel id="demo-simple-select-label">Age</InputLabel> */}
                             <Select
                                 labelId="demo-simple-select-label"

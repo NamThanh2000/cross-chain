@@ -54,8 +54,10 @@ function Withdraw({ projectId }) {
                 SetCurrentAddress(addressCurrent)
             }
             await getAddress()
-            const listWithdraw = await getListWithdrawProject(provider.getSigner(), projectId)
-            setListWithdraw(listWithdraw)
+            if (chainId === 56) {
+                const listWithdraw = await getListWithdrawProject(provider.getSigner(), projectId)
+                setListWithdraw(listWithdraw)
+            }
         }
         init()
 
@@ -144,22 +146,22 @@ function Withdraw({ projectId }) {
             </div>
             <div className='mt-8'>
                 <p className='font-bold'>Rút tiền</p>
-                    {/* <div className='py-6 text-lg'>Donate monthly as a Conservation Champion and provide reliable support to accelerate the pace of conservation today. Plus, receive our special picnic blanket as a thank you gift for protecting nature.</div> */}
-                    {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' && <>
-                        <div className='flex items-center mt-5'>
-                            <input
-                                className='p-3 rounded'
-                                value={amountCrossChain}
-                                onChange={(e) => setAmountCrossChain(e.target.value)}
-                                placeholder='Nhập số lượng USDT muốn rút'
-                                type='number'
-                            />
-                            <Button sx={{ marginLeft: 5 }} variant="contained" disabled={btnDisable} color="success" size="large" onClick={handleWithdraw}>Rút Tiền</Button>
-                        </div>
-                        <p className='mt-2 text-sm italic'>Số dư USDT: <span className='font-bold' style={{ color: "#2E7D32"}}>{totalDonate} USDT</span></p>
-                    </>
+                {/* <div className='py-6 text-lg'>Donate monthly as a Conservation Champion and provide reliable support to accelerate the pace of conservation today. Plus, receive our special picnic blanket as a thank you gift for protecting nature.</div> */}
+                {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' && <>
+                    <div className='flex items-center mt-5'>
+                        <input
+                            className='p-3 rounded'
+                            value={amountCrossChain}
+                            onChange={(e) => setAmountCrossChain(e.target.value)}
+                            placeholder='Nhập số lượng USDT muốn rút'
+                            type='number'
+                        />
+                        <Button sx={{ marginLeft: 5 }} variant="contained" disabled={btnDisable} color="success" size="large" onClick={handleWithdraw}>Rút Tiền</Button>
+                    </div>
+                    <p className='mt-2 text-sm italic'>Số dư USDT: <span className='font-bold' style={{ color: "#2E7D32" }}>{totalDonate} USDT</span></p>
+                </>
                 }
-            </div>           
+            </div>
         </div>
 
     );

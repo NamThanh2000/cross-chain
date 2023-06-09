@@ -47,7 +47,7 @@
 // const HDWalletProvider = require('@truffle/hdwallet-provider');
 
 const HDWalletProvider = require('@truffle/hdwallet-provider');
-const privateKey = 'YOUR_PRIVATE_KEY'; // Thay thế YOUR_PRIVATE_KEY bằng khóa riêng của bạn
+const privateKey = '22c8f90966f4a95a0ef06577507da7a2c287d4e3bc09df20ddf0ec1504c8a60a'; // Thay thế YOUR_PRIVATE_KEY bằng khóa riêng của bạn
 const BSC_RPC_URL = 'https://bsc-dataseed.binance.org/';
 
 module.exports = {

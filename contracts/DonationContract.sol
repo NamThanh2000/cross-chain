@@ -24,6 +24,7 @@ contract DonationContract {
         uint amount;
         uint timestamp;
         string content;
+        address donorWallet;
     }
 
     struct Organization {
@@ -105,16 +106,6 @@ contract DonationContract {
         }
     }
 
-    function addWithdrawImage(uint _projectId, uint _withdrawalId, string memory _imageUrl) external {
-        require(msg.sender == owner || isAllowedOrganizationWallet[_projectId][msg.sender], "Only the contract owner or the allowed organization can add an image.");
-        withdrawalImages[_projectId][_withdrawalId].push(_imageUrl);
-    }
-
-    function getWithdrawImage(uint _projectId, uint _withdrawalId) external view returns (string[] memory) {
-        require(msg.sender == owner || projectDonations[_projectId][msg.sender] > 0 || isAllowedOrganizationWallet[_projectId][msg.sender] , "Only the contract owner or donors or the allowed organization can see withdrawal history.");
-        return withdrawalImages[_projectId][_withdrawalId];
-    }
-
     // Thêm thông tin tổ chức theo địa chỉ ví
     // Example: Ví 0x4d974A49567844EE4342760c61C77010736dE63b được add vào project_1 bằng function addOrganizationWallet
     //          Ví 0x4d974A49567844EE4342760c61C77010736dE63b được add vào project_2 bằng function addOrganizationWallet
@@ -140,7 +131,8 @@ contract DonationContract {
         Donation memory newDonation = Donation({
             amount: _usdtAmount,
             timestamp: block.timestamp,
-            content: _content
+            content: _content,
+            donorWallet: msg.sender
         });
         donationHistory[_projectId][msg.sender].push(newDonation);
 
@@ -212,6 +204,11 @@ contract DonationContract {
         withdrawalHistory[_projectId].push(newWithdrawal);
     }
 
+    function addWithdrawImage(uint _projectId, uint _withdrawalId, string memory _imageUrl) external {
+        require(msg.sender == owner || isAllowedOrganizationWallet[_projectId][msg.sender], "Only the contract owner or the allowed organization can add an image.");
+        withdrawalImages[_projectId][_withdrawalId].push(_imageUrl);
+    }
+
     // Lấy danh sách tổ chức theo project ID
     function getOrganizationsForProject(uint _projectId) external view returns (Organization[] memory) {
         address[] memory orgAddresses = addressOrganization[_projectId];
@@ -233,6 +230,11 @@ contract DonationContract {
     function getWithdrawalHistory(uint _projectId) external view returns (Withdrawal[] memory) {
         require(msg.sender == owner || projectDonations[_projectId][msg.sender] > 0 || isAllowedOrganizationWallet[_projectId][msg.sender] , "Only the contract owner or donors or the allowed organization can see withdrawal history.");
         return withdrawalHistory[_projectId];
+    }
+
+    function getWithdrawImage(uint _projectId, uint _withdrawalId) external view returns (string[] memory) {
+        require(msg.sender == owner || projectDonations[_projectId][msg.sender] > 0 || isAllowedOrganizationWallet[_projectId][msg.sender] , "Only the contract owner or donors or the allowed organization can see withdrawal history.");
+        return withdrawalImages[_projectId][_withdrawalId];
     }
 
     // Lấy danh sách lịch sử của tất cả người donate theo project ID
@@ -336,7 +338,7 @@ contract DonationContract {
     }
 
     // Lấy số lượng token của contract (chỉ nên hiển thị với owner)
-    function getContractBalance() external view returns (uint256) {
-        return usdtToken.balanceOf(address(this));
-    }
+    // function getContractBalance() external view returns (uint256) {
+    //     return usdtToken.balanceOf(address(this));
+    // }
 }

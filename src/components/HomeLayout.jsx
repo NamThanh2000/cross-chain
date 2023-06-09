@@ -87,7 +87,7 @@ function HomeLayout() {
         <div className="absolute z-20 lg:mx-60 mx-5">
           <h1 className=" text-white font-bold text-5xl">Bảo vệ những gì thiên nhiên ban tặng cho bạn</h1>
           <p className="mt-2 text-white font-bold text1xl">Hãy giúp bảo vệ không khí bạn hít thở, nước bạn uống và những nơi bạn gọi là nhà.</p>
-          {isConnectMetamask && <button onClick={connectMetamask} className="mt-6 px-8 py-3 bg-white text-green-700 font-bold">Connect To MetaMask Wallet</button>}
+          {isConnectMetamask && <button onClick={connectMetamask} className="mt-6 px-8 py-3 bg-white text-green-700 font-bold">Kết nối ví MetaMask</button>}
         </div>
       </div>
       <div className='sm:container mx-auto px-10 mt-10'>

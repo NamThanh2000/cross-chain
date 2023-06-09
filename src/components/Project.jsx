@@ -21,7 +21,7 @@ const data_sample = [
     },
     {
         projectId: 1,
-        imageUrl: "http://dinte.gov.vn/TinTuc/Lists/ThuVien/Attachments/1171/3.jpg",
+        imageUrl: "https://ktmt.vnmediacdn.com/images/2022/11/14/67-1668436234-nganh-cong-nghiep-nhien-lieu-hoa-thach-phai-ngung-hoat-dong.jpg",
         title: "Cải thiện bộ phận xử lý khí đốt",
         objective: "Nhiều nhà phê bình cũng chỉ ra rằng việc khuyến khích các dự án khí đốt tự nhiên mới sẽ cản trở nghiêm trọng mục tiêu cắt giảm 55% lượng khí thải CO2 của EU vào cuối thập kỷ này, đi ngược lại với khuyến nghị của IPCC rằng thế giới cần ngừng xây dựng tất cả các dự án nhiên liệu hóa thạch mới về cơ bản ngay bây giờ, và có thể tước đi nguồn tài chính cần thiết của các dự án điện gió, điện mặt trời và các dự án năng lượng tái tạo khác.",
         amount: "500000000000000000000000",

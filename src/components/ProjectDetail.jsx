@@ -219,14 +219,14 @@ function ProjectDetail() {
                                     aria-controls="panel1a-content"
                                     id="panel1a-header"
                                     >
-                                        <Typography variant="button">Hội bảo vệ thiên nhiên và môi trường Việt Nam</Typography>
+                                        <Typography variant="button">WWF Vietnam</Typography>
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <Typography>
                                             <div className='flex flex-col items-center'>
-                                                <img style={{ height: 86 }} className='mb-5' src="http://www.vacne.org.vn/images/advert/189.jpg" alt="" />
+                                                <img style={{ height: 86 }} className='mb-5' src="https://cdnassets.panda.org/_skins/international/img/logo.png" alt="" />
                                                 <Typography>
-                                                    Hội Bảo vệ Thiên nhiên và Môi trường Việt Nam được thành lập theo quyết định số 299/CT ngày 23/11/1988 của Chủ tịch Hội đồng Bộ trưởng (nay là Thủ tướng Chính phủ). Từ đó đến nay Hội đã trải qua 7 lần Đại hội vào các năm 1988, 1993, 1998, 2003, 2008, 2013 và 2018.
+                                                Tổ chức Quốc tế về Bảo tồn Thiên nhiên tại Việt Nam (WWF-Việt Nam) là một trong những tổ chức bảo tồn hàng đầu tại Việt Nam, tư vấn các giải pháp và hỗ trợ chính phủ và các đối tác giải quyết các thách thức của quá trình phát triển quốc gia.
                                                 </Typography>
                                             </div>
                                         </Typography>
@@ -244,7 +244,7 @@ function ProjectDetail() {
                                         <div className='flex flex-col items-center'>
                                             <img style={{ height: 86 }} className='mb-5' src="https://thiennhien.org/uploads/logo-env3.webp" alt="" />
                                             <Typography>
-                                                Ngân hàng TMCP Đầu tư và Phát triển Việt Nam tên gọi tắt: "BIDV", là ngân hàng thương mại lớn nhất Việt Nam tính theo quy mô tài sản năm 2019 và là doanh nghiệp đứng thứ 10 trong danh sách 1000 doanh nghiệp đóng thuế thu nhập doanh nghiệp lớn nhất năm 2018.
+                                            Trung tâm Giáo dục Thiên nhiên (ENV) được thành lập vào năm 2000, là một trong những tổ chức xã hội đầu tiên về bảo tồn động vật hoang dã (ĐVHD) tại Việt Nam. ENV đi đầu trong nỗ lực chấm dứt nạn buôn bán ĐVHD trái phép ở Việt Nam bằng cách áp dụng các chiến lược sáng tạo nhằm hoàn thiện các quy định pháp luật về bảo vệ ĐVHD, thúc đẩy công tác thực thi, trực tiếp hỗ trợ các cơ quan chức năng trong công tác xử lý vi phạm và huy động sự tham gia của cộng đồng nhằm giảm thiểu nhu cầu và ngăn chặn vi phạm về ĐVHD.
                                             </Typography>
                                         </div>
                                     </AccordionDetails>

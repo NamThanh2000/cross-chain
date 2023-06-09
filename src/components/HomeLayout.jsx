@@ -133,8 +133,8 @@ function HomeLayout() {
             <p className='font-bold text-sm py-4'>NHIỆM VỤ CỦA CHÚNG TA</p>
             <h2 className='text-5xl font-bold'>Bảo tồn các vùng đất và vùng nước mà tất cả sự sống phụ thuộc vào</h2>
             <p className='py-8'>Mỗi mẫu đất chúng tôi bảo vệ và mỗi dặm sông chúng tôi khôi phục đều bắt đầu với bạn. Sự hỗ trợ của bạn giúp chúng tôi đối phó với các mối đe dọa kép của biến đổi khí hậu và suy giảm đa dạng sinh học trên hơn 70 quốc gia và vùng lãnh thổ.</p>
-            <a href="/project-detail/0">
-              <button className="px-8 py-3 bg-green-700  text-white font-bold">DONATE NOW</button>
+            <a href="/projects">
+              <button className="px-8 py-3 bg-green-700 text-white font-bold">QUYÊN GÓP NGAY</button>
             </a>
           </div>
         </div>

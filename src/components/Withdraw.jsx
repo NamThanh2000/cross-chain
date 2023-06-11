@@ -163,14 +163,14 @@ function Withdraw({ projectId }) {
                     <Box component='form' onSubmit={handleSubmit(onSubmit)} className='border-t-4 border-green-700'>
                         <Box className='flex flex-col w-full mt-4'>
                             <p className='font-medium text-lg'>RÚT TIỀN</p>
-                            <div>
+                            <div className='mt-2'>
                                 <input
                                     className='p-3 rounded w-full'
                                     placeholder='Nhập số lượng USDT muốn rút'
                                     type='number'
                                     {...register("amount", { required: true })}
                                 />
-                                {errors.content && errors.content.type === "required" && (
+                                {errors.amount && errors.amount.type === "required" && (
                                     <span className='text-sm text-red-600'>Số tiền rút là bắt buộc</span>
                                 )}
                             </div>

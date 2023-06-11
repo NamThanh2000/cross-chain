@@ -16,6 +16,7 @@ import ContactUs from "./components/ContactUs";
 import AddOrganization from "./components/AddOrganization";
 import Profile from "./components/Profile";
 import HistoryWithdraw from "./components/HistoryWithdraw";
+import Organizations from "./components/Organizations";
 
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
             <Route path='/contact-us' element={<ContactUs />} />
             <Route path='/about' element={<About />} />
             <Route path='/organization-add' element={<AddOrganization />} />
+            <Route path='/organizations' element={<Organizations />} />
 
             {/* <Route path='*' element={<NotFound />} /> */}
 

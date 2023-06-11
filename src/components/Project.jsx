@@ -153,8 +153,8 @@ function Projects() {
                                     {item.title}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                    <p 
-                                        style={{ 
+                                    <p
+                                        style={{
                                             display: "-webkit-box",
                                             "-webkit-line-clamp": "4",
                                             "-webkit-box-orient": "vertical",
@@ -171,7 +171,7 @@ function Projects() {
                                                 100 : ((convertBigNumber(item.totalDonations) / convertBigNumber(item.amount)) * 100).toFixed(1)
                                             }
                                             %
-                                            </span>
+                                        </span>
                                         </div>
                                         <div>Ngày hết hạn: <span style={{ color: "#2E7D32" }} className='font-bold'>{parseUnixTimeStamp(item.deadline)}</span></div>
                                     </div>

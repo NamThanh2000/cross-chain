@@ -276,6 +276,20 @@ export const addOrganization = async (signer, data) => {
 }
 
 
+export const addWithdrawImage = async (signer, projectId, withdrawId, imageUrl) => {
+    const donationAddress = "0xcC138083ba38dc7594142Af8E5A6925EdB23414B"
+
+    const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
+
+    const addWithdrawImage = await donationContract.addWithdrawImage(projectId, withdrawId, imageUrl)
+    const result = addWithdrawImage.wait()
+    if (result) {
+        return true
+    }
+    return false
+}
+
+
 export const convertBigNumber = (number) => {
     if (number){
         let result = ethers.utils.formatUnits(number?.toString(), 18);

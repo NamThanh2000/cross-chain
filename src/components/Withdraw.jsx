@@ -1,9 +1,9 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
-import { Box, Button } from '@mui/material';
+import { Box, Button, FormControl, MenuItem, Select } from '@mui/material';
 import React, { useEffect, useState } from "react";
 import toast from 'react-hot-toast';
-import { convertBigNumber, getAllHistoryProject, getListWithdrawProject, parseUnixTimeStamp, withdrawUSDT } from "../utils";
+import { addWithdrawImage, convertBigNumber, getAllHistoryProject, getListWithdrawProject, parseUnixTimeStamp, withdrawUSDT } from "../utils";
 import { useForm } from 'react-hook-form';
 
 function Withdraw({ projectId }) {
@@ -12,12 +12,16 @@ function Withdraw({ projectId }) {
     const [chainId, setChainId] = useState(0);
     const [totalDonate, SetTotalDonate] = useState(0);
     const [currentAddress, SetCurrentAddress] = useState(0);
-    const [amountCrossChain, setAmountCrossChain] = useState('');
     const [btnDisable, setBtnDisable] = useState(false);
     const [listHistoryDonate, setListHistoryDonate] = useState(false);
     const [listWithdraw, setListWithdraw] = useState([]);
+    const [imageURL, setImageURL] = useState('');
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+
+    const { register, handleSubmit, formState: { errors } } = useForm();
+
+    const { register: registerUpImage, handleSubmit: handleSubmitImage, watch, formState: { errors: errorsImage } } = useForm();
+    const selectDateWithdraw = watch('dateWithdraw', 0)
 
     useEffect(() => {
         const init = async () => {
@@ -57,10 +61,11 @@ function Withdraw({ projectId }) {
                 SetCurrentAddress(addressCurrent)
             }
             await getAddress()
-            if (chainId === 56) {
+            try {
                 const listWithdraw = await getListWithdrawProject(provider.getSigner(), projectId)
+                console.log(listWithdraw);
                 setListWithdraw(listWithdraw)
-            }
+            } catch { }
         }
         init()
 
@@ -87,11 +92,14 @@ function Withdraw({ projectId }) {
         }
         else if (chainId === 56) {
             const init = async () => {
-                const result = await getAllHistoryProject(signer, projectId)
-                setListHistoryDonate(result)
-            }
+                try {
+                    const result = await getAllHistoryProject(signer, projectId)
+                    setListHistoryDonate(result)
+                }
+                catch { }
 
-            init()
+                init()
+            }
         }
     }, [chainId])
 
@@ -108,6 +116,23 @@ function Withdraw({ projectId }) {
         }
         setBtnDisable(false)
 
+    }
+
+    const onSubmitUpImage = async data => {
+        if (Number(selectDateWithdraw) !== 0) {
+            console.log(data);
+            // if (!provider) return;
+            // const signer = provider.getSigner()
+            // setBtnDisable(true)
+            // const result = await addWithdrawImage(signer, projectId, data['amount'], projectId, data['content'])
+            // if (result) {
+            //     toast.success("Up picture success");
+            // }
+            // else {
+            //     toast.error("Up picture failed");
+            // }
+            // setBtnDisable(false)
+        }
     }
     return (
         <div>
@@ -132,40 +157,73 @@ function Withdraw({ projectId }) {
                     })}
                 </div>
             </div>
-            <Box component='form' className='mt-8' onSubmit={handleSubmit(onSubmit)}>
-                <p className='font-bold'>Rút tiền</p>
+            <Box className='mt-8'>
                 {/* <div className='py-6 text-lg'>Donate monthly as a Conservation Champion and provide reliable support to accelerate the pace of conservation today. Plus, receive our special picnic blanket as a thank you gift for protecting nature.</div> */}
                 {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' && <>
-                    <div className='flex flex-col w-full mt-4'>
-                        <div>
+                    <Box component='form' onSubmit={handleSubmit(onSubmit)} className='border-t-4 border-green-700'>
+                        <Box className='flex flex-col w-full mt-4'>
+                            <p className='font-medium text-lg'>RÚT TIỀN</p>
+                            <div>
+                                <input
+                                    className='p-3 rounded w-full'
+                                    placeholder='Nhập số lượng USDT muốn rút'
+                                    type='number'
+                                    {...register("amount", { required: true })}
+                                />
+                                {errors.content && errors.content.type === "required" && (
+                                    <span className='text-sm text-red-600'>Số tiền rút là bắt buộc</span>
+                                )}
+                            </div>
+                            <div className=' w-full'>
+                                <textarea
+                                    {...register("content", { required: true, maxLength: 1000 })}
+                                    type='string'
+                                    style={{ border: '1px solid #e5e7eb' }}
+                                    className='w-full mt-2 p-3 rounded focus:outline-green-700'
+                                    placeholder='Nội dung rút tiền' name="content" id="" cols="30" rows="10">
+                                </textarea>
+                                {errors.content && errors.content.type === "required" && (
+                                    <span className='text-sm text-red-600'>Nội dung rút tiền là bắt buộc.</span>
+                                )}
+                            </div>
+                        </Box>
+                        <p className='mt-2 text-sm italic'>Số dư USDT: <span className='font-bold' style={{ color: "#2E7D32" }}>{totalDonate} USDT</span></p>
+                        <Button type='submit' sx={{ marginTop: 2 }} variant="contained" disabled={btnDisable} color="success" size="large">Rút Tiền</Button>
+                    </Box>
+                    <div className='mt-8 border-t-4 border-green-700'>
+                        <Box component='form' onSubmit={handleSubmitImage(onSubmitUpImage)} className='mt-4'>
+                            <h3 className='text-lg font-medium'>ĐĂNG TẢI BIÊN LAI RÚT TIỀN</h3>
                             <input
-                                className='p-3 rounded w-full'
-                                // value={amountCrossChain}
-                                // onChange={(e) => setAmountCrossChain(e.target.value)}
-                                placeholder='Nhập số lượng USDT muốn rút'
-                                type='number'
-                                {...register("amount", { required: true })}
-                            />
-                            {errors.content && errors.content.type === "required" && (
-                                <span className='text-sm text-red-600'>Số tiền rút là bắt buộc</span>
-                            )}
-                        </div>
-                        <div className=' w-full'>
-                            <textarea
-                                {...register("content", { required: true, maxLength: 1000 })}
-
+                                className='mt-2 p-3 rounded w-full'
+                                placeholder='Đường dẫn ảnh'
                                 type='string'
-                                style={{ border: '1px solid #e5e7eb' }}
-                                className='w-full mt-2 p-3 rounded focus:outline-green-700'
-                                placeholder='Nội dung rút tiền' name="content" id="" cols="30" rows="10">
-                            </textarea>
-                            {errors.content && errors.content.type === "required" && (
-                                <span className='text-sm text-red-600'>Nội dung rút tiền là bắt buộc.</span>
+                                {...registerUpImage("imageUrl", { required: true })}
+                            />
+                            {errorsImage?.imageUrl && errorsImage?.imageUrl.type === "required" && (
+                                <span className='text-sm text-red-600'>Đường dẫn ảnh là bắt buộc.</span>
                             )}
-                        </div>
+                            <Box sx={{ minWidth: 220, marginTop: 1 }}>
+                                <FormControl color="success" fullWidth >
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        // label='Ngày rút tiền'
+                                        value={selectDateWithdraw}
+                                        {...registerUpImage("dateWithdraw", { required: true })}
+                                    >
+                                        <MenuItem value={0}>Ngày rút tiền</MenuItem>
+                                        {listWithdraw?.map((item, index) => {
+                                            return <MenuItem key={index} value={index + 1}>{parseUnixTimeStamp(item.timestamp)}</MenuItem>
+                                        })}
+                                    </Select>
+                                </FormControl>
+                                {Number(selectDateWithdraw) === 0 && (
+                                    <span className='text-sm text-red-600'>Ngày rút tiền là bắt buộc.</span>
+                                )}
+                            </Box>
+                            <Button type='submit' sx={{ marginTop: 2 }} variant="contained" color="success" size="large">ĐĂNG TẢI BIÊN LAI</Button>
+                        </Box>
                     </div>
-                    <p className='mt-2 text-sm italic'>Số dư USDT: <span className='font-bold' style={{ color: "#2E7D32" }}>{totalDonate} USDT</span></p>
-                    <Button type='submit' sx={{ marginTop: 4 }} variant="contained" disabled={btnDisable} color="success" size="large">Rút Tiền</Button>
                 </>
                 }
             </Box>

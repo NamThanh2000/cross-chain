@@ -137,7 +137,7 @@ function HistoryWithdraw() {
                                         <p className='w-64 text-lg font-bold text-center'>Số tiền</p>
                                         <p className='w-80 text-lg font-bold text-center'>Thời điểm</p>
                                         <p className='w-80 text-lg font-bold text-center'>Nội dung rút</p>
-                                        <p className='w-80 text-lg font-bold text-center'>Biên lại</p>
+                                        <p className='w-80 text-lg font-bold text-center'>Biên lai</p>
                                     </div>
                                     {listWithdraw.map((item, index) => {
                                         return <div

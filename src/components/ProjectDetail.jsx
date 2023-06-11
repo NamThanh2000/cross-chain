@@ -227,7 +227,7 @@ function ProjectDetail() {
                                 <div className='my-6 flex justify-between items-center'>
                                     <h2 className='text-xl font-bold'>Các Tổ Chức Cùng Đồng Hành</h2>
                                     {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' &&
-                                        <Button color="success" href='/organization-add' variant="outlined">Thêm Tổ Chức</Button>
+                                        <Button color="success" href={`/organization-add-project/${param}`} variant="outlined">Thêm Tổ Chức</Button>
                                     }
                                 </div>
                                 {/* <div className='text-center'>Chưa có thông tin</div> */}

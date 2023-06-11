@@ -5,6 +5,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import React, { useEffect, useState } from 'react';
 import { convertBigNumber, getListProjectMyDonate, getTotalProjectMyDonate, parseUnixTimeStamp } from '../utils';
+import { Button } from '@mui/material';
 
 const data_sample = [
     {
@@ -121,7 +122,10 @@ const Profile = () => {
                         <p style={{ "color": "#49A942" }} className='font-bold ml-2'>{convertBigNumber(totalProjectMyDonate).toFixed(4)}</p>
                     </div>
                 </div>
-                <div className='mt-12'>
+                <div className='mt-8'>
+                    <Button color="success" href='/organization-add' variant="outlined">Thêm Tổ Chức</Button>
+                </div>
+                <div className='mt-10'>
                     <div className='flex justify-between mb-12'>
                         <h1 className='font-bold text-2xl'>Danh sách các dự án bạn đã ủng hộ</h1>
                     </div>

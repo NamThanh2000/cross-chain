@@ -192,7 +192,7 @@ function Withdraw({ projectId }) {
                     </Box>
                     <div className='mt-8 border-t-4 border-green-700'>
                         <Box component='form' onSubmit={handleSubmitImage(onSubmitUpImage)} className='mt-4'>
-                            <h3 className='text-lg font-medium'>ĐĂNG TẢI BIÊN LAI RÚT TIỀN</h3>
+                            <h3 className='text-lg font-medium'>ĐĂNG TẢI BIÊN LAI sử dụng</h3>
                             <input
                                 className='mt-2 p-3 rounded w-full'
                                 placeholder='Đường dẫn ảnh'

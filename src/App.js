@@ -17,6 +17,7 @@ import AddOrganization from "./components/AddOrganization";
 import Profile from "./components/Profile";
 import HistoryWithdraw from "./components/HistoryWithdraw";
 import Organizations from "./components/Organizations";
+import AddOrganizationProject from "./components/AddOrganizationProject";
 
 
 function App() {
@@ -60,6 +61,7 @@ function App() {
             <Route path='/contact-us' element={<ContactUs />} />
             <Route path='/about' element={<About />} />
             <Route path='/organization-add' element={<AddOrganization />} />
+            <Route path='/organization-add-project/:param' element={<AddOrganizationProject />} />
             <Route path='/organizations' element={<Organizations />} />
 
             {/* <Route path='*' element={<NotFound />} /> */}

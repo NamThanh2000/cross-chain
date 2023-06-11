@@ -1,5 +1,6 @@
 import detectEthereumProvider from "@metamask/detect-provider";
 import { useEffect } from 'react';
+import SimpleMap from "./SimpleMap.jsx";
 
 
 function ContactUs() {
@@ -54,23 +55,26 @@ function ContactUs() {
                     </div>
                 </div>
                 <div className="flex justify-center px-4 mt-20">
-                    <div className="w-64 h-50 bg-gray-200 px-4 py-8 mx-8 rounded">
+                    <SimpleMap />
+                    <div className="w-64 h-50 bg-gray-200 px-4 py-8 rounded">
                         <h3 className="text-xl font-semibold text-center" style={{ color: "#1a1a1a" }}>Địa Chỉ</h3>
-                        <p className="mt-8 text-md" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}>Đường Hàn Thuyên, khu phố 6 P, Thủ Đức, Thành phố Hồ Chí Minh</p>
+                        <p className="mt-8 text-md text-center" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}>Đường Hàn Thuyên, khu phố 6 P, Thủ Đức, Thành phố Hồ Chí Minh</p>
                     </div>
+                </div>
+                <div className="flex justify-center px-4 mt-20">
                     <div className="w-64 h-50 bg-gray-200 px-4 py-8 mx-8 rounded">
                         <h3 className="text-xl font-semibold text-center" style={{ color: "#1a1a1a" }}>Số Điện Thoại Liên Hệ</h3>
-                        <p className="mt-8 text-md text-center" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}>+84 382893332</p>
-                        <p className="mt-4 text-md text-center" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}>+84 815102000</p>
+                        <p className="mt-8 text-md text-center" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}><a href="tel:+84382893332">(+84) 382893332</a></p>
+                        <p className="mt-4 text-md text-center" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}><a href="tel:+84815102000">(+84) 815102000</a></p>
                     </div>
                     <div className="w-64 h-50 bg-gray-200 px-4 py-8 mx-8 rounded">
                         <h3 className="text-xl font-semibold text-center" style={{ color: "#1a1a1a" }}>Địa Chỉ Email</h3>
-                        <p className="mt-8 text-md text-center" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}>18520729@gm.uit.edu.vn</p>
-                        <p className="mt-4 text-md text-center" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}>18521124@gm.uit.edu.vn</p>
+                        <p className="mt-8 text-md text-center" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}><a href="mailto:18520729@gm.uit.edu.vn">18520729@gm.uit.edu.vn</a></p>
+                        <p className="mt-4 text-md text-center" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}><a href="mailto:18521124@gm.uit.edu.vn">18521124@gm.uit.edu.vn</a></p>
                     </div>
                     <div className="w-64 h-50 bg-gray-200 px-4 py-8 mx-8 rounded">
-                        <h3 className="text-xl font-semibold text-center" style={{ color: "#1a1a1a" }}>Trang web</h3>
-                        <p className="mt-8 text-md text-center" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}><a href="oceanover.tech">oceanover.tech</a></p>
+                        <h3 className="text-xl font-semibold text-center" style={{ color: "#1a1a1a" }}>Website</h3>
+                        <p className="mt-8 text-md text-center" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}><a href="/">oceanover.tech</a></p>
                     </div>
                 </div>
             </div>
@@ -94,14 +98,14 @@ function ContactUs() {
                             <h3 className='text-white'>Kết Nối</h3>
                             <div className='mt-4'>
                                 <div className='text-white text-xs'>Giới thiệu</div>
-                                <div className='text-white text-xs'>Liên hệ với chúng tôi</div>
+                                <div className='text-white text-xs mt-2'>Liên hệ với chúng tôi</div>
                             </div>
                         </div>
                         <div>
                             <h3 className=' text-white'>Ủng Hộ</h3>
                             <div className='mt-4'>
                                 <div className='text-white text-xs'>Dự án</div>
-                                <div className='text-white text-xs'>Ủng hộ</div>
+                                <div className='text-white text-xs mt-2'>Ủng hộ</div>
                             </div>
                         </div>
                     </div>

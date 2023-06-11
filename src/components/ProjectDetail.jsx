@@ -275,14 +275,14 @@ function ProjectDetail() {
                             <h3 className='text-white'>Kết Nối</h3>
                             <div className='mt-4'>
                                 <div className='text-white text-xs'>Giới thiệu</div>
-                                <div className='text-white text-xs'>Liên hệ với chúng tôi</div>
+                                <div className='text-white text-xs mt-2'>Liên hệ với chúng tôi</div>
                             </div>
                         </div>
                         <div>
                             <h3 className=' text-white'>Ủng Hộ</h3>
                             <div className='mt-4'>
                                 <div className='text-white text-xs'>Dự án</div>
-                                <div className='text-white text-xs'>Ủng hộ</div>
+                                <div className='text-white text-xs mt-2'>Ủng hộ</div>
                             </div>
                         </div>
                     </div>

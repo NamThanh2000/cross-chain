@@ -156,7 +156,7 @@ function Withdraw({ projectId }) {
 
                                 type='string'
                                 style={{ border: '1px solid #e5e7eb' }}
-                                className='w-full mt-2 p-3 rounded'
+                                className='w-full mt-2 p-3 rounded focus:outline-green-700'
                                 placeholder='Nội dung rút tiền' name="content" id="" cols="30" rows="10">
                             </textarea>
                             {errors.content && errors.content.type === "required" && (

@@ -8,6 +8,7 @@ import PaidIcon from '@mui/icons-material/Paid';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { Box, Button } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
@@ -210,7 +211,11 @@ function ProjectDetail() {
                                         </div>
                                     })}
 
-                                    <a className='text-sm' href={`/history-withdraw/${param}`}>Chi tiết lịch sử rút</a>
+                                    <div className='flex justify-end mt-10 text-green-700'>
+                                        <a className='text-sm flex items-center' style={{textDecoration: 'underline'}} href={`/history-withdraw/${param}`}>Chi tiết lịch sử rút
+                                            <ArrowForwardIosIcon sx={{fontSize: 14}}/>
+                                        </a>
+                                    </div>
                                 </div> :
                                     <div className='mt-6 text-center'>
                                         Chưa có thông tin

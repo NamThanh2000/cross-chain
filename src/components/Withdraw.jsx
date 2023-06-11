@@ -1,9 +1,10 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import React, { useEffect, useState } from "react";
 import toast from 'react-hot-toast';
 import { convertBigNumber, getAllHistoryProject, getListWithdrawProject, parseUnixTimeStamp, withdrawUSDT } from "../utils";
+import { useForm } from 'react-hook-form';
 
 function Withdraw({ projectId }) {
     const [provider, setProvider] = useState(null);
@@ -15,6 +16,8 @@ function Withdraw({ projectId }) {
     const [btnDisable, setBtnDisable] = useState(false);
     const [listHistoryDonate, setListHistoryDonate] = useState(false);
     const [listWithdraw, setListWithdraw] = useState([]);
+
+    const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
     useEffect(() => {
         const init = async () => {
@@ -92,9 +95,11 @@ function Withdraw({ projectId }) {
         }
     }, [chainId])
 
-    const handleWithdraw = async () => {
+    const onSubmit = async data => {
+        if (!provider) return;
+        const signer = provider.getSigner()
         setBtnDisable(true)
-        const widthdraw = await withdrawUSDT(signer, provider, amountCrossChain, projectId)
+        const widthdraw = await withdrawUSDT(signer, provider, data['amount'], projectId, data['content'])
         if (widthdraw) {
             toast.success("Widthdraw success");
         }
@@ -102,27 +107,10 @@ function Withdraw({ projectId }) {
             toast.error("Widthdraw failed");
         }
         setBtnDisable(false)
+
     }
     return (
         <div>
-            {/* <div
-                className='w-100 flex justify-center items-center flex-col text-5xl font-bold text-white'
-                style={{
-                    backgroundImage: 'url(/tnc_45019999_Large.jpg)', backgroundSize: 'cover', height: '60vh', textShadow: '2px 2px 4px rgba(0,0,0,.35)',
-                    fontFamily: 'Chronicle Text G2 A, Chronicle Text G2 B, Chronicle Text G2, Georgia, serif'
-                }}
-            >
-                <p>THANK YOU</p>
-                <p className='mt-2'>This is a Part of Everyone</p>
-            </div>
-            <div className='flex justify-center flex-col items-center py-20 border-gray-300'
-                style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
-            >
-                <h2 className='text-5xl mt-5 font-medium'>Everyone's Donate</h2>
-                <p className='text-5xl my-5'>{Math.floor(total * 100) / 100} USDT</p>
-                <a href='/donate' className='mt-5 px-8 py-3 bg-green-700  text-white font-bold'>Donate</a>
-
-            </div> */}
             <div className='mt-4'>
                 <h2 className='font-medium mt-6 text-lg'>DANH SÁCH NHỮNG QUYÊN GÓP CỦA TẤT CẢ NGƯỜI QUYÊN GÓP:</h2>
                 <div>
@@ -144,24 +132,43 @@ function Withdraw({ projectId }) {
                     })}
                 </div>
             </div>
-            <div className='mt-8'>
+            <Box component='form' className='mt-8' onSubmit={handleSubmit(onSubmit)}>
                 <p className='font-bold'>Rút tiền</p>
                 {/* <div className='py-6 text-lg'>Donate monthly as a Conservation Champion and provide reliable support to accelerate the pace of conservation today. Plus, receive our special picnic blanket as a thank you gift for protecting nature.</div> */}
                 {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' && <>
-                    <div className='flex items-center mt-5'>
-                        <input
-                            className='p-3 rounded'
-                            value={amountCrossChain}
-                            onChange={(e) => setAmountCrossChain(e.target.value)}
-                            placeholder='Nhập số lượng USDT muốn rút'
-                            type='number'
-                        />
-                        <Button sx={{ marginLeft: 5 }} variant="contained" disabled={btnDisable} color="success" size="large" onClick={handleWithdraw}>Rút Tiền</Button>
+                    <div className='flex flex-col w-full mt-4'>
+                        <div>
+                            <input
+                                className='p-3 rounded w-full'
+                                // value={amountCrossChain}
+                                // onChange={(e) => setAmountCrossChain(e.target.value)}
+                                placeholder='Nhập số lượng USDT muốn rút'
+                                type='number'
+                                {...register("amount", { required: true })}
+                            />
+                            {errors.content && errors.content.type === "required" && (
+                                <span className='text-sm text-red-600'>Số tiền rút là bắt buộc</span>
+                            )}
+                        </div>
+                        <div className=' w-full'>
+                            <textarea
+                                {...register("content", { required: true, maxLength: 1000 })}
+
+                                type='string'
+                                style={{ border: '1px solid #e5e7eb' }}
+                                className='w-full mt-2 p-3 rounded'
+                                placeholder='Nội dung rút tiền' name="content" id="" cols="30" rows="10">
+                            </textarea>
+                            {errors.content && errors.content.type === "required" && (
+                                <span className='text-sm text-red-600'>Nội dung rút tiền là bắt buộc.</span>
+                            )}
+                        </div>
                     </div>
                     <p className='mt-2 text-sm italic'>Số dư USDT: <span className='font-bold' style={{ color: "#2E7D32" }}>{totalDonate} USDT</span></p>
+                    <Button type='submit' sx={{ marginTop: 4 }} variant="contained" disabled={btnDisable} color="success" size="large">Rút Tiền</Button>
                 </>
                 }
-            </div>
+            </Box>
         </div>
 
     );

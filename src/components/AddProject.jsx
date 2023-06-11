@@ -11,7 +11,6 @@ import { addProject } from '../utils';
 function AddProject() {
     const [provider, setProvider] = useState(null);
     const [isConnectMetamask, setIsConnectMetamask] = useState(false);
-    const [projects, setProjects] = useState(null);
     const [datetime, setDatetime] = useState('');
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
@@ -54,11 +53,6 @@ function AddProject() {
             return;
         }
     }
-
-
-    // const handleSubmitProject = async () => {
-
-    // }
 
     const onSubmit = async data => {
         if (!provider) return;

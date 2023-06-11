@@ -68,6 +68,7 @@ function ProjectDetail() {
             await getAddress()
             try {
                 const listWithdraw = await getListWithdrawProject(provider.getSigner(), param)
+                console.log(listWithdraw);
                 setListWithdraw(listWithdraw)
             } catch { }
 
@@ -195,8 +196,8 @@ function ProjectDetail() {
                                     <div className='pt-4 pb-1 flex justify-center border-gray-300'
                                         style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                                     >
-                                        <p className='w-64 text-lg font-medium text-center'>Số tiền</p>
-                                        <p className='w-80 text-lg font-medium text-center'>Thời điểm</p>
+                                        <p className='w-64 text-lg font-bold text-center'>Số tiền</p>
+                                        <p className='w-80 text-lg font-bold text-center'>Thời điểm</p>
                                     </div>
                                     {listWithdraw.map((item, index) => {
                                         return <div
@@ -204,10 +205,12 @@ function ProjectDetail() {
                                             className='p-3 flex justify-center border-gray-300'
                                             style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                                         >
-                                            <p className='w-64 text-green-700 text-lg text-center'>{convertBigNumber(item.amount).toFixed(4)} USD</p>
-                                            <p className='w-80 text-green-700 text-lg text-center'>{parseUnixTimeStamp(item.timestamp)}</p>
+                                            <p className='w-64 text-green-700 font-medium text-md text-center'>{convertBigNumber(item.amount).toFixed(4)} USD</p>
+                                            <p className='w-80 text-green-700 font-medium text-md text-center'>{parseUnixTimeStamp(item.timestamp)}</p>
                                         </div>
                                     })}
+
+                                    <a className='text-sm' href={`/history-withdraw/${param}`}>Chi tiết lịch sử rút</a>
                                 </div> :
                                     <div className='mt-6 text-center'>
                                         Chưa có thông tin

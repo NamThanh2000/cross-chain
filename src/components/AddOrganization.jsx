@@ -8,8 +8,6 @@ import { addOrganization } from '../utils';
 function AddOrganization() {
     const [provider, setProvider] = useState(null);
     const [isConnectMetamask, setIsConnectMetamask] = useState(false);
-    const [projects, setProjects] = useState(null);
-    const [age, setAge] = useState('');
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = async data => {
@@ -20,10 +18,6 @@ function AddOrganization() {
             window.location.href = '/projects'
         }
     }
-
-    const handleChange = (event) => {
-        setAge(event.target.value);
-    };
 
     useEffect(() => {
         const init = async () => {

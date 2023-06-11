@@ -15,6 +15,7 @@ import AddProject from "./components/AddProject";
 import ContactUs from "./components/ContactUs";
 import AddOrganization from "./components/AddOrganization";
 import Profile from "./components/Profile";
+import HistoryWithdraw from "./components/HistoryWithdraw";
 
 
 function App() {
@@ -50,7 +51,7 @@ function App() {
             <Route path='/' element={<HomeLayout />} />
             <Route path='/donate' element={<Donate />} />
             <Route path='/your-donate' element={<MyDonate />} />
-            <Route path='/withdraw' element={<Withdraw />} />
+            <Route path='/history-withdraw/:param' element={<HistoryWithdraw />} />
             <Route path='/projects' element={<Projects />} />
             <Route path='/project-detail/:param' element={<ProjectDetail />} />
             <Route path='/projects/add' element={<AddProject />} />

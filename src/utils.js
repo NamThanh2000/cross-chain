@@ -178,7 +178,7 @@ export const donateBNB = async (signer, provider, amountDonateBNB, projectId, co
     }
 };
 
-export const withdrawUSDT = async (signer, provider, amountWithdrawUSDT, projectId) => {
+export const withdrawUSDT = async (signer, provider, amountWithdrawUSDT, projectId, content='') => {
     if (!window.ethereum) {
         alert("Vui lòng cài đặt MetaMask!");
         return;
@@ -192,7 +192,7 @@ export const withdrawUSDT = async (signer, provider, amountWithdrawUSDT, project
             const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
             const amountWithdraw = ethers.utils.parseUnits(amountWithdrawUSDT, 18);
             try {
-                const donateTx = await donationContract.withdraw(projectId, amountWithdraw, "");
+                const donateTx = await donationContract.withdraw(projectId, amountWithdraw, content);
                 await donateTx.wait();
                 console.log("Withdraw thành công: ", donateTx.toString());
                 return true

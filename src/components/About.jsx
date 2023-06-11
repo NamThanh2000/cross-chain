@@ -103,9 +103,9 @@ const About = () => {
                     </div>
                 </div>
                 <div className='flex flex-col items-center'>
-                    <div className='flex p-4'>
-                        <div className='w-96 px-2 py-20'>
-                            <h2 className='text-2xl mb-6'>Nhiệm vụ của chúng ta</h2>
+                    <div className='flex p-4 py-20'>
+                        <div className='w-96 px-2 flex flex-col justify-center'>
+                            <h2 className='mb-6 organization-heading'>Nhiệm vụ của chúng ta</h2>
                             <div>
                                 Để bảo tồn các vùng đất và vùng nước mà tất cả sự sống phụ thuộc vào.
                             </div>
@@ -118,8 +118,8 @@ const About = () => {
                         <div className='px-2'>
                             <img className='w-96' src="./About-Us_Our-Vision_V1.jpg" alt="" />
                         </div>
-                        <div className='w-96 px-2'>
-                            <h2 className='text-2xl mb-6'>Tầm nhìn của chúng tôi</h2>
+                        <div className='w-96 px-2 flex flex-col justify-center'>
+                            <h2 className='text-2xl mb-6 organization-heading'>Tầm nhìn của chúng tôi</h2>
                             <div>
                                 Một thế giới nơi sự đa dạng của cuộc sống phát triển và mọi người hành động để bảo tồn thiên nhiên vì lợi ích của chính nó và khả năng đáp ứng nhu cầu của chúng ta và làm phong phú thêm cuộc sống của chúng ta.
                             </div>

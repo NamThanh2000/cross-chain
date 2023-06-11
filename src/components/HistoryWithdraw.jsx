@@ -78,6 +78,13 @@ function HistoryWithdraw() {
 
     }, [provider, chainId]);
 
+    const handleDownload = (imageUrl) => {
+        const link = document.createElement('a');
+        link.href = imageUrl;
+        link.download = 'image.jpg';
+        link.click();
+      };
+
     return (
         <>
             <div className="fixed z-30 w-full bg-white shadow-xl">
@@ -148,7 +155,10 @@ function HistoryWithdraw() {
                                             <p className='w-60 text-green-700 font-medium text-md text-center flex items-center justify-center'>{convertBigNumber(item.amount).toFixed(4)} USD</p>
                                             <p className='w-80 text-green-700 font-medium text-md text-center flex items-center justify-center'>{parseUnixTimeStamp(item.timestamp)}</p>
                                             <p className='w-80 mr-4 text-green-700 font-medium text-md flex items-center justify-start'>Quyên góp vì môi trường là một hoạt động quan trọng và cần thiết trong việc bảo vệ và cải thiện môi trường sống tại Việt Nam. Việt Nam đang đối mặt với nhiều thách thức về môi trường, bao gồm ô nhiễm không khí, ô nhiễm nước, suy thoái đất đai và sự suy giảm của các nguồn tài nguyên thiên nhiên. Quyên góp vì môi trường có thể được hiểu là sự đóng góp tài chính, tài nguyên hoặc thời gian của cá nhân, tổ chức và cộng đồng để thúc đẩy các hoạt động bảo vệ môi trường và xây dựng một tương lai bền vững cho Việt Nam</p>
-                                            <img className='w-52 ml-12' src="https://img.freepik.com/free-photo/girl-sky_1340-27755.jpg?w=2000" alt="Biên lai" />
+                                            {/* <img className='w-52 ml-12' src="https://img.freepik.com/free-photo/girl-sky_1340-27755.jpg?w=2000" alt="Biên lai" /> */}
+                                            <div className='flex items-center justify-center w-1/4'>
+                                                <Button variant="contained" color="success" size="large">Tải ảnh biên lai</Button>
+                                            </div>
                                         </div>
                                     })}
                                 </div> :

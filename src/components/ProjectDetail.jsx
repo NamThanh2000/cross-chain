@@ -8,13 +8,15 @@ import PaidIcon from '@mui/icons-material/Paid';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { Box, Button } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { convertBigNumber, getListWithdrawProject, getProjectDetail, parseUnixTimeStamp } from '../utils';
+import { convertBigNumber, getListWithdrawProject, getOrganizationsProject, getProjectDetail, parseUnixTimeStamp } from '../utils';
 import FormDonate from './FormDonate';
+import { data_sample } from '../dataSample';
 
 function ProjectDetail() {
     const [provider, setProvider] = useState(null);
@@ -23,6 +25,7 @@ function ProjectDetail() {
     const [project, setProject] = useState(null);
     const { param } = useParams();
     const [listWithdraw, setListWithdraw] = useState([]);
+    const [chainId, setChainId] = useState(null);
     const handleChange = (event, newValue) => {
         localStorage.setItem("tab", newValue);
         setValue(newValue);
@@ -38,6 +41,7 @@ function ProjectDetail() {
             setProvider(provider)
             const network = await provider.getNetwork();
             const chainid = network.chainId;
+            setChainId(chainid)
             if (chainid === 0) setValue(0)
             else if (chainid === 56) setValue(1)
             else {
@@ -56,16 +60,24 @@ function ProjectDetail() {
                 const addressCurrent = await signer.getAddress();
                 setCurrentAddress(addressCurrent)
             }
-            const project = await getProjectDetail(signer, param)
-            setProject(project)
+            try {
+                const project = await getProjectDetail(signer, param)
+                setProject(project)
+            } catch {
+                setProject(data_sample[Number(param)])
+            }
             await getAddress()
-            const listWithdraw = await getListWithdrawProject(provider.getSigner(), param)
-            setListWithdraw(listWithdraw)
+            try {
+                const listWithdraw = await getListWithdrawProject(provider.getSigner(), param)
+                console.log(listWithdraw);
+                setListWithdraw(listWithdraw)
+            } catch { }
+
             // const listOrganization = await getOrganizationsProject(signer)
         }
         init()
 
-    }, [provider]);
+    }, [provider, chainId]);
 
     return (
         <>
@@ -129,7 +141,7 @@ function ProjectDetail() {
                                             aria-label="basic tabs example"
                                             TabIndicatorProps={{
                                                 style: {
-                                                backgroundColor: "#15803D"
+                                                    backgroundColor: "#15803D"
                                                 },
                                             }}
                                         >
@@ -153,14 +165,14 @@ function ProjectDetail() {
                                                 {100}%
                                             </CircularProgress> :
                                             <CircularProgress
-                                                thickness={14} 
-                                                color='success' 
+                                                thickness={14}
+                                                color='success'
                                                 sx={{ '--CircularProgress-size': '160px' }}
-                                                size="lg" 
+                                                size="lg"
                                                 determinate
                                                 value={(convertBigNumber(project && project.totalDonations) / convertBigNumber(project && project.amount)) * 100}
-                                            > 
-                                                {`${project ? (((convertBigNumber(project && project.totalDonations) / convertBigNumber(project && project.amount)) * 100).toFixed(1)) : 0}%`} 
+                                            >
+                                                {`${project ? (((convertBigNumber(project && project.totalDonations) / convertBigNumber(project && project.amount)) * 100).toFixed(1)) : 0}%`}
                                             </CircularProgress>
                                         }
                                     </div>
@@ -185,8 +197,8 @@ function ProjectDetail() {
                                     <div className='pt-4 pb-1 flex justify-center border-gray-300'
                                         style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                                     >
-                                        <p className='w-64 text-lg font-medium text-center'>Số tiền</p>
-                                        <p className='w-80 text-lg font-medium text-center'>Thời điểm</p>
+                                        <p className='w-64 text-lg font-bold text-center'>Số tiền</p>
+                                        <p className='w-80 text-lg font-bold text-center'>Thời điểm</p>
                                     </div>
                                     {listWithdraw.map((item, index) => {
                                         return <div
@@ -194,10 +206,16 @@ function ProjectDetail() {
                                             className='p-3 flex justify-center border-gray-300'
                                             style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                                         >
-                                            <p className='w-64 text-green-700 text-lg text-center'>{convertBigNumber(item.amount).toFixed(4)} USD</p>
-                                            <p className='w-80 text-green-700 text-lg text-center'>{parseUnixTimeStamp(item.timestamp)}</p>
+                                            <p className='w-64 text-green-700 font-medium text-md text-center'>{convertBigNumber(item.amount).toFixed(4)} USD</p>
+                                            <p className='w-80 text-green-700 font-medium text-md text-center'>{parseUnixTimeStamp(item.timestamp)}</p>
                                         </div>
                                     })}
+
+                                    <div className='flex justify-end mt-10 text-green-700'>
+                                        <a className='text-sm flex items-center' style={{textDecoration: 'underline'}} href={`/history-withdraw/${param}`}>Chi tiết lịch sử rút
+                                            <ArrowForwardIosIcon sx={{fontSize: 14}}/>
+                                        </a>
+                                    </div>
                                 </div> :
                                     <div className='mt-6 text-center'>
                                         Chưa có thông tin
@@ -209,15 +227,15 @@ function ProjectDetail() {
                                 <div className='my-6 flex justify-between items-center'>
                                     <h2 className='text-xl font-bold'>Các Tổ Chức Cùng Đồng Hành</h2>
                                     {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' &&
-                                        <Button color="success" href='/organization-add' variant="outlined">Thêm Tổ Chức</Button>
+                                        <Button color="success" href={`/organization-add-project/${param}`} variant="outlined">Thêm Tổ Chức</Button>
                                     }
                                 </div>
                                 {/* <div className='text-center'>Chưa có thông tin</div> */}
                                 <Accordion>
                                     <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls="panel1a-content"
-                                    id="panel1a-header"
+                                        expandIcon={<ExpandMoreIcon />}
+                                        aria-controls="panel1a-content"
+                                        id="panel1a-header"
                                     >
                                         <Typography variant="button">WWF Vietnam</Typography>
                                     </AccordionSummary>
@@ -226,7 +244,7 @@ function ProjectDetail() {
                                             <div className='flex flex-col items-center'>
                                                 <img style={{ height: 86 }} className='mb-5' src="https://cdnassets.panda.org/_skins/international/img/logo.png" alt="" />
                                                 <Typography>
-                                                Tổ chức Quốc tế về Bảo tồn Thiên nhiên tại Việt Nam (WWF-Việt Nam) là một trong những tổ chức bảo tồn hàng đầu tại Việt Nam, tư vấn các giải pháp và hỗ trợ chính phủ và các đối tác giải quyết các thách thức của quá trình phát triển quốc gia.
+                                                    Tổ chức Quốc tế về Bảo tồn Thiên nhiên tại Việt Nam (WWF-Việt Nam) là một trong những tổ chức bảo tồn hàng đầu tại Việt Nam, tư vấn các giải pháp và hỗ trợ chính phủ và các đối tác giải quyết các thách thức của quá trình phát triển quốc gia.
                                                 </Typography>
                                             </div>
                                         </Typography>
@@ -234,9 +252,9 @@ function ProjectDetail() {
                                 </Accordion>
                                 <Accordion>
                                     <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls="panel1a-content"
-                                    id="panel1a-header"
+                                        expandIcon={<ExpandMoreIcon />}
+                                        aria-controls="panel1a-content"
+                                        id="panel1a-header"
                                     >
                                         <Typography variant="button">Trung tâm giáo dục thiên nhiên</Typography>
                                     </AccordionSummary>
@@ -244,7 +262,7 @@ function ProjectDetail() {
                                         <div className='flex flex-col items-center'>
                                             <img style={{ height: 86 }} className='mb-5' src="https://thiennhien.org/uploads/logo-env3.webp" alt="" />
                                             <Typography>
-                                            Trung tâm Giáo dục Thiên nhiên (ENV) được thành lập vào năm 2000, là một trong những tổ chức xã hội đầu tiên về bảo tồn động vật hoang dã (ĐVHD) tại Việt Nam. ENV đi đầu trong nỗ lực chấm dứt nạn buôn bán ĐVHD trái phép ở Việt Nam bằng cách áp dụng các chiến lược sáng tạo nhằm hoàn thiện các quy định pháp luật về bảo vệ ĐVHD, thúc đẩy công tác thực thi, trực tiếp hỗ trợ các cơ quan chức năng trong công tác xử lý vi phạm và huy động sự tham gia của cộng đồng nhằm giảm thiểu nhu cầu và ngăn chặn vi phạm về ĐVHD.
+                                                Trung tâm Giáo dục Thiên nhiên (ENV) được thành lập vào năm 2000, là một trong những tổ chức xã hội đầu tiên về bảo tồn động vật hoang dã (ĐVHD) tại Việt Nam. ENV đi đầu trong nỗ lực chấm dứt nạn buôn bán ĐVHD trái phép ở Việt Nam bằng cách áp dụng các chiến lược sáng tạo nhằm hoàn thiện các quy định pháp luật về bảo vệ ĐVHD, thúc đẩy công tác thực thi, trực tiếp hỗ trợ các cơ quan chức năng trong công tác xử lý vi phạm và huy động sự tham gia của cộng đồng nhằm giảm thiểu nhu cầu và ngăn chặn vi phạm về ĐVHD.
                                             </Typography>
                                         </div>
                                     </AccordionDetails>

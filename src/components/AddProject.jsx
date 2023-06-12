@@ -11,7 +11,6 @@ import { addProject } from '../utils';
 function AddProject() {
     const [provider, setProvider] = useState(null);
     const [isConnectMetamask, setIsConnectMetamask] = useState(false);
-    const [projects, setProjects] = useState(null);
     const [datetime, setDatetime] = useState('');
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
@@ -55,11 +54,6 @@ function AddProject() {
         }
     }
 
-
-    // const handleSubmitProject = async () => {
-
-    // }
-
     const onSubmit = async data => {
         if (!provider) return;
         const signer = provider.getSigner()
@@ -86,6 +80,7 @@ function AddProject() {
                     <div className="flex items-center">
                         <a className='mx-2 px-2 py-4 text-lg' href='/'>TRANG CHỦ</a>
                         <a style={{ "color": "#15803D" }} className='mx-2 px-2 py-4 text-lg' href='/projects'> CÁC DỰ ÁN</a>
+                        <a className='mx-2 px-2 py-4 text-lg' href='/organizations'>CÁC TỔ CHỨC</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/profile'>THÔNG TIN CỦA BẠN</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/about'>VỀ CHÚNG TÔI</a>

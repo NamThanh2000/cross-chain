@@ -3,13 +3,17 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import { Box, Button, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
-import { addOrganization } from '../utils';
+import { addOrganization, addOrganizationProject, getProjectDetail } from '../utils';
+import { useParams } from 'react-router';
+import { data_sample } from '../dataSample';
 
-function AddOrganization() {
+function AddOrganizationProject() {
     const [provider, setProvider] = useState(null);
     const [isConnectMetamask, setIsConnectMetamask] = useState(false);
+    const [project, setProject] = useState(null);
+    const [wallet, setWallet] = useState('');
+    const { param } = useParams();
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = async data => {
         if (!provider) return;
         const signer = provider.getSigner()
@@ -61,12 +65,33 @@ function AddOrganization() {
     useEffect(() => {
         checkConnectMetamask();
         if (!provider) return;
+        const signer = provider.getSigner()
+        const init = async () => {
+            try {
+                const project = await getProjectDetail(signer, param)
+                setProject(project)
+            } catch {
+                setProject(data_sample[Number(param)])
+            }
+        }
+
+        init()
         // const handleGetProjects = async () => {
         //     const allProject = await getAllProject(provider.getSigner())
         //     console.log(allProject)
         // }
         // handleGetProjects()
     }, [provider]);
+
+    const handleAddOrganization = async () => {
+        if (!provider) return;
+        const signer = provider.getSigner()
+        const result = await addOrganizationProject(signer, param, wallet)
+        if (result) {
+            window.location.href = `/project-detail/${param}`
+        }
+    }
+
 
     return (
         <>
@@ -80,7 +105,6 @@ function AddOrganization() {
                     <div className="flex items-center">
                         <a className='mx-2 px-2 py-3 text-lg' href='/'>TRANG CHỦ</a>
                         <a className='mx-2 px-2 py-3 text-lg' href='/projects'> CÁC DỰ ÁN</a>
-                        <a style={{ "color": "#15803D" }} className='mx-2 px-2 py-4 text-lg' href='/organizations'>CÁC TỔ CHỨC</a>
                         <a className='mx-2 px-2 py-3 text-lg' href='/profile'>THÔNG TIN CỦA BẠN</a>
                         <a className='mx-2 px-2 py-3 text-lg' href='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</a>
                         <a className='mx-2 px-2 py-3 text-lg' href='/about'>VỀ CHÚNG TÔI</a>
@@ -91,22 +115,36 @@ function AddOrganization() {
                 </div>
             </div>
             <div className='relative sm:container mx-auto px-10 pt-32'>
-                <div className='font-medium mt-6 text-lg text-center'>BẠN CÓ MUỐN TẠO TỔ CHỨC CHO BẢN THÂN</div>
-                <Box
-                    component="form"
-                    onSubmit={handleSubmit(onSubmit)}
-                    sx={{
-                        '& > :not(style)': { margin: '20px 0', display: 'block' },
-                    }}
-                    noValidate
-                    autoComplete="off"
-                >   
-                    <TextField color="success" {...register("name")} fullWidth id="outlined-basic" label="Tên tổ chức" variant="outlined" />
-                    <TextField color="success" {...register("description")} fullWidth id="outlined-basic" label="Mô tả" variant="outlined" />
-                    <TextField color="success" {...register("imageUrl")} fullWidth id="outlined-basic" label="Đường dẫn ảnh của tổ chức" variant="outlined" />
-                    <TextField color="success" {...register("wallet")} fullWidth id="outlined-basic" label="Ví tổ chức" variant="outlined" />
-                    <Button color="success" type='submit' variant="contained">Tạo tổ chức</Button>
-                </Box>
+                <div className="border-t-4 border-green-700 pt-8">
+                    <Box
+                        sx={{
+                            boxShadow: 2,
+                            display: "flex",
+                            bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#101010' : '#fff'),
+                            color: (theme) =>
+                                theme.palette.mode === 'dark' ? 'grey.300' : 'grey.800',
+                            p: 1,
+                            m: 1,
+                            borderRadius: 2,
+                            textAlign: 'center',
+                            fontSize: '0.875rem',
+                            fontWeight: '700',
+                        }}
+                    >
+                        <img style={{ width: 700 }} src={project && project.imageUrl} alt="Nature slice" />
+                        <div className='flex flex-col'>
+                            <h1 className="text-3xl mx-6 my-6 text-center">{project && project.title}</h1>
+                            <div className="mx-8 text-base">
+                                {project && project.objective}
+                            </div>
+                        </div>
+                    </Box>
+                </div>
+                <div className='font-bold mt-6 text-xl text-center'>THÊM TỔ CHỨC MỚI VÀO DỰ ÁN</div>
+                <div className='mt-4'>
+                    <TextField onChange={(e) => setWallet(e.target.value)} color="success" fullWidth id="outlined-basic" label="Ví tổ chức" variant="outlined" />
+                    <Button onClick={handleAddOrganization} sx={{ marginTop: 2 }} color="success" type='submit' variant="contained">Tạo tổ chức</Button>
+                </div>
             </div>
             <div className='py-8 px-44 h-82 bg-black mt-20'>
                 <div>
@@ -128,14 +166,14 @@ function AddOrganization() {
                             <h3 className='text-white'>Kết Nối</h3>
                             <div className='mt-4'>
                                 <div className='text-white text-xs'>Giới thiệu</div>
-                                <div className='text-white text-xs mt-2'>Liên hệ với chúng tôi</div>
+                                <div className='text-white text-xs'>Liên hệ với chúng tôi</div>
                             </div>
                         </div>
                         <div>
                             <h3 className=' text-white'>Ủng Hộ</h3>
                             <div className='mt-4'>
                                 <div className='text-white text-xs'>Dự án</div>
-                                <div className='text-white text-xs mt-2'>Ủng hộ</div>
+                                <div className='text-white text-xs'>Ủng hộ</div>
                             </div>
                         </div>
                     </div>
@@ -145,4 +183,4 @@ function AddOrganization() {
     );
 }
 
-export default AddOrganization;  
+export default AddOrganizationProject;  

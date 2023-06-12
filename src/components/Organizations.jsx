@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { convertBigNumber, convertProjectId, getAllProject, getListActiveProject, parseUnixTimeStamp } from '../utils';
 import { data_sample } from '../dataSample'
 
-function Projects() {
+function Organizations() {
     const [provider, setProvider] = useState(null);
     const [isConnectMetamask, setIsConnectMetamask] = useState(false);
     const [projects, setProjects] = useState(null);
@@ -104,8 +104,8 @@ function Projects() {
                     </div>
                     <div className="flex items-center">
                         <a className='mx-2 px-2 py-4 text-lg' href='/'>TRANG CHỦ</a>
-                        <a style={{ "color": "#15803D" }} className='mx-2 px-2 py-4 text-lg' href='/projects'> CÁC DỰ ÁN</a>
-                        <a className='mx-2 px-2 py-4 text-lg' href='/organizations'>CÁC TỔ CHỨC</a>
+                        <a className='mx-2 px-2 py-4 text-lg' href='/projects'> CÁC DỰ ÁN</a>
+                        <a style={{ "color": "#15803D" }} className='mx-2 px-2 py-4 text-lg' href='/organizations'>CÁC TỔ CHỨC</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/profile'>THÔNG TIN CỦA BẠN</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/about'>VỀ CHÚNG TÔI</a>
@@ -116,30 +116,15 @@ function Projects() {
                 </div>
             </div>
             <div className='relative sm:container mx-auto px-10 pt-28'>
-                <div className='mb-20 px-24'>
-                    <div className='flex justify-between mb-10'>
-                        <h1 className='font-bold text-3xl flex items-center'>Danh sách các dự án</h1>
-                        <Box sx={{ minWidth: 220 }}>
-                            <FormControl color="success" fullWidth>
-                                {/* <InputLabel id="demo-simple-select-label">Age</InputLabel> */}
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={filterProject}
-                                    // label="Lọc"
-                                    onChange={handleChange}
-                                >
-                                    <MenuItem value={0}>Tất cả dự án</MenuItem>
-                                    <MenuItem value={1}>Dự án đang mở ủng hộ</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Box>
+                <div className='mb-20 px-24 '>
+                    <div className='flex justify-between items-center mb-10'>
+                        <h1 className='font-bold text-3xl flex items-center'>Các tổ chức đang đồng hành cùng với chúng tôi</h1>
+                        {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' &&
+                            <div className='flex justify-end'>
+                                <Button color="success" href='/projects/add' variant="outlined">Thêm dự án mới</Button>
+                            </div>
+                        }
                     </div>
-                    {currentAddress === '0x63Bb4B859ddbdAE95103F632bee5098c47aE2461' &&
-                        <div className='flex justify-end mb-6'>
-                            <Button color="success" href='/projects/add' variant="outlined">Thêm dự án mới</Button>
-                        </div>
-                    }
                     <div className='flex flex-wrap'>
                         {data_sample?.map((item) => {
                             return <Card key={convertProjectId(item.projectId)} sx={{ maxWidth: 400, margin: "10px", height: "100%" }}>
@@ -186,6 +171,7 @@ function Projects() {
                         })}
                     </div>
                 </div>
+
             </div>
             <div className='py-8 px-44 h-82 bg-black'>
                 <div>
@@ -207,14 +193,14 @@ function Projects() {
                             <h3 className='text-white'>Kết Nối</h3>
                             <div className='mt-4'>
                                 <div className='text-white text-xs'>Giới thiệu</div>
-                                <div className='text-white text-xs mt-2'>Liên hệ với chúng tôi</div>
+                                <div className='text-white text-xs'>Liên hệ với chúng tôi</div>
                             </div>
                         </div>
                         <div>
                             <h3 className=' text-white'>Ủng Hộ</h3>
                             <div className='mt-4'>
                                 <div className='text-white text-xs'>Dự án</div>
-                                <div className='text-white text-xs mt-2'>Ủng hộ</div>
+                                <div className='text-white text-xs'>Ủng hộ</div>
                             </div>
                         </div>
                     </div>
@@ -225,4 +211,4 @@ function Projects() {
     );
 }
 
-export default Projects;  
+export default Organizations;  

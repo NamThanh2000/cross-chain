@@ -8,6 +8,8 @@ import { donateBNB, donateETH, ethToBsc, getMyBalance } from "../utils";
 import './FormDonateStyles.css';
 import MyDonate from './MyDonate';
 import Withdraw from './Withdraw';
+import Web3 from 'web3';
+import { async } from 'q';
 
 function FormDonate({ checkTab, projectId }) {
     const [provider, setProvider] = useState(null);
@@ -60,21 +62,17 @@ function FormDonate({ checkTab, projectId }) {
 
     useEffect(() => {
         if (chainId === 56 && Number(checkTab) === 0) {
-            const ethereumMainnet = {
-                chainId: '0x1',
-                chainName: 'Ethereum Mainnet',
-                nativeCurrency: {
-                    name: 'Ether',
-                    symbol: 'ETH',
-                    decimals: 18
-                },
-                rpcUrls: ['https://mainnet.infura.io/v3/'],
-                blockExplorerUrls: ['https://etherscan.io']
-            };
-
-            window.ethereum.request({ method: 'wallet_addEthereumChain', params: [ethereumMainnet] })
-                .then(() => console.log('Ethereum mainnet added to Metamask'))
-                .catch((error) => console.error(error));
+            const changeToETH = async () => {
+                // Chuyển mạng từ BNB sang ETH
+                try {
+                    const web3 = new Web3(window.ethereum);
+                    await web3.currentProvider.send('wallet_switchEthereumChain', [{ chainId: '0x1' }]); // Chain ID của Ethereum: 0x1
+                    console.log('Đã chuyển mạng thành công');
+                } catch (error) {
+                    console.error('Lỗi khi chuyển mạng:', error);
+                }
+            }
+            changeToETH()
         }
         else if (chainId === 1 && Number(checkTab) === 1) {
             const ethereumMainnet = {
@@ -203,7 +201,7 @@ function FormDonate({ checkTab, projectId }) {
                                 />
                                 <Button sx={{ marginLeft: 5 }} variant="contained" disabled={btnDisable} color="success" size="large" onClick={donateBNBHandle}>Quyên góp ngay bằng BNB</Button>
                             </div>
-                            {myBalance && <p className='mt-2 text-sm italic'>Số dư BNB của bạn: <span className='font-bold' style={{ color: "#2E7D32"}}>{myBalance[0]} BNB</span></p>}
+                            {myBalance && <p className='mt-2 text-sm italic'>Số dư BNB của bạn: <span className='font-bold' style={{ color: "#2E7D32" }}>{myBalance[0]} BNB</span></p>}
                             {/* Donate bằng BNB trên BSC network */}
                         </div>
                         <div className='p-8'>
@@ -219,7 +217,7 @@ function FormDonate({ checkTab, projectId }) {
                                 />
                                 <Button sx={{ marginLeft: 5 }} variant="contained" disabled={btnDisable} color="success" size="large" onClick={donateETHHandle}>Quyên góp ngay bằng ETH</Button>
                             </div>
-                            {myBalance && <p className='mt-2 text-sm italic'>Số dư ETH của bạn: <span className='font-bold' style={{ color: "#2E7D32"}}>{myBalance[1]} ETH</span></p>}
+                            {myBalance && <p className='mt-2 text-sm italic'>Số dư ETH của bạn: <span className='font-bold' style={{ color: "#2E7D32" }}>{myBalance[1]} ETH</span></p>}
                             {/* Donate bằng ETH trên BSC network */}
                         </div>
                     </div>

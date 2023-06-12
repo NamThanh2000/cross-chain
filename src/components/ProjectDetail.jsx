@@ -20,7 +20,7 @@ import { data_sample } from '../dataSample';
 
 function ProjectDetail() {
     const [provider, setProvider] = useState(null);
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState(1);
     const [currentAddress, setCurrentAddress] = useState(0);
     const [project, setProject] = useState(null);
     const { param } = useParams();
@@ -51,7 +51,6 @@ function ProjectDetail() {
         };
         init();
     }, []);
-
     useEffect(() => {
         if (!provider) return;
         const init = async () => {
@@ -62,9 +61,33 @@ function ProjectDetail() {
             }
             try {
                 const project = await getProjectDetail(signer, param)
+                const projectObj = {
+                    'title': project['title'],
+                    'objective': project['objective'],
+                    'projectId': Number(project['projectId']),
+                    'imageUrl': project['imageUrl'],
+                    'deadline': Number(project['deadline']),
+                    'amount': Number(project['amount']),
+                    'totalDonations': Number(project['totalDonations']),
+                    'totalWithdrawn': Number(project['totalWithdrawn']),
+                }
+                window.localStorage.setItem('project', JSON.stringify(projectObj))
                 setProject(project)
+                // else {
+                //     const projectObj = {
+                //         'title': data_sample[Number(param)]['title'],
+                //         'objective': data_sample[Number(param)]['objective'],
+                //         'projectId': data_sample[Number(param)]['projectId'],
+                //         'imageUrl': data_sample[Number(param)]['imageUrl'],
+                //         'deadline': data_sample[Number(param)]['deadline'],
+                //         'amount': data_sample[Number(param)]['amount'],
+                //         'totalDonations': data_sample[Number(param)]['totalDonations'],
+                //         'totalWithdrawn': data_sample[Number(param)]['totalWithdrawn'],
+                //     }
+                //     window.localStorage.setItem('project', JSON.stringify(projectObj))
+                // }
             } catch {
-                setProject(data_sample[Number(param)])
+                setProject(JSON.parse(window.localStorage.getItem('project')))
             }
             await getAddress()
             try {
@@ -159,8 +182,8 @@ function ProjectDetail() {
                             <div className='ml-16 flex flex-col items-center mt-12'>
                                 <div className="xl:mx-10 mx-4 md:mx-4 sm:mx-4">
                                     <div className="flex flex-col items-center">
-                                        {project &&
-                                            (convertBigNumber(project && project.totalDonations) / convertBigNumber(project && project.amount)) * 100 > 100 ?
+                                        {project && project !== null &&
+                                            (convertBigNumber(project && project['totalDonations']) / convertBigNumber(project && project['amount'])) * 100 > 100 ?
                                             <CircularProgress thickness={14} color='success' sx={{ '--CircularProgress-size': '160px' }} determinate value={100}>
                                                 {100}%
                                             </CircularProgress> :
@@ -170,9 +193,9 @@ function ProjectDetail() {
                                                 sx={{ '--CircularProgress-size': '160px' }}
                                                 size="lg"
                                                 determinate
-                                                value={(convertBigNumber(project && project.totalDonations) / convertBigNumber(project && project.amount)) * 100}
+                                                value={(convertBigNumber(project && project['totalDonations']) / convertBigNumber(project && project['amount'])) * 100}
                                             >
-                                                {`${project ? (((convertBigNumber(project && project.totalDonations) / convertBigNumber(project && project.amount)) * 100).toFixed(1)) : 0}%`}
+                                                {`${project ? (((convertBigNumber(project && project['totalDonations']) / convertBigNumber(project && project['amount'])) * 100).toFixed(1)) : 0}%`}
                                             </CircularProgress>
                                         }
                                     </div>
@@ -180,12 +203,12 @@ function ProjectDetail() {
                                 {project && <div className='mt-10'>
                                     <div className='text-center'>
                                         <PaidIcon sx={{ marginRight: '4px' }} color='success' />
-                                        {convertBigNumber(project.totalDonations).toFixed(4)}
+                                        {convertBigNumber(project['totalDonations']).toFixed(4)}
                                         <span className='ml-1'>USDT</span>
                                     </div>
                                     <div className='mt-3'>
                                         <CalendarMonthIcon sx={{ marginRight: '4px' }} color='success' />
-                                        {parseUnixTimeStamp(project && project.deadline)}
+                                        {parseUnixTimeStamp(project && project['deadline'])}
                                     </div>
                                 </div>}
                             </div>
@@ -212,8 +235,8 @@ function ProjectDetail() {
                                     })}
 
                                     <div className='flex justify-end mt-10 text-green-700'>
-                                        <a className='text-sm flex items-center' style={{textDecoration: 'underline'}} href={`/history-withdraw/${param}`}>Chi tiết lịch sử rút
-                                            <ArrowForwardIosIcon sx={{fontSize: 14}}/>
+                                        <a className='text-sm flex items-center' style={{ textDecoration: 'underline' }} href={`/history-withdraw/${param}`}>Chi tiết lịch sử rút
+                                            <ArrowForwardIosIcon sx={{ fontSize: 14 }} />
                                         </a>
                                     </div>
                                 </div> :

@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 
 const routerV7ABI = require('./routerV7abi')
 const donationABI = require('./DonationContractABI')

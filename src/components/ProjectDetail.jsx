@@ -14,7 +14,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { convertBigNumber, getListWithdrawProject, getProjectDetail, parseUnixTimeStamp } from '../utils';
+import { convertBigNumber, getListWithdrawProject, getOrganizationsProject, getProjectDetail, parseUnixTimeStamp } from '../utils';
 import FormDonate from './FormDonate';
 import { data_sample } from '../dataSample';
 

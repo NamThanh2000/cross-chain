@@ -1,21 +1,11 @@
 import { Web3Provider } from '@ethersproject/providers';
-import { Tab, Tabs } from '@material-ui/core';
-import { TabContext } from '@material-ui/lab';
 import detectEthereumProvider from "@metamask/detect-provider";
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import PaidIcon from '@mui/icons-material/Paid';
-import CircularProgress from '@mui/joy/CircularProgress';
 import { Box, Button } from '@mui/material';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { convertBigNumber, getListWithdrawProject, getProjectDetail, parseUnixTimeStamp } from '../utils';
-import FormDonate from './FormDonate';
 import { data_sample } from '../dataSample';
+import axios from 'axios';
 
 function HistoryWithdraw() {
     const [provider, setProvider] = useState(null);
@@ -78,13 +68,14 @@ function HistoryWithdraw() {
 
     }, [provider, chainId]);
 
-    const handleDownload = (imageUrl) => {
-        const link = document.createElement('a');
-        link.href = imageUrl;
-        link.download = 'image.jpg';
-        link.click();
-      };
+    const imageUrl = 'https://static-images.vnncdn.net/files/publish/2022/9/3/bien-vo-cuc-thai-binh-346.jpeg';
 
+    const handleDownload = () => {
+      const link = document.createElement('a');
+      link.href = imageUrl;
+      link.download = 'image.jpg';
+      link.click();
+    };
     return (
         <>
             <div className="fixed z-30 w-full bg-white shadow-xl">

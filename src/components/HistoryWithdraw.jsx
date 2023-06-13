@@ -1,11 +1,11 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { Box, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { convertBigNumber, getListWithdrawProject, getProjectDetail, parseUnixTimeStamp } from '../utils';
 import { data_sample } from '../dataSample';
-import axios from 'axios';
+import { convertBigNumber, getListWithdrawProject, getProjectDetail, parseUnixTimeStamp } from '../utils';
 
 function HistoryWithdraw() {
     const [provider, setProvider] = useState(null);
@@ -68,14 +68,24 @@ function HistoryWithdraw() {
 
     }, [provider, chainId]);
 
-    const imageUrl = 'https://static-images.vnncdn.net/files/publish/2022/9/3/bien-vo-cuc-thai-binh-346.jpeg';
+    const handleSaveImage = async () =>{
+        let imageUrl = "https://o.rada.vn/data/image/2021/08/02/viec-lam-bao-ve-moi-truong.jpg"
+        try {
+            const response = await fetch(imageUrl);
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'image.jpg';
+            link.click();
+            
+            window.URL.revokeObjectURL(url);
+          } catch (error) {
+            console.error('Error downloading image:', error);
+          }
+    }
 
-    const handleDownload = () => {
-      const link = document.createElement('a');
-      link.href = imageUrl;
-      link.download = 'image.jpg';
-      link.click();
-    };
     return (
         <>
             <div className="fixed z-30 w-full bg-white shadow-xl">
@@ -97,7 +107,7 @@ function HistoryWithdraw() {
                     </div>
                 </div>
             </div>
-            <div className='relative sm:container mx-auto px-10 pt-28'>
+            <div className='relative sm:container mx-auto px-10 py-28'>
                 <div className="flex px-5 xl:px-38 md:px-16 sm:px-16">
                     <div className="mx-10">
                         <div className="border-t-4 border-green-700 pt-8">
@@ -148,7 +158,7 @@ function HistoryWithdraw() {
                                             <p className='w-80 mr-4 text-green-700 font-medium text-md flex items-center justify-start'>Quyên góp vì môi trường là một hoạt động quan trọng và cần thiết trong việc bảo vệ và cải thiện môi trường sống tại Việt Nam. Việt Nam đang đối mặt với nhiều thách thức về môi trường, bao gồm ô nhiễm không khí, ô nhiễm nước, suy thoái đất đai và sự suy giảm của các nguồn tài nguyên thiên nhiên. Quyên góp vì môi trường có thể được hiểu là sự đóng góp tài chính, tài nguyên hoặc thời gian của cá nhân, tổ chức và cộng đồng để thúc đẩy các hoạt động bảo vệ môi trường và xây dựng một tương lai bền vững cho Việt Nam</p>
                                             {/* <img className='w-52 ml-12' src="https://img.freepik.com/free-photo/girl-sky_1340-27755.jpg?w=2000" alt="Biên lai" /> */}
                                             <div className='flex items-center justify-center w-1/4'>
-                                                <Button variant="contained" color="success" size="large">Tải ảnh biên lai</Button>
+                                                <Button startIcon={<FileDownloadIcon/>} onClick={handleSaveImage} color="success">Tải ảnh biên lai</Button>
                                             </div>
                                         </div>
                                     })}
@@ -163,6 +173,39 @@ function HistoryWithdraw() {
 
                 </div>
             </div>
+            <div className='py-8 px-44 h-82 bg-black'>
+                <div>
+                    <div className='flex justify-around'>
+                        <div className=''>
+                            <div className='w-64'>
+                                <a href="/">
+                                <img className="w-26 h-12 mr-10 text-gray-700" src="/350232362_194904190170121_8724430467209331448_n.png" alt="logo" />
+                                </a>
+                            </div>
+                            <div className='mt-4 text-white text-xs w-96'>
+                                Chào mừng bạn đến với tổ chức quyên góp quỹ thiện nguyện! Chúng tôi cam kết xây dựng một thế giới tốt đẹp hơn thông qua những hành động thiện nguyện. Với sứ mệnh hỗ trợ cộng đồng và giúp đỡ những người gặp khó khăn, chúng tôi tập trung vào việc gây quỹ và chia sẻ tài nguyên để tạo ra những tác động tích cực. Hãy cùng nhau chung tay để thay đổi cuộc sống và lan tỏa tình yêu thương đến tất cả mọi người.
+                            </div>
+                            <div className='mt-8 text-white text-xs'>
+                                © 2023-Quyên góp vì môi trường
+                            </div>
+                            </div>
+                            <div>
+                            <h3 className='text-white'>Kết Nối</h3>
+                            <div className='mt-4'>
+                                <div className='text-white text-xs'>Giới thiệu</div>
+                                <div className='text-white text-xs mt-2'>Liên hệ với chúng tôi</div>
+                            </div>
+                            </div>
+                            <div>
+                            <h3 className=' text-white'>Ủng Hộ</h3>
+                            <div className='mt-4'>
+                                <div className='text-white text-xs'>Dự án</div>
+                                <div className='text-white text-xs mt-2'>Ủng hộ</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div >
         </>
     );
 }

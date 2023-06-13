@@ -2,23 +2,25 @@ import { Web3Provider } from '@ethersproject/providers';
 import { Tab, Tabs } from '@material-ui/core';
 import { TabContext } from '@material-ui/lab';
 import detectEthereumProvider from "@metamask/detect-provider";
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PaidIcon from '@mui/icons-material/Paid';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { Box, Button } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { convertBigNumber, getListWithdrawProject, getOrganizationsProject, getProjectDetail, parseUnixTimeStamp } from '../utils';
-import FormDonate from './FormDonate';
+import UserContext from '../App';
 import { data_sample } from '../dataSample';
+import { convertBigNumber, getListWithdrawProject, getProjectDetail, parseUnixTimeStamp } from '../utils';
+import FormDonate from './FormDonate';
 
 function ProjectDetail() {
+    const setOpen = useContext(UserContext);
     const [provider, setProvider] = useState(null);
     const [value, setValue] = useState(0);
     const [currentAddress, setCurrentAddress] = useState(0);
@@ -42,12 +44,13 @@ function ProjectDetail() {
             const network = await provider.getNetwork();
             const chainid = network.chainId;
             setChainId(chainid)
-            if (chainid === 0) setValue(0)
+            if (chainid === 1) setValue(0)
             else if (chainid === 56) setValue(1)
             else {
                 const checkTabStorage = localStorage.getItem("tab");
                 setValue(checkTabStorage ? checkTabStorage : 0)
             }
+            if (setOpen) setOpen(false)
         };
         init();
     }, []);
@@ -122,7 +125,7 @@ function ProjectDetail() {
                                 <img style={{ width: 700 }} src={project && project.imageUrl} alt="Nature slice" />
                                 <div className='flex flex-col'>
                                     <h1 className="text-3xl mx-6 my-6 text-center">{project && project.title}</h1>
-                                    <div className="mx-8 text-base">
+                                    <div className="mx-8 text-base font-medium">
                                         {project && project.objective}
                                     </div>
                                 </div>

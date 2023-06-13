@@ -25,6 +25,7 @@ function ProjectDetail() {
     const [project, setProject] = useState(null);
     const { param } = useParams();
     const [listWithdraw, setListWithdraw] = useState([]);
+    const [listOrgani, setListOrgani] = useState([]);
     const [chainId, setChainId] = useState(null);
     const handleChange = (event, newValue) => {
         localStorage.setItem("tab", newValue);
@@ -96,7 +97,8 @@ function ProjectDetail() {
                 setListWithdraw(listWithdraw)
             } catch { }
 
-            // const listOrganization = await getOrganizationsProject(signer)
+            const listOrganization = await getOrganizationsProject(signer, param)
+            setListOrgani(listOrganization);
         }
         init()
 
@@ -253,43 +255,27 @@ function ProjectDetail() {
                                         <Button color="success" href={`/organization-add-project/${param}`} variant="outlined">Thêm Tổ Chức</Button>
                                     }
                                 </div>
-                                {/* <div className='text-center'>Chưa có thông tin</div> */}
-                                <Accordion>
-                                    <AccordionSummary
-                                        expandIcon={<ExpandMoreIcon />}
-                                        aria-controls="panel1a-content"
-                                        id="panel1a-header"
-                                    >
-                                        <Typography variant="button">WWF Vietnam</Typography>
-                                    </AccordionSummary>
-                                    <AccordionDetails>
-                                        <Typography>
-                                            <div className='flex flex-col items-center'>
-                                                <img style={{ height: 86 }} className='mb-5' src="https://cdnassets.panda.org/_skins/international/img/logo.png" alt="" />
-                                                <Typography>
-                                                    Tổ chức Quốc tế về Bảo tồn Thiên nhiên tại Việt Nam (WWF-Việt Nam) là một trong những tổ chức bảo tồn hàng đầu tại Việt Nam, tư vấn các giải pháp và hỗ trợ chính phủ và các đối tác giải quyết các thách thức của quá trình phát triển quốc gia.
-                                                </Typography>
-                                            </div>
-                                        </Typography>
-                                    </AccordionDetails>
-                                </Accordion>
-                                <Accordion>
-                                    <AccordionSummary
-                                        expandIcon={<ExpandMoreIcon />}
-                                        aria-controls="panel1a-content"
-                                        id="panel1a-header"
-                                    >
-                                        <Typography variant="button">Trung tâm giáo dục thiên nhiên</Typography>
-                                    </AccordionSummary>
-                                    <AccordionDetails>
-                                        <div className='flex flex-col items-center'>
-                                            <img style={{ height: 86 }} className='mb-5' src="https://thiennhien.org/uploads/logo-env3.webp" alt="" />
+                                {listOrgani.length !== 0 ? listOrgani?.map((item, index) => {
+                                    return <Accordion key={index}>
+                                        <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls="panel1a-content"
+                                            id="panel1a-header"
+                                        >
+                                            <Typography variant="button">WWF Vietnam</Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails>
                                             <Typography>
-                                                Trung tâm Giáo dục Thiên nhiên (ENV) được thành lập vào năm 2000, là một trong những tổ chức xã hội đầu tiên về bảo tồn động vật hoang dã (ĐVHD) tại Việt Nam. ENV đi đầu trong nỗ lực chấm dứt nạn buôn bán ĐVHD trái phép ở Việt Nam bằng cách áp dụng các chiến lược sáng tạo nhằm hoàn thiện các quy định pháp luật về bảo vệ ĐVHD, thúc đẩy công tác thực thi, trực tiếp hỗ trợ các cơ quan chức năng trong công tác xử lý vi phạm và huy động sự tham gia của cộng đồng nhằm giảm thiểu nhu cầu và ngăn chặn vi phạm về ĐVHD.
+                                                <div className='flex flex-col items-center'>
+                                                    <img style={{ height: 86 }} className='mb-5' src="https://cdnassets.panda.org/_skins/international/img/logo.png" alt="" />
+                                                    <Typography>
+                                                        Tổ chức Quốc tế về Bảo tồn Thiên nhiên tại Việt Nam (WWF-Việt Nam) là một trong những tổ chức bảo tồn hàng đầu tại Việt Nam, tư vấn các giải pháp và hỗ trợ chính phủ và các đối tác giải quyết các thách thức của quá trình phát triển quốc gia.
+                                                    </Typography>
+                                                </div>
                                             </Typography>
-                                        </div>
-                                    </AccordionDetails>
-                                </Accordion>
+                                        </AccordionDetails>
+                                    </Accordion>
+                                }) : <div className='text-center'>Chưa có tổ chức nào</div>}
                             </div>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
-import { Box, Button, TextField } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { addOrganization, addOrganizationProject, getProjectDetail } from '../utils';
@@ -13,13 +13,22 @@ function AddOrganizationProject() {
     const [project, setProject] = useState(null);
     const [wallet, setWallet] = useState('');
     const { param } = useParams();
+    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const [infoOrgani, setInfoOrgani] = useState(false)
 
     const onSubmit = async data => {
         if (!provider) return;
         const signer = provider.getSigner()
-        const result = await addOrganization(signer, data)
-        if (result) {
-            window.location.href = '/projects'
+        if (infoOrgani) {
+            const result = await addOrganization(signer, data)
+            if (result) {
+                window.location.href = `/project-detail/${param}`
+            }
+        } else {
+            const result = await addOrganizationProject(signer, param, data['wallet'])
+            if (result) {
+                window.location.href = `/project-detail/${param}`
+            }
         }
     }
 
@@ -76,22 +85,11 @@ function AddOrganizationProject() {
         }
 
         init()
-        // const handleGetProjects = async () => {
-        //     const allProject = await getAllProject(provider.getSigner())
-        //     console.log(allProject)
-        // }
-        // handleGetProjects()
     }, [provider]);
 
-    const handleAddOrganization = async () => {
-        if (!provider) return;
-        const signer = provider.getSigner()
-        const result = await addOrganizationProject(signer, param, wallet)
-        if (result) {
-            window.location.href = `/project-detail/${param}`
-        }
+    const checkIsAddInfoOrgani = () => {
+        setInfoOrgani(!infoOrgani)
     }
-
 
     return (
         <>
@@ -141,10 +139,40 @@ function AddOrganizationProject() {
                     </Box>
                 </div>
                 <div className='font-bold mt-6 text-xl text-center'>THÊM TỔ CHỨC MỚI VÀO DỰ ÁN</div>
-                <div className='mt-4'>
-                    <TextField onChange={(e) => setWallet(e.target.value)} color="success" fullWidth id="outlined-basic" label="Ví tổ chức" variant="outlined" />
-                    <Button onClick={handleAddOrganization} sx={{ marginTop: 2 }} color="success" type='submit' variant="contained">Tạo tổ chức</Button>
-                </div>
+                <Box
+                    component="form"
+                    onSubmit={handleSubmit(onSubmit)}
+                    sx={{
+                        '& > :not(style)': { margin: '20px 0', display: 'block' },
+                    }}
+                    noValidate
+                    autoComplete="off"
+                >
+                    <Accordion sx={{
+                        boxShadow: 0
+                    }}>
+                        <AccordionSummary
+                            onClick={checkIsAddInfoOrgani}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                            sx={{
+                                padding: 0,
+                                '& > :not(style)': { margin: '0 0', display: 'block' },
+                            }}
+                        >
+                            <p style={{ textDecoration: 'underline' }} className='w-fit cursor-pointer mt-1 text-sm font-medium text-green-700'>Bạn có muốn thêm thông tin của tổ chức không?</p>
+                        </AccordionSummary>
+                        <AccordionDetails sx={{
+                            padding: 0,
+                        }}>
+                            <TextField color="success" {...register("name")} fullWidth id="outlined-basic" label="Tên tổ chức" variant="outlined" />
+                            <TextField sx={{ marginTop: 2 }} color="success" {...register("description")} fullWidth id="outlined-basic" label="Mô tả" variant="outlined" />
+                            <TextField sx={{ marginTop: 2 }} color="success" {...register("imageUrl")} fullWidth id="outlined-basic" label="Đường dẫn ảnh của tổ chức" variant="outlined" />
+                        </AccordionDetails>
+                    </Accordion>
+                    <TextField  {...register("wallet")} onChange={(e) => setWallet(e.target.value)} color="success" fullWidth id="outlined-basic" label="Ví tổ chức" variant="outlined" />
+                    <Button sx={{ marginTop: 4 }} color="success" type='submit' variant="contained">Thêm tổ chức vào dự án</Button>
+                </Box>
             </div>
             <div className='py-8 px-44 h-82 bg-black mt-20'>
                 <div>

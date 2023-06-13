@@ -100,7 +100,6 @@ const Profile = () => {
                     <div className="flex items-center">
                         <a className='mx-2 px-2 py-4 text-lg' href='/'>TRANG CHỦ</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/projects'> CÁC DỰ ÁN</a>
-                        <a className='mx-2 px-2 py-4 text-lg' href='/organizations'>CÁC TỔ CHỨC</a>
                         <a style={{ "color": "#15803D" }} className='mx-2 px-2 py-4 text-lg' href='/profile'>THÔNG TIN CỦA BẠN</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/about'>VỀ CHÚNG TÔI</a>
@@ -122,15 +121,12 @@ const Profile = () => {
                         <p style={{ "color": "#49A942" }} className='font-bold ml-2'>{convertBigNumber(totalProjectMyDonate).toFixed(4)}</p>
                     </div>
                 </div>
-                <div className='mt-8'>
-                    <Button color="success" href='/organization-add' variant="outlined">Thêm Tổ Chức</Button>
-                </div>
                 <div className='mt-10'>
                     <div className='flex justify-between mb-12'>
                         <h1 className='font-bold text-2xl'>Danh sách các dự án bạn đã ủng hộ</h1>
                     </div>
-                    {listProjectMyDonate && data_sample?.map((item) => {
-                        return <div className='mt-5'>
+                    {listProjectMyDonate && data_sample?.map((item, index) => {
+                        return <div key={index} className='mt-5'>
                             <List component="nav" aria-label="main mailbox folders">
                                 <ListItemButton
                                 // onClick={(event) => handleListItemClick(event, 0)}

@@ -391,9 +391,9 @@ export const getTotalProjectMyDonate = async(signer) => {
 }
 
 
-export const getOrganizationsProject = async(signer) => {
+export const getOrganizationsProject = async(signer, projectId) => {
     const donationAddress = "0xcC138083ba38dc7594142Af8E5A6925EdB23414B"
     const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
-    const organizationsProject = await donationContract.getOrganizationsForProject()
+    const organizationsProject = await donationContract.getOrganizationsForProject(projectId)
     return organizationsProject
 }

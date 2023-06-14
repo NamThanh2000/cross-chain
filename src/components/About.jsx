@@ -94,9 +94,9 @@ const About = () => {
                         {/* <p className="mt-2 text-white font-bold text1xl">Help protect the air you breathe, water you drink and places you call home.</p> */}
                     </div>
                 </div>
-                <div className="organization flex my-8 px-52 pb-10 border-gray-600" style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}>
-                    <img className='w-1/3 h-full' src="./o-nhiem-khong-khi-nguyen-nhan-va-mot-so-bien-phap-khac-phuc.jpg" alt="" />
-                    <div className='ml-4'>
+                <div className="organization flex px-52 py-20 border-gray-600" style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}>
+                    <img className='w-1/3 h-full rounded' src="./o-nhiem-khong-khi-nguyen-nhan-va-mot-so-bien-phap-khac-phuc.jpg" alt="" />
+                    <div className='ml-4' style={{width: 700}}>
                         <h2 className="organization-heading">Tổ chức của chúng tôi</h2>
                         <p className="organization-description">Chào mừng bạn đến với tổ chức của chúng tôi! Chúng tôi cam kết tạo ra tác động tích cực đối với môi trường và thúc đẩy bền vững.</p>
                         <p className="organization-description">Đội ngũ của chúng tôi bao gồm những cá nhân đam mê, cam kết nâng cao nhận thức, thúc đẩy thay đổi và triển khai các sáng kiến thân thiện với môi trường.</p>
@@ -104,9 +104,9 @@ const About = () => {
                     </div>
                 </div>
                 <div className='flex flex-col items-center'>
-                    <div className='flex p-4'>
-                        <div className='w-96 px-2 mt-4'>
-                            <h2 className='text-2xl mb-6'>Nhiệm vụ của chúng ta</h2>
+                    <div className='flex p-4 py-20'>
+                        <div className='w-96 px-2 flex flex-col justify-center'>
+                            <h2 className='mb-6 organization-heading'>Nhiệm vụ của chúng ta</h2>
                             <div>
                                 Để bảo tồn các vùng đất và vùng nước mà tất cả sự sống phụ thuộc vào.
                             </div>
@@ -119,8 +119,8 @@ const About = () => {
                         <div className='px-2'>
                             <img className='w-96' src="./About-Us_Our-Vision_V1.jpg" alt="" />
                         </div>
-                        <div className='w-96 px-2'>
-                            <h2 className='text-2xl mb-6'>Tầm nhìn của chúng tôi</h2>
+                        <div className='w-96 px-2 flex flex-col justify-center'>
+                            <h2 className='text-2xl mb-6 organization-heading'>Tầm nhìn của chúng tôi</h2>
                             <div>
                                 Một thế giới nơi sự đa dạng của cuộc sống phát triển và mọi người hành động để bảo tồn thiên nhiên vì lợi ích của chính nó và khả năng đáp ứng nhu cầu của chúng ta và làm phong phú thêm cuộc sống của chúng ta.
                             </div>
@@ -148,14 +148,14 @@ const About = () => {
                             <h3 className='text-white'>Kết Nối</h3>
                             <div className='mt-4'>
                                 <div className='text-white text-xs'>Giới thiệu</div>
-                                <div className='text-white text-xs'>Liên hệ với chúng tôi</div>
+                                <div className='text-white text-xs mt-2'>Liên hệ với chúng tôi</div>
                             </div>
                         </div>
                         <div>
                             <h3 className=' text-white'>Ủng Hộ</h3>
                             <div className='mt-4'>
                                 <div className='text-white text-xs'>Dự án</div>
-                                <div className='text-white text-xs'>Ủng hộ</div>
+                                <div className='text-white text-xs mt-2'>Ủng hộ</div>
                             </div>
                         </div>
                     </div>

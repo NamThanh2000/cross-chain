@@ -16,8 +16,10 @@ import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import UserContext from '../App';
 import { data_sample } from '../dataSample';
-import { convertBigNumber, getListWithdrawProject, getProjectDetail, parseUnixTimeStamp } from '../utils';
+import { getOrganizationsProject, convertBigNumber, getListWithdrawProject, getProjectDetail, parseUnixTimeStamp } from '../utils';
 import FormDonate from './FormDonate';
+import { useDispatch } from "react-redux";
+import { updateTab } from '../actions/Wallet'
 
 function ProjectDetail() {
     const setOpen = useContext(UserContext);
@@ -29,11 +31,19 @@ function ProjectDetail() {
     const [listWithdraw, setListWithdraw] = useState([]);
     const [listOrgani, setListOrgani] = useState([]);
     const [chainId, setChainId] = useState(null);
+
+    const dispatch = useDispatch()
+
     const handleChange = (event, newValue) => {
         localStorage.setItem("tab", newValue);
         setValue(newValue);
     };
     useEffect(() => {
+        dispatch(
+            updateTab({
+                tab: 0
+            })
+        )
         const init = async () => {
             const ethereumProvider = await detectEthereumProvider();
             if (!ethereumProvider) {

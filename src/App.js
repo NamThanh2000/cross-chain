@@ -22,6 +22,12 @@ import Profile from "./components/Profile";
 import Projects from "./components/Project";
 import ProjectDetail from "./components/ProjectDetail";
 import { lightTheme } from "./styles/theme/theme";
+import { useSelector } from "react-redux";
+
+import { compose, legacy_createStore as createStore } from "redux";
+import rootReducer from './reducers';
+
+export let store = createStore(rootReducer);
 
 const style = {
   position: 'absolute',
@@ -41,13 +47,15 @@ const style = {
 
 function App() {
   const [open, setOpen] = React.useState(false);
+  const wallet = useSelector((state) => state.WalletStore);
 
   useEffect(() => {
+    
     const init = async () => {
       const ethereumProvider = await detectEthereumProvider();
       if (!ethereumProvider) {
-          console.error("Không tìm thấy MetaMask");
-          return;
+        console.error("Không tìm thấy MetaMask");
+        return;
       }
       const provider = new Web3Provider(ethereumProvider);
       const network = await provider.getNetwork();
@@ -72,17 +80,17 @@ function App() {
       chainId: '0x38',
       chainName: 'Binance Smart Chain Mainnet',
       nativeCurrency: {
-          name: 'BNB',
-          symbol: 'BNB',
-          decimals: 18,
+        name: 'BNB',
+        symbol: 'BNB',
+        decimals: 18,
       },
       rpcUrls: ['https://bsc-dataseed.binance.org/'], // RPC endpoint of BSC mainnet
       blockExplorerUrls: ['https://bscscan.com/'], // Block explorer URL of BSC mainnet
     };
 
     window.ethereum.request({ method: 'wallet_addEthereumChain', params: [ethereumMainnet] })
-        .then(() => console.log('Ethereum mainnet added to Metamask'))
-        .catch((error) => console.error(error));
+      .then(() => console.log('Ethereum mainnet added to Metamask'))
+      .catch((error) => console.error(error));
   }
 
   return (
@@ -101,7 +109,8 @@ function App() {
           </Button>
         </Box>
       </Modal>
-      <Toaster position="top-center" reverseOrder={true}/>
+      <Toaster position="top-center" reverseOrder={true} />
+
       <ThemeProvider theme={lightTheme}>
 
         <BrowserRouter>
@@ -125,6 +134,7 @@ function App() {
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
+
     </div>
   );
 }

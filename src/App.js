@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Toaster } from 'react-hot-toast';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from 'styled-components';
@@ -26,6 +26,7 @@ import { useSelector } from "react-redux";
 
 import { compose, legacy_createStore as createStore } from "redux";
 import rootReducer from './reducers';
+import EthereumCrossChain from './components/EtherumCrossChain';
 
 export let store = createStore(rootReducer);
 
@@ -45,12 +46,15 @@ const style = {
   borderRadius: 2
 };
 
-function App() {
-  const [open, setOpen] = React.useState(false);
-  const wallet = useSelector((state) => state.WalletStore);
+const a = '123'
 
+function App() {
+  const [isBSC, setIsBSC] = React.useState(false);
+  const [openEthereum, setOpenEthereum] = React.useState(false);
+  const [isCrossChain, setIsCrossChain] = useState(false)
+  const wallet = useSelector((state) => state.WalletStore);
   useEffect(() => {
-    
+
     const init = async () => {
       const ethereumProvider = await detectEthereumProvider();
       if (!ethereumProvider) {
@@ -60,8 +64,7 @@ function App() {
       const provider = new Web3Provider(ethereumProvider);
       const network = await provider.getNetwork();
       const chainid = network.chainId;
-      if (chainid === 56) setOpen(false)
-      else setOpen(true);
+      if (chainid === 1) setIsCrossChain(true)
 
       ethereumProvider.on("chainChanged", () => {
         window.location.reload();
@@ -93,13 +96,23 @@ function App() {
       .catch((error) => console.error(error));
   }
 
+  const handleIsCrossChain = () => {
+    setIsCrossChain(true)
+  }
+
+  const handleChangeBSC = () => {
+    setIsBSC(true)
+  }
+
+  console.log(isCrossChain);
   return (
     <div className="hehe">
-      <Modal
-        open={open}
+      {/* <Modal
+        open={isBSC}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
+        
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Vui lòng chuyển sang mạng Binance Smart Chain
@@ -108,6 +121,19 @@ function App() {
             Chuyển sang mạng BSC
           </Button>
         </Box>
+        
+      </Modal> */}
+
+      <Modal
+        open={isCrossChain}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        
+        <Box sx={style}>
+          <EthereumCrossChain />
+        </Box>
+        
       </Modal>
       <Toaster position="top-center" reverseOrder={true} />
 
@@ -120,7 +146,7 @@ function App() {
             <Route path='/your-donate' element={<MyDonate />} />
             <Route path='/history-withdraw/:param' element={<HistoryWithdraw />} />
             <Route path='/projects' element={<Projects />} />
-            <Route path='/project-detail/:param' element={<ProjectDetail />} />
+            <Route path='/project-detail/:param' element={<ProjectDetail isCrossChain={handleIsCrossChain} isBSC={handleChangeBSC}/>} />
             <Route path='/projects/add' element={<AddProject />} />
             <Route path='profile' element={<Profile />} />
             <Route path='/contact-us' element={<ContactUs />} />

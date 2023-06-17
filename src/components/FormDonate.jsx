@@ -151,7 +151,7 @@ function FormDonate({ checkTab, projectId }) {
     return (
         <div>
             {Number(checkTab) === 0 && <div className='p-6'>
-                {chainId === 1 && <div>
+                {/* {chainId === 1 && <div>
                     <p className='font-bold'>Transfer ETH from the Ethereum Network to the BSC Network</p>
                     <p className='text-xs'>* Crosschain Fee is 0.00 %, Gas Fee is 0.000121 ETH</p>
                     <p className='text-xs'>* Minimum Crosschain Amount is 0.007619 ETH</p>
@@ -176,7 +176,7 @@ function FormDonate({ checkTab, projectId }) {
                             Transfer
                         </button>
                     </div>
-                </div>}
+                </div>} */}
                 {chainId === 56 && <div className='flex justify-center mt-20'>
                     <CircularProgress color="success" size={50} sx={{ margin: '0 auto' }} />
                 </div>}

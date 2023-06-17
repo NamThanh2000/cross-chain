@@ -21,7 +21,8 @@ import FormDonate from './FormDonate';
 import { useDispatch } from "react-redux";
 import { updateTab } from '../actions/Wallet'
 
-function ProjectDetail() {
+function ProjectDetail({ isCrossChain, isBSC }) {
+
     const setOpen = useContext(UserContext);
     const [provider, setProvider] = useState(null);
     const [value, setValue] = useState(1);
@@ -35,15 +36,16 @@ function ProjectDetail() {
     const dispatch = useDispatch()
 
     const handleChange = (event, newValue) => {
+        // if (Number(newValue) === 0) {
+        //     isCrossChain(true)
+        // }
+        if (Number(newValue) === 56) {
+            isBSC(true)
+        }
         localStorage.setItem("tab", newValue);
         setValue(newValue);
     };
     useEffect(() => {
-        dispatch(
-            updateTab({
-                tab: 0
-            })
-        )
         const init = async () => {
             const ethereumProvider = await detectEthereumProvider();
             if (!ethereumProvider) {
@@ -110,8 +112,11 @@ function ProjectDetail() {
                 setListWithdraw(listWithdraw)
             } catch { }
 
-            const listOrganization = await getOrganizationsProject(signer, param)
-            setListOrgani(listOrganization);
+            try {
+                const listOrganization = await getOrganizationsProject(signer, param)
+                setListOrgani(listOrganization);
+            } catch { }
+
         }
         init()
 

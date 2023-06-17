@@ -12,17 +12,12 @@ import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import UserContext from '../App';
-import { data_sample } from '../dataSample';
-import { getOrganizationsProject, convertBigNumber, getListWithdrawProject, getProjectDetail, parseUnixTimeStamp } from '../utils';
+import { convertBigNumber, getListWithdrawProject, getOrganizationsProject, getProjectDetail, parseUnixTimeStamp } from '../utils';
 import FormDonate from './FormDonate';
-import { useDispatch } from "react-redux";
-import { updateTab } from '../actions/Wallet'
 
 function ProjectDetail() {
-    const setOpen = useContext(UserContext);
     const [provider, setProvider] = useState(null);
     const [value, setValue] = useState(1);
     const [currentAddress, setCurrentAddress] = useState(0);
@@ -32,18 +27,11 @@ function ProjectDetail() {
     const [listOrgani, setListOrgani] = useState([]);
     const [chainId, setChainId] = useState(null);
 
-    const dispatch = useDispatch()
-
     const handleChange = (event, newValue) => {
         localStorage.setItem("tab", newValue);
         setValue(newValue);
     };
     useEffect(() => {
-        dispatch(
-            updateTab({
-                tab: 0
-            })
-        )
         const init = async () => {
             const ethereumProvider = await detectEthereumProvider();
             if (!ethereumProvider) {
@@ -61,7 +49,6 @@ function ProjectDetail() {
                 const checkTabStorage = localStorage.getItem("tab");
                 setValue(checkTabStorage ? checkTabStorage : 0)
             }
-            if (setOpen) setOpen(false)
         };
         init();
     }, []);

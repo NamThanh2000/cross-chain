@@ -4,12 +4,11 @@ import { Button, CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from "react";
 import toast from 'react-hot-toast';
 import 'react-spinner-animated/dist/index.css';
+import Web3 from 'web3';
 import { donateBNB, donateETH, ethToBsc, getMyBalance } from "../utils";
 import './FormDonateStyles.css';
 import MyDonate from './MyDonate';
 import Withdraw from './Withdraw';
-import Web3 from 'web3';
-import { async } from 'q';
 
 function FormDonate({ checkTab, projectId }) {
     const [provider, setProvider] = useState(null);

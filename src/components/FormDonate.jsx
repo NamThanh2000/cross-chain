@@ -4,7 +4,6 @@ import { Button, CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from "react";
 import toast from 'react-hot-toast';
 import 'react-spinner-animated/dist/index.css';
-import Web3 from 'web3';
 import { donateBNB, donateETH, ethToBsc, getMyBalance } from "../utils";
 import './FormDonateStyles.css';
 import MyDonate from './MyDonate';
@@ -64,8 +63,7 @@ function FormDonate({ checkTab, projectId }) {
             const changeToETH = async () => {
                 // Chuyển mạng từ BNB sang ETH
                 try {
-                    const web3 = new Web3(window.ethereum);
-                    await web3.currentProvider.send('wallet_switchEthereumChain', [{ chainId: '0x1' }]); // Chain ID của Ethereum: 0x1
+                    await provider.send('wallet_switchEthereumChain', [{ chainId: '0x1' }]); // Chain ID của Ethereum: 0x1
                     console.log('Đã chuyển mạng thành công');
                 } catch (error) {
                     console.error('Lỗi khi chuyển mạng:', error);

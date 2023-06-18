@@ -114,32 +114,6 @@ function ProjectDetail({ chainId, addressCurrent, signer, myBalance, myETHBalanc
                             <div className='flex my-10 justify-between'>
                                 <Box className='w-full'>
                                     <TabContext >
-                                        {/* <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                            <Tabs
-                                                value={value}
-                                                onChange={handleChange}
-                                                variant="fullWidth"
-                                                scrollButtons={false}
-                                                aria-label="basic tabs example"
-                                                TabIndicatorProps={{
-                                                    style: {
-                                                        backgroundColor: "#15803D"
-                                                    },
-                                                }}
-                                                sx={{
-                                                    ".Mui-selected": {
-                                                        color: "green"
-                                                    }
-                                                }}
-                                            >
-                                                <Tab label="Crosschain ETH" value={0} />
-                                                <Tab label="Quyên góp" value={1} />
-                                                <Tab label="Lịch sử quyên góp" value={2} />
-                                                {addressCurrent === process.env.REACT_APP_OWNING_ADDRESS &&
-                                                    <Tab label="Rút tiền" value={3} />
-                                                }
-                                            </Tabs>
-                                        </Box> */}
                                         <Tabs
                                             value={value}
                                             onChange={handleChange}
@@ -173,6 +147,7 @@ function ProjectDetail({ chainId, addressCurrent, signer, myBalance, myETHBalanc
                                             myBalance={myBalance}
                                             myETHBalance={myETHBalance}
                                             signer={signer}
+                                            setValue={setValue}
                                         />
                                     </TabContext >
                                 </Box>

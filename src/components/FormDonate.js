@@ -12,7 +12,7 @@ import Withdraw from './Withdraw';
 const wethAbi = require('../IERC20Abi')
 const donationAbi = require('../DonationAbi')
 
-function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBalance, myETHBalance, signer }) {
+function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBalance, myETHBalance, signer, setValue }) {
     const [amountDonateETH, setAmountDonateETH] = useState(null);
     const [amountDonateBNB, setAmountDonateBNB] = useState(null);
     const [btnDisable, setBtnDisable] = useState(false);
@@ -27,7 +27,7 @@ function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBal
             try {
                 await provider.send('wallet_switchEthereumChain', [{ chainId: '0x1' }]);
             } catch (error) {
-                console.error('Lỗi khi chuyển mạng:', error);
+                if (error.code === 4001) setValue(1)
             }
         }
         changeToETH();
@@ -41,15 +41,18 @@ function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBal
             setBtnDisable(true)
             const donateAmount = ethers.utils.parseUnits(amountDonateBNB, 18);
             const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
-            const donateTx = await donationContract.donateBNB(
-                projectId,
-                "",
-                { value: donateAmount },
-            );
-            await donateTx.wait();
-            window.open(`https://bscscan.com/tx/${donateTx.toString()}`, '_blank');
-            if (donateTx) toast.success("Quyên góp bằng BNB thành công");
-            else toast.error("Quyên góp bằng BNB thất bại");
+            try {
+                const donateTx = await donationContract.donateBNB(
+                    projectId,
+                    "",
+                    { value: donateAmount },
+                );
+                await donateTx.wait();
+                window.open(`https://bscscan.com/tx/${donateTx.hash}`, '_blank');
+                toast.success("Quyên góp bằng BNB thành công");
+            } catch {
+                toast.error("Quyên góp bằng BNB thất bại");
+            }
             setBtnDisable(false)
         }
     }
@@ -64,16 +67,19 @@ function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBal
             const wethToken = new ethers.Contract(process.env.REACT_APP_WETH_ADDRESS, wethAbi, signer);
             const allowance = await wethToken.allowance(addressCurrent, process.env.REACT_APP_DONATION_ADDRESS);
             if (allowance.gte(donateAmount)) {
-                const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
-                const donateTx = await donationContract.donateWETH(
-                    projectId,
-                    "",
-                    donateAmount
-                );
-                await donateTx.wait();
-                window.open(`https://bscscan.com/tx/${donateTx.toString()}`, '_blank');
-                if (donateTx) toast.success("Quyên góp bằng ETH thành công");
-                else toast.error("Quyên góp bằng ETH thất bại");
+                try {
+                    const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
+                    const donateTx = await donationContract.donateWETH(
+                        projectId,
+                        "",
+                        donateAmount
+                    );
+                    await donateTx.wait();
+                    window.open(`https://bscscan.com/tx/${donateTx.hash}`, '_blank');
+                    toast.success("Quyên góp bằng ETH thành công");
+                } catch {
+                    toast.error("Quyên góp bằng ETH thất bại");
+                }
             }
             setBtnDisable(false)
         }

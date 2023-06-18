@@ -5,6 +5,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { ethers } from 'ethers';
 import { useState } from 'react';
 import { useForm } from "react-hook-form";
+import toast from 'react-hot-toast';
 import { Link } from "react-router-dom";
 
 const donationAbi = require('../DonationAbi')
@@ -20,12 +21,18 @@ function AddProject({ signer }) {
             const date = new Date(dateStr);
             const unixTimestamp = Math.floor(date.getTime() / 1000);
             const amountUnit = ethers.utils.parseUnits(data.amount, 18);
-
             const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
-            const addProject = await donationContract.addProject(data.title, data.objective, unixTimestamp, amountUnit, data.image_url)
-            if (addProject) {
-                window.location.href = '/projects/' + addProject.id
+            try {
+                const addProject = await donationContract.addProject(data.title, data.objective, unixTimestamp, amountUnit, data.image_url)
+                toast.success(`Tạo dự án thành công`);
+                console.log(Number(addProject.value));
+                if (addProject) {
+                    window.location.href = '/project-detail/' + ethers.utils.formatUnits(addProject.value.toString(), 0)
+                }
+            } catch {
+                toast.error("Tạo dự án thất bại");
             }
+            
         }
     }
 

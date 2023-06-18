@@ -1,4 +1,3 @@
-import { Tab, Tabs } from '@material-ui/core';
 import { TabContext } from '@material-ui/lab';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -9,6 +8,8 @@ import { Box, Button, CircularProgress as CircularProgressMui } from '@mui/mater
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { ethers } from 'ethers';
@@ -109,7 +110,7 @@ function ProjectDetail({ chainId, addressCurrent, signer, myBalance, myETHBalanc
                                 </Box>
                             </div>
                             <div className='flex my-10 justify-between'>
-                                <div className='w-full'>
+                                <Box className='w-full'>
                                     <TabContext >
                                         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                             <Tabs
@@ -122,6 +123,11 @@ function ProjectDetail({ chainId, addressCurrent, signer, myBalance, myETHBalanc
                                                     style: {
                                                         backgroundColor: "#15803D"
                                                     },
+                                                }}
+                                                sx={{
+                                                    ".Mui-selected": {
+                                                        color: "green"
+                                                    }
                                                 }}
                                             >
                                                 <Tab label="Crosschain ETH" value={0} />
@@ -143,7 +149,7 @@ function ProjectDetail({ chainId, addressCurrent, signer, myBalance, myETHBalanc
                                             signer={signer}
                                         />
                                     </TabContext >
-                                </div>
+                                </Box>
                                 <div className='ml-16 flex flex-col items-center mt-12'>
                                     <div className="xl:mx-10 mx-4 md:mx-4 sm:mx-4">
                                         <div className="flex flex-col items-center">
@@ -257,13 +263,12 @@ function ProjectDetail({ chainId, addressCurrent, signer, myBalance, myETHBalanc
                                             Chưa có thông tin
                                         </div>
                                     }
-
                                 </div>
                                 <div className="border-t-4 border-green-700 mb-10 flex-1 ml-5 px-5">
                                     <div className='my-6 flex justify-between items-center'>
                                         <h2 className='text-xl font-bold'>Các Tổ Chức Cùng Đồng Hành</h2>
                                         {addressCurrent === process.env.REACT_APP_OWNING_ADDRESS &&
-                                            <Button color="success" variant="outlined"> <Link to={`/organization-add-project/${param}`}>Thêm Tổ Chức</Link></Button>
+                                            <Button color="success" variant="outlined"><Link to={`/organization-add-project/${param}`}>Thêm Tổ Chức</Link></Button>
                                         }
                                     </div>
                                     {listOrganization.length !== 0 ? listOrganization?.map((item, index) => {

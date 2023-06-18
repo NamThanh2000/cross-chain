@@ -152,11 +152,11 @@ function HomeLayout({ isConnectMetamask }) {
               các mối đe dọa kép của biến đổi khí hậu và suy giảm đa dạng sinh
               học trên hơn 70 quốc gia và vùng lãnh thổ.
             </p>
-            <a href="/projects">
+            <Link to="/projects">
               <button className="px-8 py-3 bg-green-700 text-white font-bold">
                 QUYÊN GÓP NGAY
               </button>
-            </a>
+            </Link>
           </div>
         </div>
         <div className="lg:flex justify-center my-20">

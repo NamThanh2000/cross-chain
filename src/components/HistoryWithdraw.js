@@ -20,9 +20,12 @@ function HistoryWithdraw({ signer }) {
         setLoading(true)
         const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
         const getProject = await donationContract.getProject(param);
-        const getlistWithdraw = await donationContract.getWithdrawalHistory(param)
+        try {
+          const getlistWithdraw = await donationContract.getWithdrawalHistory(param)
+          setListWithdraw(getlistWithdraw);
+        } catch {}
         setProject(getProject);
-        setListWithdraw(getlistWithdraw);
+        
         setLoading(false)
       };
       init();

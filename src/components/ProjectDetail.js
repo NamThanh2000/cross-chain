@@ -44,14 +44,16 @@ function ProjectDetail({ chainId, addressCurrent, signer, myBalance, myETHBalanc
                 setLoading(true)
                 const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
                 const project = await donationContract.getProject(param);
-                const listWithdraw = await donationContract.getWithdrawalHistory(param)
+                try {
+                    const listWithdraw = await donationContract.getWithdrawalHistory(param)
+                    setListWithdraw(listWithdraw)
+                } catch {}
                 const listOrganization = await donationContract.getOrganizationsForProject(param)
                 for (let org in listOrganization) {
                     if (org["organizationWallet"] === addressCurrent) setIsOrg(true);
                     break;
                 }
                 setProject(project)
-                setListWithdraw(listWithdraw)
                 setListOrganization(listOrganization);
                 setLoading(false)
             }

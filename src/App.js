@@ -98,6 +98,28 @@ function App() {
           const wethContract = new ethers.Contract(process.env.REACT_APP_WETH_ADDRESS, wethAbi, provider);
           const getBalanceETH = await wethContract.balanceOf(getAddressCurrent);
           setMyETHBalance(ethers.utils.formatEther(getBalanceETH));
+
+          // try {
+          //   await provider.send('wallet_watchAsset', {
+          //     type: 'ERC20',
+          //     options: {
+          //       address: process.env.REACT_APP_WETH_ADDRESS,
+          //       symbol: 'ETH',
+          //       decimals: 18,
+          //     },
+          //   });
+          //   await provider.send('wallet_watchAsset', {
+          //     type: 'ERC20',
+          //     options: {
+          //       address: "0x55d398326f99059fF775485246999027B3197955",
+          //       symbol: 'USDT',
+          //       decimals: 18,
+          //     },
+          //   });
+          //   console.log('Token đã được thêm thành công vào MetaMask');
+          // } catch (error) {
+          //   console.log('Đã xảy ra lỗi khi thêm token vào MetaMask:', error);
+          // }
         }
       }
     };

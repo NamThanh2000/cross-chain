@@ -113,7 +113,6 @@ export const donateETH = async (signer, provider, amountDonateETH, projectId, co
         if (chainid === 56) {
             const donateAmount = ethers.utils.parseUnits(amountDonateETH, 18);
             const donationAddress = "0xcC138083ba38dc7594142Af8E5A6925EdB23414B"
-
             const wethAddress = '0x2170Ed0880ac9A755fd29B2688956BD959F933F8'
             const wethToken = new ethers.Contract(wethAddress, wethABI, signer);
             const addressCurrent = await signer.getAddress();

@@ -1,30 +1,4 @@
-import detectEthereumProvider from "@metamask/detect-provider";
-import { useEffect } from 'react';
-import SimpleMap from "./SimpleMap.jsx";
-
-
 function ContactUs() {
-
-    useEffect(() => {
-        const init = async () => {
-            const ethereumProvider = await detectEthereumProvider();
-            if (!ethereumProvider) {
-                console.error("Không tìm thấy MetaMask");
-                return;
-            }
-
-            ethereumProvider.on("chainChanged", () => {
-                window.location.reload();
-            });
-
-            ethereumProvider.on("accountsChanged", () => {
-                window.location.reload();
-            });
-        };
-
-        init();
-    }, []);
-
     return (
         <>
             <div className="fixed z-30 w-full bg-white shadow-xl">
@@ -40,9 +14,6 @@ function ContactUs() {
                         <a className='mx-2 px-2 py-4 text-lg' href='/profile'>THÔNG TIN CỦA BẠN</a>
                         <a style={{ "color": "#15803D" }} className='mx-2 px-2 py-4 text-lg' href='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/about'>VỀ CHÚNG TÔI</a>
-                        {/* <a href="/donate">
-              <button className="px-8 py-3 bg-green-700  text-white font-bold">DONATE</button>
-            </a> */}
                     </div>
                 </div>
             </div>
@@ -51,11 +22,19 @@ function ContactUs() {
                     className="relative w-full h-650 flex items-center">
                     <div className="absolute z-20 w-full flex flex-col items-center">
                         <h1 className=" text-white font-bold text-5xl">Liên Hệ Với Chúng Tôi</h1>
-                        {/* <p className="mt-2 text-white font-bold text1xl">Help protect the air you breathe, water you drink and places you call home.</p> */}
                     </div>
                 </div>
                 <div className="flex justify-center px-4 mt-20">
-                    <SimpleMap />
+                    <iframe
+                        title='oceanover.tech'
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.234011576685!2d106.80257332546164!3d10.869797863081677!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317527587e9ad5bf%3A0xafa66f9c8be3c91!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBDw7RuZyBuZ2jhu4cgVGjDtG5nIHRpbiAtIMSQSFFHIFRQLkhDTQ!5e0!3m2!1svi!2s!4v1686501116140!5m2!1svi!2s"
+                        width="640"
+                        height="400"
+                        style={{ border: 0 }}
+                        allowFullScreen=""
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                    />
                     <div className="w-64 h-50 bg-gray-200 px-4 py-8 rounded">
                         <h3 className="text-xl font-semibold text-center" style={{ color: "#1a1a1a" }}>Địa Chỉ</h3>
                         <p className="mt-8 text-md text-center" style={{ color: "#1a1a1a", fontFamily: "sans-serif" }}>Đường Hàn Thuyên, khu phố 6 P, Thủ Đức, Thành phố Hồ Chí Minh</p>

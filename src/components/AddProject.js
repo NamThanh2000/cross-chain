@@ -1,71 +1,31 @@
-import { Web3Provider } from '@ethersproject/providers';
-import detectEthereumProvider from "@metamask/detect-provider";
 import { Box, Button, TextField } from '@mui/material';
 import { StaticDateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { useEffect, useState } from 'react';
+import { ethers } from 'ethers';
+import { useState } from 'react';
 import { useForm } from "react-hook-form";
-import { addProject } from '../utils';
 
-function AddProject() {
-    const [provider, setProvider] = useState(null);
-    const [isConnectMetamask, setIsConnectMetamask] = useState(false);
+const donationAbi = require('../DonationAbi')
+
+function AddProject({ signer }) {
     const [datetime, setDatetime] = useState('');
-
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
-    useEffect(() => {
-        const init = async () => {
-            const ethereumProvider = await detectEthereumProvider();
-            if (!ethereumProvider) {
-                console.error("Không tìm thấy MetaMask");
-                return;
-            }
-
-            setProvider(new Web3Provider(ethereumProvider));
-
-            ethereumProvider.on("chainChanged", () => {
-                window.location.reload();
-            });
-
-            ethereumProvider.on("accountsChanged", () => {
-                window.location.reload();
-            });
-        };
-
-        init();
-    }, []);
-
-    async function checkConnectMetamask() {
-        if (typeof window.ethereum === 'undefined') {
-            setIsConnectMetamask(true);
-            return;
-        }
-        try {
-            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-            if (!accounts || accounts.length === 0) {
-                setIsConnectMetamask(true);
-                return;
-            }
-        } catch (error) {
-            setIsConnectMetamask(true);
-            return;
-        }
-    }
 
     const onSubmit = async data => {
-        if (!provider) return;
-        const signer = provider.getSigner()
-        const dateStr = datetime.$d ? datetime.$d.toString().slice(0, datetime.$d.toString().indexOf('(')) : ''
-        const date = new Date(dateStr);
-        const unixTimestamp = Math.floor(date.getTime() / 1000);
-        data['unixTimestamp'] = unixTimestamp
-        const result = await addProject(signer, data)
-        if (result) {
-            window.location.href = '/projects'
-        }
+        if (signer) {
+            const dateStr = datetime.$d ? datetime.$d.toString().slice(0, datetime.$d.toString().indexOf('(')) : ''
+            const date = new Date(dateStr);
+            const unixTimestamp = Math.floor(date.getTime() / 1000);
+            const amountUnit = ethers.utils.parseUnits(data.amount, 18);
 
+            const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
+            const addProject = await donationContract.addProject(data.title, data.objective, unixTimestamp, amountUnit, data.image_url)
+            if (addProject) {
+                window.location.href = '/projects/' + addProject.id
+            }
+        }
     }
 
     return (
@@ -83,9 +43,6 @@ function AddProject() {
                         <a className='mx-2 px-2 py-4 text-lg' href='/profile'>THÔNG TIN CỦA BẠN</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/about'>VỀ CHÚNG TÔI</a>
-                        {/* <a href="/donate">
-              <button className="px-8 py-3 bg-green-700  text-white font-bold">DONATE</button>
-            </a> */}
                     </div>
                 </div>
             </div>
@@ -104,7 +61,6 @@ function AddProject() {
                     <TextField color="success" {...register("image_url")} fullWidth id="image_url" label="Đường dẫn ảnh" variant="outlined" />
                     <TextField color="success" {...register("amount")} fullWidth id="amount" label="Mục tiêu dự án (USD)" variant="outlined" />
                     <TextField color="success" {...register("objective")} multiline fullWidth id="amount" label="Giới thiệu về dự án" variant="outlined" />
-                    {/* <TextField {...register("objective")} fullWidth id="objective" label="Mô tả dự án" variant="outlined" /> */}
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <StaticDateTimePicker
                             sx={{ width: '300px' }}

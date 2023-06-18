@@ -11,14 +11,11 @@ import toast, { Toaster } from 'react-hot-toast';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from 'styled-components';
 import About from "./components/About";
-import AddOrganization from "./components/AddOrganization";
 import AddOrganizationProject from "./components/AddOrganizationProject";
 import AddProject from "./components/AddProject";
 import ContactUs from "./components/ContactUs";
 import HistoryWithdraw from "./components/HistoryWithdraw";
 import HomeLayout from "./components/HomeLayout";
-import MyDonate from './components/MyDonate';
-import Organizations from "./components/Organizations";
 import Profile from "./components/Profile";
 import Projects from "./components/Project";
 import ProjectDetail from "./components/ProjectDetail";
@@ -26,9 +23,7 @@ import { lightTheme } from "./styles/theme/theme";
 import transcationIcon from './transcation-icon.json';
 
 const wethAbi = require('./IERC20Abi')
-const donationAbi = require('./DonationAbi')
 const routerAbi = require('./RouterAbi')
-const ROUTER_ADDRESS = "0xba8da9dcf11b50b03fd5284f164ef5cdef910705"
 
 const style = {
   position: 'absolute',
@@ -52,7 +47,6 @@ function App() {
   const [chainId, setChainId] = useState(null);
   const [btnDisable, setBtnDisable] = useState(false);
   const [addressCurrent, setAddressCurrent] = useState(null);
-  const [donationContract, setDonationContract] = useState(null)
   const [ethereumProvider, setEthereumProvider] = useState(null)
   const [myETHBalance, setMyETHBalance] = useState(0);
 
@@ -88,7 +82,6 @@ function App() {
       const getSigner = getProvider.getSigner();
       setProvider(getProvider);
       setSigner(getSigner);
-      setDonationContract(new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer));
     }
   }, [ethereumProvider])
 
@@ -102,7 +95,7 @@ function App() {
         const getBalance = await provider.getBalance(getAddressCurrent);
         setMyBalance(ethers.utils.formatEther(getBalance))
         if (getNetwork.chainId === 56) {
-          const wethContract = new ethers.Contract("0x2170Ed0880ac9A755fd29B2688956BD959F933F8", wethAbi, provider);
+          const wethContract = new ethers.Contract(process.env.REACT_APP_WETH_ADDRESS, wethAbi, provider);
           const getBalanceETH = await wethContract.balanceOf(getAddressCurrent);
           setMyETHBalance(ethers.utils.formatEther(getBalanceETH));
         }
@@ -144,7 +137,7 @@ function App() {
     else {
       setBtnDisable(true)
       if (chainId === 1) {
-        const routerV7contract = new ethers.Contract(ROUTER_ADDRESS, routerAbi, signer);
+        const routerV7contract = new ethers.Contract(process.env.REACT_APP_ROUTER_ADDRESS, routerAbi, signer);
         const ethAmount = ethers.utils.parseUnits(amountCrossChain, 18);
         try {
           const bridgeoutlog = await routerV7contract.anySwapOutNative(
@@ -229,18 +222,15 @@ function App() {
       <ThemeProvider theme={lightTheme}>
         <BrowserRouter>
           <Routes>
-            <Route path='/' element={<HomeLayout isConnectMetamask={signer} />} />
-            <Route path='/your-donate' element={<MyDonate />} />
-            <Route path='/history-withdraw/:param' element={<HistoryWithdraw chainId={chainId} signer={signer} donationContract={donationContract} />} />
-            <Route path='/projects' element={<Projects />} />
-            <Route path='/project-detail/:param' element={<ProjectDetail />} />
-            <Route path='/projects/add' element={<AddProject />} />
-            <Route path='profile' element={<Profile />} />
-            <Route path='/contact-us' element={<ContactUs />} />
-            <Route path='/about' element={<About />} />
-            <Route path='/organization-add' element={<AddOrganization />} />
-            <Route path='/organization-add-project/:param' element={<AddOrganizationProject />} />
-            <Route path='/organizations' element={<Organizations />} />
+            <Route path='' element={<HomeLayout isConnectMetamask={signer} />} />
+            <Route path='history-withdraw/:param' element={<HistoryWithdraw signer={signer} ethereumProvider={ethereumProvider} />} />
+            <Route path='projects' element={<Projects addressCurrent={addressCurrent} signer={signer} />} />
+            <Route path='project-detail/:param' element={<ProjectDetail chainId={chainId} addressCurrent={addressCurrent} signer={signer} myBalance={myBalance} myETHBalance={myETHBalance} />} />
+            <Route path='projects/add' element={<AddProject signer={signer} />} />
+            <Route path='profile' element={<Profile signer={signer} />} />
+            <Route path='contact-us' element={<ContactUs />} />
+            <Route path='about' element={<About />} />
+            <Route path='organization-add-project/:param' element={<AddOrganizationProject signer={signer} />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

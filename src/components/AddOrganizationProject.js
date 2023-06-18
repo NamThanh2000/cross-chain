@@ -1,94 +1,43 @@
-import { Web3Provider } from '@ethersproject/providers';
-import detectEthereumProvider from "@metamask/detect-provider";
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, TextField, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, TextField } from '@mui/material';
+import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
-import { addOrganization, addOrganizationProject, getProjectDetail } from '../utils';
 import { useParams } from 'react-router';
-import { data_sample } from '../dataSample';
 
-function AddOrganizationProject() {
-    const [provider, setProvider] = useState(null);
-    const [isConnectMetamask, setIsConnectMetamask] = useState(false);
+const donationAbi = require('../DonationAbi')
+
+function AddOrganizationProject({ signer }) {
     const [project, setProject] = useState(null);
-    const [wallet, setWallet] = useState('');
     const { param } = useParams();
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const [infoOrgani, setInfoOrgani] = useState(false)
 
-    const onSubmit = async data => {
-        if (!provider) return;
-        const signer = provider.getSigner()
-        if (infoOrgani) {
-            const result = await addOrganization(signer, data)
-            if (result) {
-                window.location.href = `/project-detail/${param}`
-            }
-        } else {
-            const result = await addOrganizationProject(signer, param, data['wallet'])
-            if (result) {
-                window.location.href = `/project-detail/${param}`
-            }
-        }
-    }
-
     useEffect(() => {
-        const init = async () => {
-            const ethereumProvider = await detectEthereumProvider();
-            if (!ethereumProvider) {
-                console.error("Không tìm thấy MetaMask");
-                return;
-            }
-
-            setProvider(new Web3Provider(ethereumProvider));
-
-            ethereumProvider.on("chainChanged", () => {
-                window.location.reload();
-            });
-
-            ethereumProvider.on("accountsChanged", () => {
-                window.location.reload();
-            });
-        };
-
-        init();
-    }, []);
-
-    async function checkConnectMetamask() {
-        if (typeof window.ethereum === 'undefined') {
-            setIsConnectMetamask(true);
-            return;
-        }
-        try {
-            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-            if (!accounts || accounts.length === 0) {
-                setIsConnectMetamask(true);
-                return;
-            }
-        } catch (error) {
-            setIsConnectMetamask(true);
-            return;
-        }
-    }
-
-    useEffect(() => {
-        checkConnectMetamask();
-        if (!provider) return;
-        const signer = provider.getSigner()
-        const init = async () => {
-            try {
-                const project = await getProjectDetail(signer, param)
+        if (signer) {
+            const init = async () => {
+                const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
+                const project = await donationContract.getProject(param);
                 setProject(project)
-            } catch {
-                setProject(data_sample[Number(param)])
+            }
+            init();
+        }
+    }, [signer]);
+
+    const onSubmit = async data => {
+        if (signer) {
+            const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
+            if (infoOrgani) {
+                const addOrganization = await donationContract.addOrganization(data.name, data.description, data.imageUrl, data.wallet)
+                if (addOrganization) {
+                    window.location.href = `/project-detail/${param}`
+                }
+            } else {
+                const addOrganizationToProject = await donationContract.addOrganizationWallet(param, data['wallet'])
+                if (addOrganizationToProject) {
+                    window.location.href = `/project-detail/${param}`
+                }
             }
         }
-
-        init()
-    }, [provider]);
-
-    const checkIsAddInfoOrgani = () => {
-        setInfoOrgani(!infoOrgani)
     }
 
     return (
@@ -106,9 +55,6 @@ function AddOrganizationProject() {
                         <a className='mx-2 px-2 py-3 text-lg' href='/profile'>THÔNG TIN CỦA BẠN</a>
                         <a className='mx-2 px-2 py-3 text-lg' href='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</a>
                         <a className='mx-2 px-2 py-3 text-lg' href='/about'>VỀ CHÚNG TÔI</a>
-                        {/* <a href="/donate">
-              <button className="px-8 py-3 bg-green-700  text-white font-bold">DONATE</button>
-            </a> */}
                     </div>
                 </div>
             </div>
@@ -152,7 +98,7 @@ function AddOrganizationProject() {
                         boxShadow: 0
                     }}>
                         <AccordionSummary
-                            onClick={checkIsAddInfoOrgani}
+                            onClick={() => { setInfoOrgani(!infoOrgani) }}
                             aria-controls="panel1a-content"
                             id="panel1a-header"
                             sx={{
@@ -170,7 +116,7 @@ function AddOrganizationProject() {
                             <TextField sx={{ marginTop: 2 }} color="success" {...register("imageUrl")} fullWidth id="outlined-basic" label="Đường dẫn ảnh của tổ chức" variant="outlined" />
                         </AccordionDetails>
                     </Accordion>
-                    <TextField  {...register("wallet")} onChange={(e) => setWallet(e.target.value)} color="success" fullWidth id="outlined-basic" label="Ví tổ chức" variant="outlined" />
+                    <TextField  {...register("wallet")} color="success" fullWidth id="outlined-basic" label="Ví tổ chức" variant="outlined" />
                     <Button sx={{ marginTop: 4 }} color="success" type='submit' variant="contained">Thêm tổ chức vào dự án</Button>
                 </Box>
             </div>

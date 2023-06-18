@@ -1,69 +1,7 @@
 import React from 'react';
 import './Organization.css';
 
-
-const itemData = [
-    {
-        img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-        title: 'Breakfast',
-        rows: 2,
-        cols: 2,
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-        title: 'Burger',
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-        title: 'Camera',
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-        title: 'Coffee',
-        cols: 2,
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-        title: 'Hats',
-        cols: 2,
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-        title: 'Honey',
-        author: '@arwinneil',
-        rows: 2,
-        cols: 2,
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
-        title: 'Basketball',
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
-        title: 'Fern',
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
-        title: 'Mushrooms',
-        rows: 2,
-        cols: 2,
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
-        title: 'Tomato basil',
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
-        title: 'Sea star',
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
-        title: 'Bike',
-        cols: 2,
-    },
-];
-
-const About = () => {
+function About() {
     return (
         <>
             <div className="fixed z-30 w-full bg-white shadow-xl">
@@ -80,9 +18,6 @@ const About = () => {
                         <a className='mx-2 px-2 py-4 text-lg' href='/profile'>THÔNG TIN CỦA BẠN</a>
                         <a className='mx-2 px-2 py-4 text-lg' href='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</a>
                         <a style={{ "color": "#15803D" }} className='mx-2 px-2 py-4 text-lg' href='/about'>VỀ CHÚNG TÔI</a>
-                        {/* <a href="/donate">
-              <button className="px-8 py-3 bg-green-700  text-white font-bold">DONATE</button>
-            </a> */}
                     </div>
                 </div>
             </div>
@@ -91,12 +26,11 @@ const About = () => {
                     className="relative w-full h-650 flex items-center after:absolute after:w-full after:h-full after:top-0 after:left-0 after:bg-gradient-to-r after:from-black after:bg-opacity-10 after:to-transparent after:z-0">
                     <div className="absolute z-20 w-full flex flex-col items-center">
                         <h1 className=" text-white font-bold text-5xl">Về Chúng Tôi</h1>
-                        {/* <p className="mt-2 text-white font-bold text1xl">Help protect the air you breathe, water you drink and places you call home.</p> */}
                     </div>
                 </div>
                 <div className="organization flex px-52 py-20 border-gray-600" style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}>
                     <img className='w-1/3 h-full rounded' src="./o-nhiem-khong-khi-nguyen-nhan-va-mot-so-bien-phap-khac-phuc.jpg" alt="" />
-                    <div className='ml-4' style={{width: 700}}>
+                    <div className='ml-4' style={{ width: 700 }}>
                         <h2 className="organization-heading">Tổ chức của chúng tôi</h2>
                         <p className="organization-description">Chào mừng bạn đến với tổ chức của chúng tôi! Chúng tôi cam kết tạo ra tác động tích cực đối với môi trường và thúc đẩy bền vững.</p>
                         <p className="organization-description">Đội ngũ của chúng tôi bao gồm những cá nhân đam mê, cam kết nâng cao nhận thức, thúc đẩy thay đổi và triển khai các sáng kiến thân thiện với môi trường.</p>

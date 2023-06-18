@@ -1,52 +1,33 @@
+import { ethers } from 'ethers';
 import React, { useEffect, useState } from "react";
-import { convertBigNumber, getListHistoryMyDonateProject, getTotalMyDonateProject, parseUnixTimeStamp } from "../utils";
+import { convertBigNumber, parseUnixTimeStamp } from "../utils";
 
-function FormDonate({ projectId }) {
-    const [provider, setProvider] = useState(null);
+const donationAbi = require('../DonationAbi')
+
+function MyDonate({ projectId, signer, addressCurrent, isOrg }) {
     const [totalDonate, setTotalDonate] = useState(0);
     const [listMyDonate, setListMyDonate] = useState([]);
-    const [chainId, setChainId] = useState(0);
+    
     useEffect(() => {
-        if (!provider) return;
         const init = async () => {
-            const signer = provider.getSigner()
-            const getChainId = async () => {
-                const network = await provider.getNetwork();
-                const chainid = network.chainId;
-                setChainId(chainid)
+            if(signer) {
+                const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
+                let myDonate
+                if (isOrg || addressCurrent === process.env.REACT_APP_OWNING_ADDRESS) {
+                    myDonate = await donationContract.getEntireDonationHistory(projectId)
+                } else {
+                    myDonate = await donationContract.getDonationHistory(projectId)
+                }
+                const myTotalDonate = await donationContract.getMyDonationForProject(projectId)
+                setListMyDonate(myDonate)
+                setTotalDonate(myTotalDonate)
             }
-            getChainId()
-            const result = await getListHistoryMyDonateProject(signer, projectId)
-            setListMyDonate(result)
-            const totalMyDonate = await getTotalMyDonateProject(signer, projectId)
-            setTotalDonate(totalMyDonate)
         }
+        init();
+    }, [signer]);
 
-
-        init()
-    }, [provider]);
-
-    useEffect(() => {
-        if (chainId === 1) {
-            const ethereumMainnet = {
-                chainId: '0x38',
-                chainName: 'Binance Smart Chain Mainnet',
-                nativeCurrency: {
-                    name: 'BNB',
-                    symbol: 'BNB',
-                    decimals: 18,
-                },
-                rpcUrls: ['https://bsc-dataseed.binance.org/'], // RPC endpoint of BSC mainnet
-                blockExplorerUrls: ['https://bscscan.com/'], // Block explorer URL of BSC mainnet
-            };
-
-            window.ethereum.request({ method: 'wallet_addEthereumChain', params: [ethereumMainnet] })
-                .then(() => console.log('Ethereum mainnet added to Metamask'))
-                .catch((error) => console.error(error));
-        }
-    }, [chainId])
     return (
-        <div>
+        <>
             <div className='font-medium mt-6 text-lg'>
                 DANH SÁCH NHỮNG LẦN QUYÊN GÓP CỦA BẢN THÂN CHO DỰ ÁN NÀY:
             </div>
@@ -71,8 +52,8 @@ function FormDonate({ projectId }) {
             <div className='mt-4 text-lg font-medium'>
                 Tổng: <span className='text-green-700'>{convertBigNumber(totalDonate).toFixed(4)} USDT</span>
             </div>
-        </div>
+        </>
     );
 }
 
-export default FormDonate;  
+export default MyDonate;  

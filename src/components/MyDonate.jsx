@@ -1,5 +1,3 @@
-import { Web3Provider } from '@ethersproject/providers';
-import detectEthereumProvider from "@metamask/detect-provider";
 import React, { useEffect, useState } from "react";
 import { convertBigNumber, getListHistoryMyDonateProject, getTotalMyDonateProject, parseUnixTimeStamp } from "../utils";
 
@@ -8,29 +6,6 @@ function FormDonate({ projectId }) {
     const [totalDonate, setTotalDonate] = useState(0);
     const [listMyDonate, setListMyDonate] = useState([]);
     const [chainId, setChainId] = useState(0);
-
-    useEffect(() => {
-        const init = async () => {
-            const ethereumProvider = await detectEthereumProvider();
-            if (!ethereumProvider) {
-                console.error("Không tìm thấy MetaMask");
-                return;
-            }
-
-            setProvider(new Web3Provider(ethereumProvider));
-
-            ethereumProvider.on("chainChanged", () => {
-                window.location.reload();
-            });
-
-            ethereumProvider.on("accountsChanged", () => {
-                window.location.reload();
-            });
-        };
-
-        init();
-    }, []);
-
     useEffect(() => {
         if (!provider) return;
         const init = async () => {

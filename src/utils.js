@@ -1,8 +1,9 @@
-import { BigNumber, ethers } from 'ethers';
+import { ethers } from 'ethers';
 
-const routerV7ABI = require('./routerV7abi')
-const donationABI = require('./DonationContractABI')
+const routerV7ABI = require('./RouterAbi')
+const donationABI = require('./DonationAbi')
 const wethABI = require('./IERC20Abi')
+const donationAddress = process.env.REACT_APP_DONATION_ADDRESS
 
 export const connectMetamask = async () => {
     if (typeof window.ethereum === 'undefined') {
@@ -239,16 +240,15 @@ export const getListActiveProject = async (signer) => {
 }
 
 
-export const getProjectDetail = async (signer, projectIt) => {
-    const donationAddress = "0xcC138083ba38dc7594142Af8E5A6925EdB23414B"
+export const getProjectDetail = async (signer, projectId) => {
     const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
-    const project = await donationContract.getProject(projectIt);
+    const project = await donationContract.getProject(projectId);
     return project
 }
 
 
 export const addProject = async (signer, data) => {
-    const donationAddress = "0xcC138083ba38dc7594142Af8E5A6925EdB23414B"
+    const donationAddress = "0xcC138083ba38dc7594142sAf8E5A6925EdB23414B"
 
     const donationContract = new ethers.Contract(donationAddress, donationABI, signer);
     const amountUnit = ethers.utils.parseUnits(data.amount, 18);

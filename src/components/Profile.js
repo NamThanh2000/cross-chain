@@ -4,6 +4,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { ethers } from 'ethers';
 import React, { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
 import { convertBigNumber, parseUnixTimeStamp } from '../utils';
 
 const donationAbi = require('../DonationAbi')
@@ -33,16 +34,16 @@ function Profile({ signer }) {
             <div className="fixed z-30 w-full bg-white shadow-xl">
                 <div className="px-8 flex justify-between ">
                     <div className="flex items-center">
-                        <a href="/">
+                        <Link to="/">
                             <img className="w-26 h-12 mr-10 text-gray-700" src="/350232362_194904190170121_8724430467209331448_n.png" alt="logo" />
-                        </a>
+                        </Link>
                     </div>
                     <div className="flex items-center">
-                        <a className='mx-2 px-2 py-4 text-lg' href='/'>TRANG CHỦ</a>
-                        <a className='mx-2 px-2 py-4 text-lg' href='/projects'> CÁC DỰ ÁN</a>
-                        <a style={{ "color": "#15803D" }} className='mx-2 px-2 py-4 text-lg' href='/profile'>THÔNG TIN CỦA BẠN</a>
-                        <a className='mx-2 px-2 py-4 text-lg' href='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</a>
-                        <a className='mx-2 px-2 py-4 text-lg' href='/about'>VỀ CHÚNG TÔI</a>
+                        <Link className='mx-2 px-2 py-4 text-lg' to='/'>TRANG CHỦ</Link>
+                        <Link className='mx-2 px-2 py-4 text-lg' to='/projects'> CÁC DỰ ÁN</Link>
+                        <Link style={{ "color": "#15803D" }} className='mx-2 px-2 py-4 text-lg' to='/profile'>THÔNG TIN CỦA BẠN</Link>
+                        <Link className='mx-2 px-2 py-4 text-lg' to='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</Link>
+                        <Link className='mx-2 px-2 py-4 text-lg' to='/about'>VỀ CHÚNG TÔI</Link>
                     </div>
                 </div>
             </div>
@@ -103,9 +104,9 @@ function Profile({ signer }) {
                     <div className='flex justify-around'>
                         <div className=''>
                             <div className='w-64'>
-                                <a href="/">
+                                <Link to="/">
                                     <img className="w-26 h-12 mr-10 text-gray-700" src="/350232362_194904190170121_8724430467209331448_n.png" alt="logo" />
-                                </a>
+                                </Link>
                             </div>
                             <div className='mt-4 text-white text-xs w-96'>
                                 Chào mừng bạn đến với tổ chức quyên góp quỹ thiện nguyện! Chúng tôi cam kết xây dựng một thế giới tốt đẹp hơn thông qua những hành động thiện nguyện. Với sứ mệnh hỗ trợ cộng đồng và giúp đỡ những người gặp khó khăn, chúng tôi tập trung vào việc gây quỹ và chia sẻ tài nguyên để tạo ra những tác động tích cực. Hãy cùng nhau chung tay để thay đổi cuộc sống và lan tỏa tình yêu thương đến tất cả mọi người.

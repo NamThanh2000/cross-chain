@@ -167,6 +167,7 @@ function App() {
         open={open}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        sx={{ backgroundImage: "url(/turtlesfinJORDANROBINS.jpg)" }}
       >
         <div>
           {chainId && chainId === 1 &&
@@ -219,7 +220,7 @@ function App() {
         </div>
       </Modal>
       <Toaster position="top-center" reverseOrder={true} />
-      <ThemeProvider theme={lightTheme}>
+      {chainId === 56 && <ThemeProvider theme={lightTheme}>
         <BrowserRouter>
           <Routes>
             <Route path='' element={<HomeLayout isConnectMetamask={signer} />} />
@@ -233,7 +234,7 @@ function App() {
             <Route path='organization-add-project/:param' element={<AddOrganizationProject signer={signer} />} />
           </Routes>
         </BrowserRouter>
-      </ThemeProvider>
+      </ThemeProvider>}
     </>
   );
 }

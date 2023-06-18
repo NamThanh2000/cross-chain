@@ -56,7 +56,7 @@ function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBal
 
     const donateETHHandle = async () => {
         if (Number(amountDonateETH) > Number(myETHBalance)) {
-            toast.error("Your wallet is not enough to donate");
+            toast.error("Ví của bạn không đủ ETH để quyên góp");
         }
         else {
             setBtnDisable(true)

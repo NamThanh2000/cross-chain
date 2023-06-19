@@ -16,6 +16,8 @@ const donationAbi = require('../DonationAbi')
 function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBalance, myETHBalance, signer, setValue }) {
     const [amountDonateETH, setAmountDonateETH] = useState("");
     const [amountDonateBNB, setAmountDonateBNB] = useState("");
+    const [contentDonateBNB, setContentDonateBNB] = useState("");
+    const [contentDonateETH, setContentDonateETH] = useState("");
     const [btnDisable, setBtnDisable] = useState(false);
 
     if (checkTab === 0) {
@@ -45,7 +47,7 @@ function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBal
             try {
                 const donateTx = await donationContract.donateBNB(
                     projectId,
-                    "",
+                    contentDonateBNB,
                     { value: donateAmount },
                 );
                 await donateTx.wait();
@@ -72,7 +74,7 @@ function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBal
                     const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
                     const donateTx = await donationContract.donateWETH(
                         projectId,
-                        "",
+                        contentDonateETH,
                         donateAmount
                     );
                     await donateTx.wait();
@@ -85,7 +87,6 @@ function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBal
             setBtnDisable(false)
         }
     }
-
     return (
         <>
             <TabPanel value={0} className='p-6'>
@@ -112,6 +113,7 @@ function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBal
                         color="success"
                         multiline
                         fullWidth
+                        onChange={(e) => setContentDonateBNB(e.target.value)}
                         label="Lời nhắn"
                     />
                     {myBalance && <p className='mt-2 text-sm italic'>Số dư BNB của bạn: <span className='font-bold' style={{ color: "#2E7D32" }}>{myBalance} BNB</span></p>}
@@ -133,6 +135,7 @@ function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBal
                         style={{ marginTop: 20 }}
                         color="success"
                         multiline
+                        onChange={(e) => setContentDonateETH(e.target.value)}
                         fullWidth
                         label="Lời nhắn"
                     />

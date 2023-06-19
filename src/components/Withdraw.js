@@ -1,11 +1,12 @@
-import { Box, FormControl, MenuItem, Select, TextField } from '@mui/material';
+import { Box, FormControl, MenuItem, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import { ethers } from 'ethers';
 import React, { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { parseUnixTimeStamp } from "../utils";
+import Select from '@mui/material/Select';
+import { convertProjectId, parseUnixTimeStamp } from "../utils";
 
 const donationAbi = require('../DonationAbi')
 
@@ -14,9 +15,10 @@ function Withdraw({ projectId, signer, addressCurrent, totalWithdrawn, totalDona
     const [listWithdraw, setListWithdraw] = useState([]);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { register: registerUpImage, handleSubmit: handleSubmitImage, watch, formState: { errors: errorsImage } } = useForm();
-    const selectWithdrawalId = watch('withdrawalId', 0)
+    const [selectWithdrawalId, setSelectWithdrawalId] = useState('')
+    // const selectWithdrawalId = watch('withdrawalId', 0)
     const imageUrl = watch('imageUrl', 0)
-
+    console.log(selectWithdrawalId);
     useEffect(() => {
         if (signer) {
             const init = async () => {
@@ -46,7 +48,7 @@ function Withdraw({ projectId, signer, addressCurrent, totalWithdrawn, totalDona
     }
 
     const onSubmitUpImage = async data => {
-        if (selectWithdrawalId !== 0) {
+        if (selectWithdrawalId !== '') {
             const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
             try {
                 const donateTx = await donationContract.addWithdrawImage(projectId, selectWithdrawalId, imageUrl)
@@ -56,7 +58,14 @@ function Withdraw({ projectId, signer, addressCurrent, totalWithdrawn, totalDona
                 toast.error("Tải ảnh thất bại");
             }
         }
+        else {
+            toast.error('Vui lòng chọn ngày rút tiền!')
+        }
     }
+
+    const handleChange = (event) => {
+        setSelectWithdrawalId(event.target.value);
+      };
     return (
         <Box className='mt-8'>
             {addressCurrent === process.env.REACT_APP_OWNING_ADDRESS && <>
@@ -112,17 +121,14 @@ function Withdraw({ projectId, signer, addressCurrent, totalWithdrawn, totalDona
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
                                     value={selectWithdrawalId}
+                                    onChange={handleChange}
                                     label="Ngày rút tiền"
-                                    {...registerUpImage("dateWithdraw", { required: true })}
                                 >
                                     {listWithdraw.map((item, index) => {
-                                        return <MenuItem key={index} value={listWithdraw.withdrawalId}>{parseUnixTimeStamp(item.timestamp)}</MenuItem>
+                                        return <MenuItem key={index} value={convertProjectId(item.withdrawalId)}>{parseUnixTimeStamp(item.timestamp)}</MenuItem>
                                     })}
                                 </Select>
                             </FormControl>
-                            {Number(selectWithdrawalId) === 0 && (
-                                <span className='text-sm text-red-600'>Ngày rút tiền là bắt buộc.</span>
-                            )}
                         </Box>
                         <Button type='submit' sx={{ marginTop: 2 }} variant="contained" color="success" size="large">ĐĂNG TẢI BIÊN LAI</Button>
                     </Box>

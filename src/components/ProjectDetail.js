@@ -1,15 +1,16 @@
-import { TabContext } from '@material-ui/lab';
+// import { TabContext } from '@material-ui/lab';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PaidIcon from '@mui/icons-material/Paid';
 import CircularProgress from '@mui/joy/CircularProgress';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
 import { Box, Button, CircularProgress as CircularProgressMui } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { ethers } from 'ethers';
@@ -112,32 +113,34 @@ function ProjectDetail({ chainId, addressCurrent, signer, myBalance, myETHBalanc
                                 </Box>
                             </div>
                             <div className='flex my-10 justify-between'>
-                                <Box className='w-full'>
-                                    <TabContext value="1">
-                                        <Tabs
-                                            value={value}
-                                            onChange={handleChange}
-                                            variant="fullWidth"
-                                            scrollButtons={false}
-                                            aria-label="basic tabs example"
-                                            TabIndicatorProps={{
-                                                style: {
-                                                    backgroundColor: "#15803D"
-                                                },
-                                            }}
-                                            sx={{
-                                                ".Mui-selected": {
-                                                    color: "green !important"
+                                <Box sx={{ width: '100%', typography: 'body1' }}>
+                                    <TabContext value={value}>
+                                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                                            <TabList 
+                                                value={value}
+                                                onChange={handleChange}
+                                                variant="fullWidth"
+                                                scrollButtons={false}
+                                                aria-label="basic tabs example"
+                                                TabIndicatorProps={{
+                                                    style: {
+                                                        backgroundColor: "#15803D"
+                                                    },
+                                                }}
+                                                sx={{
+                                                    ".Mui-selected": {
+                                                        color: "green !important"
+                                                    }
+                                                }}
+                                            >
+                                                <Tab label="Crosschain ETH" value={0} />
+                                                <Tab label="Quyên góp" value={1} />
+                                                <Tab label="Lịch sử quyên góp" value={2} />
+                                                {addressCurrent === process.env.REACT_APP_OWNING_ADDRESS &&
+                                                    <Tab label="Rút tiền" value={3} />
                                                 }
-                                            }}
-                                        >
-                                            <Tab label="Crosschain ETH" value={0} />
-                                            <Tab label="Quyên góp" value={1} />
-                                            <Tab label="Lịch sử quyên góp" value={2} />
-                                            {addressCurrent === process.env.REACT_APP_OWNING_ADDRESS &&
-                                                <Tab label="Rút tiền" value={3} />
-                                            }
-                                        </Tabs>
+                                            </TabList>
+                                        </Box>
                                         <FormDonate
                                             projectId={param}
                                             checkTab={value}

@@ -1,5 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
+import TabPanel from '@mui/lab/TabPanel';
 import { Button, CircularProgress, TextField } from '@mui/material';
 import { ethers } from 'ethers';
 import React, { useState } from "react";
@@ -86,76 +87,72 @@ function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBal
     }
 
     return (
-        <div>
-            {checkTab === 0 &&
-                <div className='p-6'>
-                    <div className='flex justify-center mt-20'>
-                        <CircularProgress color="success" size={50} sx={{ margin: '0 auto' }} />
-                    </div>
+        <>
+            <TabPanel value={0} className='p-6'>
+                <div className='flex justify-center mt-20'>
+                    <CircularProgress color="success" size={50} sx={{ margin: '0 auto' }} />
                 </div>
-            }
-            {checkTab === 1 &&
-                <>
-                    <div className='p-8 border-gray-600'
-                        style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
-                    >
-                        <p className='font-bold'>Quyên góp bằng BNB</p>
-                        <TextField
-                            style={{ marginTop: 20 }}
-                            color="success"
-                            fullWidth
-                            label="Số BNB"
-                            value={amountDonateBNB}
-                            onChange={(e) => setAmountDonateBNB(e.target.value)}
-                            type='number'
-                        />
-                        <TextField
-                            style={{ marginTop: 20 }}
-                            color="success"
-                            multiline
-                            fullWidth
-                            label="Lời nhắn"
-                        />
-                        {myBalance && <p className='mt-2 text-sm italic'>Số dư BNB của bạn: <span className='font-bold' style={{ color: "#2E7D32" }}>{myBalance} BNB</span></p>}
-                        <Button style={{ marginTop: 10 }} variant="contained" disabled={btnDisable} color="success" size="large" onClick={donateBNBHandle}>Quyên góp ngay bằng BNB</Button>
-                    </div>
-                    <div className='p-8'>
-                        <p className='font-bold'>Quyên góp bằng ETH</p>
-                        <TextField
-                            style={{ marginTop: 20 }}
-                            color="success"
-                            fullWidth
-                            label="Số ETH"
-                            value={amountDonateETH}
-                            onChange={(e) => setAmountDonateETH(e.target.value)}
-                            placeholder='Số ETH'
-                            type='number'
-                        />
-                        <TextField
-                            style={{ marginTop: 20 }}
-                            color="success"
-                            multiline
-                            fullWidth
-                            label="Lời nhắn"
-                        />
-                        {myBalance && <p className='mt-2 text-sm italic'>Số dư ETH của bạn: <span className='font-bold' style={{ color: "#2E7D32" }}>{myETHBalance} ETH</span></p>}
-                        <Button style={{ marginTop: 10 }} variant="contained" disabled={btnDisable} color="success" size="large" onClick={donateETHHandle}>Quyên góp ngay bằng ETH</Button>
-                    </div>
-                </>
-            }
-            {checkTab === 2 && 
+            </TabPanel>
+            <TabPanel value={1}>
+                <div className='p-8 border-gray-600'
+                    style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
+                >
+                    <p className='font-bold'>Quyên góp bằng BNB</p>
+                    <TextField
+                        style={{ marginTop: 20 }}
+                        color="success"
+                        fullWidth
+                        label="Số BNB"
+                        value={amountDonateBNB}
+                        onChange={(e) => setAmountDonateBNB(e.target.value)}
+                        type='number'
+                    />
+                    <TextField
+                        style={{ marginTop: 20 }}
+                        color="success"
+                        multiline
+                        fullWidth
+                        label="Lời nhắn"
+                    />
+                    {myBalance && <p className='mt-2 text-sm italic'>Số dư BNB của bạn: <span className='font-bold' style={{ color: "#2E7D32" }}>{myBalance} BNB</span></p>}
+                    <Button style={{ marginTop: 10 }} variant="contained" disabled={btnDisable} color="success" size="large" onClick={donateBNBHandle}>Quyên góp ngay bằng BNB</Button>
+                </div>
+                <div className='p-8'>
+                    <p className='font-bold'>Quyên góp bằng ETH</p>
+                    <TextField
+                        style={{ marginTop: 20 }}
+                        color="success"
+                        fullWidth
+                        label="Số ETH"
+                        value={amountDonateETH}
+                        onChange={(e) => setAmountDonateETH(e.target.value)}
+                        placeholder='Số ETH'
+                        type='number'
+                    />
+                    <TextField
+                        style={{ marginTop: 20 }}
+                        color="success"
+                        multiline
+                        fullWidth
+                        label="Lời nhắn"
+                    />
+                    {myBalance && <p className='mt-2 text-sm italic'>Số dư ETH của bạn: <span className='font-bold' style={{ color: "#2E7D32" }}>{myETHBalance} ETH</span></p>}
+                    <Button style={{ marginTop: 10 }} variant="contained" disabled={btnDisable} color="success" size="large" onClick={donateETHHandle}>Quyên góp ngay bằng ETH</Button>
+                </div>
+            </TabPanel>
+            <TabPanel value={2}>
                 <MyDonate projectId={projectId} signer={signer} addressCurrent={addressCurrent} isOrg={isOrg} />
-            }
-            {checkTab === 3 && 
-                <Withdraw 
-                    projectId={projectId} 
-                    signer={signer} 
-                    addressCurrent={addressCurrent} 
-                    totalWithdrawn={project["totalWithdrawn"]} 
-                    totalDonations={project["totalDonations"]} 
+            </TabPanel>
+            <TabPanel value={3}>
+                <Withdraw
+                    projectId={projectId}
+                    signer={signer}
+                    addressCurrent={addressCurrent}
+                    totalWithdrawn={project["totalWithdrawn"]}
+                    totalDonations={project["totalDonations"]}
                 />
-            }
-        </div>
+            </TabPanel>
+        </>
     );
 }
 

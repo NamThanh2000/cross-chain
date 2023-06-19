@@ -1,6 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
-import { Button, CircularProgress } from '@mui/material';
+import { Button, CircularProgress, TextField } from '@mui/material';
 import { ethers } from 'ethers';
 import React, { useState } from "react";
 import toast from 'react-hot-toast';
@@ -13,8 +13,8 @@ const wethAbi = require('../IERC20Abi')
 const donationAbi = require('../DonationAbi')
 
 function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBalance, myETHBalance, signer, setValue }) {
-    const [amountDonateETH, setAmountDonateETH] = useState(null);
-    const [amountDonateBNB, setAmountDonateBNB] = useState(null);
+    const [amountDonateETH, setAmountDonateETH] = useState("");
+    const [amountDonateBNB, setAmountDonateBNB] = useState("");
     const [btnDisable, setBtnDisable] = useState(false);
 
     if (checkTab === 0) {
@@ -48,8 +48,8 @@ function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBal
                     { value: donateAmount },
                 );
                 await donateTx.wait();
-                window.open(`https://bscscan.com/tx/${donateTx.hash}`, '_blank');
                 toast.success("Quyên góp bằng BNB thành công");
+                window.open(`https://bscscan.com/tx/${donateTx.hash}`, '_blank');
             } catch {
                 toast.error("Quyên góp bằng BNB thất bại");
             }
@@ -75,8 +75,8 @@ function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBal
                         donateAmount
                     );
                     await donateTx.wait();
-                    window.open(`https://bscscan.com/tx/${donateTx.hash}`, '_blank');
                     toast.success("Quyên góp bằng ETH thành công");
+                    window.open(`https://bscscan.com/tx/${donateTx.hash}`, '_blank');
                 } catch {
                     toast.error("Quyên góp bằng ETH thất bại");
                 }
@@ -100,31 +100,46 @@ function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBal
                         style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                     >
                         <p className='font-bold'>Quyên góp bằng BNB</p>
-                        <div className='flex items-center mt-5'>
-                            <input
-                                className='p-3 rounded'
-                                value={amountDonateBNB}
-                                onChange={(e) => setAmountDonateBNB(e.target.value)}
-                                placeholder='Số BNB'
-                                type='number'
-                            />
-                            <Button sx={{ marginLeft: 5 }} variant="contained" disabled={btnDisable} color="success" size="large" onClick={donateBNBHandle}>Quyên góp ngay bằng BNB</Button>
-                        </div>
+                        <TextField
+                            style={{ marginTop: 20 }}
+                            color="success"
+                            fullWidth
+                            label="Số BNB"
+                            value={amountDonateBNB}
+                            onChange={(e) => setAmountDonateBNB(e.target.value)}
+                            type='number'
+                        />
+                        <TextField
+                            style={{ marginTop: 20 }}
+                            color="success"
+                            multiline
+                            fullWidth
+                            label="Lời nhắn"
+                        />
                         {myBalance && <p className='mt-2 text-sm italic'>Số dư BNB của bạn: <span className='font-bold' style={{ color: "#2E7D32" }}>{myBalance} BNB</span></p>}
+                        <Button style={{ marginTop: 10 }} variant="contained" disabled={btnDisable} color="success" size="large" onClick={donateBNBHandle}>Quyên góp ngay bằng BNB</Button>
                     </div>
                     <div className='p-8'>
                         <p className='font-bold'>Quyên góp bằng ETH</p>
-                        <div className='flex items-center mt-5'>
-                            <input
-                                className='p-3 rounded'
-                                value={amountDonateETH}
-                                onChange={(e) => setAmountDonateETH(e.target.value)}
-                                placeholder='Số ETH'
-                                type='number'
-                            />
-                            <Button sx={{ marginLeft: 5 }} variant="contained" disabled={btnDisable} color="success" size="large" onClick={donateETHHandle}>Quyên góp ngay bằng ETH</Button>
-                        </div>
+                        <TextField
+                            style={{ marginTop: 20 }}
+                            color="success"
+                            fullWidth
+                            label="Số ETH"
+                            value={amountDonateETH}
+                            onChange={(e) => setAmountDonateETH(e.target.value)}
+                            placeholder='Số ETH'
+                            type='number'
+                        />
+                        <TextField
+                            style={{ marginTop: 20 }}
+                            color="success"
+                            multiline
+                            fullWidth
+                            label="Lời nhắn"
+                        />
                         {myBalance && <p className='mt-2 text-sm italic'>Số dư ETH của bạn: <span className='font-bold' style={{ color: "#2E7D32" }}>{myETHBalance} ETH</span></p>}
+                        <Button style={{ marginTop: 10 }} variant="contained" disabled={btnDisable} color="success" size="large" onClick={donateETHHandle}>Quyên góp ngay bằng ETH</Button>
                     </div>
                 </>
             }

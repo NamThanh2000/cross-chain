@@ -1,4 +1,4 @@
-import { Box, FormControl, MenuItem, Select } from '@mui/material';
+import { Box, FormControl, MenuItem, Select, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import { ethers } from 'ethers';
@@ -33,10 +33,14 @@ function Withdraw({ projectId, signer, addressCurrent, totalWithdrawn, totalDona
             setBtnDisable(true)
             const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
             const amountWithdraw = ethers.utils.parseUnits(data['amount'], 18);
-            const donateTx = await donationContract.withdraw(projectId, amountWithdraw, data['content']);
-            await donateTx.wait();
-            if (donateTx) toast.success("Rút tiền thành công");
-            else toast.error("Rút tiền thất bại");
+            try {
+                const donateTx = await donationContract.withdraw(projectId, amountWithdraw, data['content']);
+                await donateTx.wait();
+                toast.success("Rút tiền thành công");
+                window.open(`https://bscscan.com/tx/${donateTx.hash}`, '_blank');
+            } catch {
+                toast.success("Rút tiền thành công");
+            }
             setBtnDisable(false)
         }
     }
@@ -44,9 +48,13 @@ function Withdraw({ projectId, signer, addressCurrent, totalWithdrawn, totalDona
     const onSubmitUpImage = async data => {
         if (selectWithdrawalId !== 0) {
             const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
-            const addWithdrawImage = await donationContract.addWithdrawImage(projectId, selectWithdrawalId, imageUrl)
-            if (addWithdrawImage) toast.success("Tải ảnh thành công");
-            else toast.error("Tải ảnh thất bại");
+            try {
+                const donateTx = await donationContract.addWithdrawImage(projectId, selectWithdrawalId, imageUrl)
+                await donateTx.wait();
+                toast.success("Tải ảnh thành công");
+            } catch {
+                toast.error("Tải ảnh thất bại");
+            }
         }
     }
     return (
@@ -55,9 +63,11 @@ function Withdraw({ projectId, signer, addressCurrent, totalWithdrawn, totalDona
                 <Box component='form' onSubmit={handleSubmit(onSubmit)}>
                     <Box className='flex flex-col w-full mt-4'>
                         <div className='mt-2'>
-                            <input
-                                className='p-3 rounded w-full'
-                                placeholder='Nhập số lượng USDT muốn rút'
+                            <TextField
+                                color="success"
+                                fullWidth 
+                                label="Nhập số lượng USDT muốn rút" 
+                                variant="outlined"
                                 type='number'
                                 {...register("amount", { required: true })}
                             />
@@ -65,14 +75,14 @@ function Withdraw({ projectId, signer, addressCurrent, totalWithdrawn, totalDona
                                 <span className='text-sm text-red-600'>Số tiền rút là bắt buộc</span>
                             )}
                         </div>
-                        <div className=' w-full'>
-                            <textarea
+                        <div className=' w-full mt-5'>
+                            <TextField
                                 {...register("content", { required: true, maxLength: 1000 })}
-                                type='string'
-                                style={{ border: '1px solid #e5e7eb' }}
-                                className='w-full mt-2 p-3 rounded focus:outline-green-700'
-                                placeholder='Nội dung rút tiền' name="content" id="" cols="30" rows="10">
-                            </textarea>
+                                color="success"
+                                multiline
+                                fullWidth
+                                label="Nội dung rút tiền"
+                            />
                             {errors.content && errors.content.type === "required" && (
                                 <span className='text-sm text-red-600'>Nội dung rút tiền là bắt buộc.</span>
                             )}
@@ -84,17 +94,18 @@ function Withdraw({ projectId, signer, addressCurrent, totalWithdrawn, totalDona
                 </Box>
                 <div className='mt-8 border-t-4 border-green-700'>
                     <Box component='form' onSubmit={handleSubmitImage(onSubmitUpImage)} className='mt-4'>
-                        <h3 className='text-lg font-medium'>Đăng tải biên lai sử dụng</h3>
-                        <input
-                            className='mt-2 p-3 rounded w-full'
-                            placeholder='Đường dẫn ảnh'
-                            type='string'
+                        <h3 className='text-lg font-medium mb-5'>Đăng tải biên lai sử dụng</h3>
+                        <TextField
+                            color="success"
+                            multiline
+                            fullWidth
+                            label="Đường dẫn ảnh"
                             {...registerUpImage("imageUrl", { required: true })}
                         />
                         {errorsImage?.imageUrl && errorsImage?.imageUrl.type === "required" && (
                             <span className='text-sm text-red-600'>Đường dẫn ảnh là bắt buộc.</span>
                         )}
-                        <Box sx={{ minWidth: 220, marginTop: 1 }}>
+                        <Box sx={{ minWidth: 220, marginTop: 2 }}>
                             <FormControl color="success" fullWidth >
                                 <InputLabel id="demo-simple-select-label">Ngày rút tiền</InputLabel>
                                 <Select
@@ -105,7 +116,7 @@ function Withdraw({ projectId, signer, addressCurrent, totalWithdrawn, totalDona
                                     {...registerUpImage("dateWithdraw", { required: true })}
                                 >
                                     {listWithdraw.map((item, index) => {
-                                        return <MenuItem key={index} value={index + 1}>{parseUnixTimeStamp(item.timestamp)}</MenuItem>
+                                        return <MenuItem key={index} value={listWithdraw.withdrawalId}>{parseUnixTimeStamp(item.timestamp)}</MenuItem>
                                     })}
                                 </Select>
                             </FormControl>

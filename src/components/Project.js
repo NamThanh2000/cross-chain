@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
-import { convertBigNumber, convertProjectId, parseUnixTimeStamp } from '../utils';
+import { convertProjectId, convertToken, parseUnixTimeStamp } from '../utils';
 
 const donationAbi = require('../DonationAbi')
 
@@ -99,30 +99,31 @@ function Projects({ addressCurrent, signer }) {
                                         <Typography sx={{ height: 64 }} gutterBottom variant="h6" component="div">
                                             {item.title}
                                         </Typography>
-                                        <Typography variant="body2" color="text.secondary">
+                                        <Box variant="body2" color="text.secondary">
                                             <p
                                                 style={{
                                                     display: "-webkit-box",
-                                                    "-webkit-line-clamp": "4",
-                                                    "-webkit-box-orient": "vertical",
+                                                    "WebkitLineClamp": 4,
+                                                    "WebkitBoxOrient": "vertical",
                                                     overflow: "hidden",
-                                                    "text-overflow": "ellipsis"
+                                                    "textOverflow": "ellipsis"
                                                 }}
                                             >
                                                 {item.objective}
                                             </p>
                                             <div className='mt-5'>
-                                                <div>Mục tiêu: <span style={{ color: "#2E7D32" }} className='font-bold'>{convertBigNumber(item.amount) > 0.01 ? convertBigNumber(item.amount) : 0} USDT</span></div>
+                                                <div>Mục tiêu: <span style={{ color: "#2E7D32" }} className='font-bold'>
+                                                    {convertToken(item.amount) > 0.01 ? convertToken(item.amount) : 0} USDT
+                                                </span></div>
                                                 <div>Tiến độ: <span style={{ color: "#2E7D32" }} className='font-bold'>
-                                                    {(convertBigNumber(item && item.totalDonations) / convertBigNumber(item && item.amount)) * 100 > 100 ?
-                                                        100 : ((convertBigNumber(item.totalDonations) / convertBigNumber(item.amount)) * 100).toFixed(1)
-                                                    }
-                                                    %
+                                                    {((convertToken(item.totalDonations) / convertToken(item.amount)) * 100).toFixed(1)}%
                                                 </span>
                                                 </div>
-                                                <div>Ngày hết hạn: <span style={{ color: "#2E7D32" }} className='font-bold'>{parseUnixTimeStamp(item.deadline)}</span></div>
+                                                <div>Ngày hết hạn: <span style={{ color: "#2E7D32" }} className='font-bold'>
+                                                    {parseUnixTimeStamp(item.deadline)}
+                                                </span></div>
                                             </div>
-                                        </Typography>
+                                        </Box>
                                     </CardContent>
                                     <CardActions>
                                         <Button color="success" size="small"><Link to={`/project-detail/${convertProjectId(item.projectId)}`}>Quyên góp ngay</Link></Button>

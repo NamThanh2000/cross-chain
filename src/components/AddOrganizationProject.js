@@ -2,6 +2,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Button, TextField }
 import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
+import toast from 'react-hot-toast';
 import { useParams } from 'react-router';
 import { Link } from "react-router-dom";
 
@@ -28,14 +29,22 @@ function AddOrganizationProject({ signer }) {
         if (signer) {
             const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
             if (infoOrgani) {
-                const addOrganization = await donationContract.addOrganization(data.name, data.description, data.imageUrl, data.wallet)
-                if (addOrganization) {
+                try {
+                    const donateTx = await donationContract.addOrganization(data.name, data.description, data.imageUrl, data.wallet)
+                    await donateTx.wait();
+                    toast.success("Thêm ví tổ chức cho dự án thành công");
                     window.location.href = `/project-detail/${param}`
+                } catch (e) {
+                    toast.error("Thêm ví tổ chức cho dự án thất bại");
                 }
             } else {
-                const addOrganizationToProject = await donationContract.addOrganizationWallet(param, data['wallet'])
-                if (addOrganizationToProject) {
+                try {
+                    const donateTx = await donationContract.addOrganizationWallet(param, data['wallet'])
+                    await donateTx.wait();
+                    toast.success("Thêm thông tin cho tổ chức thành công");
                     window.location.href = `/project-detail/${param}`
+                } catch (e) {
+                    toast.error("Thêm thông tin cho tổ chức thất bại");
                 }
             }
         }
@@ -79,7 +88,7 @@ function AddOrganizationProject({ signer }) {
                         <img style={{ width: 700 }} src={project && project.imageUrl} alt="Nature slice" />
                         <div className='flex flex-col'>
                             <h1 className="text-3xl mx-6 my-6 text-center">{project && project.title}</h1>
-                            <div className="mx-8 text-base">
+                            <div className="mx-8 text-base font-medium">
                                 {project && project.objective}
                             </div>
                         </div>

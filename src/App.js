@@ -1,6 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers';
 import detectEthereumProvider from "@metamask/detect-provider";
-import { Typography } from '@mui/material';
+import { TextField, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
@@ -205,11 +205,12 @@ function App() {
                 height={200}
               />
               <div className='flex items-center justify-center my-5'>
-                <input
-                  className='p-3 rounded'
+                <TextField
+                  color="success"
+                  fullWidth
+                  label="Số ETH"
                   value={amountCrossChain}
                   onChange={(e) => setAmountCrossChain(e.target.value)}
-                  placeholder='Số ETH'
                   type='number'
                 />
                 <Button sx={{ marginLeft: 5 }} variant="contained" disabled={btnDisable} color="success" size="large" onClick={ethToBscHandle}>Chuyển ETH ngay</Button>

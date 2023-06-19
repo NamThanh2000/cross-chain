@@ -4,7 +4,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { ethers } from 'ethers';
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { convertBigNumber, parseUnixTimeStamp } from "../utils";
+import { convertToken, parseUnixTimeStamp } from "../utils";
 
 const donationAbi = require('../DonationAbi')
 
@@ -31,8 +31,6 @@ function HistoryWithdraw({ signer }) {
       init();
     }
   }, [signer]);
-
-  console.log(project);
 
   const handleSaveImage = async () => {
     let imageUrl =
@@ -122,7 +120,7 @@ function HistoryWithdraw({ signer }) {
                     <h1 className="text-3xl mx-6 my-6 text-center">
                       {project && project.title}
                     </h1>
-                    <div className="mx-8 text-base">
+                    <div className="mx-8 text-base font-medium">
                       {project && project.objective}
                     </div>
                   </div>
@@ -168,7 +166,7 @@ function HistoryWithdraw({ signer }) {
                             }}
                           >
                             <p className="w-60 text-green-700 font-medium text-md text-center flex items-center justify-center">
-                              {convertBigNumber(item.amount).toFixed(4)} USD
+                              {convertToken(item.amount).toFixed(4)} USD
                             </p>
                             <p className="w-80 text-green-700 font-medium text-md text-center flex items-center justify-center">
                               {parseUnixTimeStamp(item.timestamp)}

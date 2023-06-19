@@ -91,7 +91,13 @@ module.exports = [
             }
         ],
         "name": "addProject",
-        "outputs": [],
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
         "stateMutability": "nonpayable",
         "type": "function"
     },
@@ -109,24 +115,6 @@ module.exports = [
             }
         ],
         "name": "addOrganizationWallet",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "_projectId",
-                "type": "uint256"
-            },
-            {
-                "internalType": "address",
-                "name": "_organizationWallet",
-                "type": "address"
-            }
-        ],
-        "name": "removeOrganizationWallet",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -230,6 +218,29 @@ module.exports = [
                 "internalType": "uint256",
                 "name": "_projectId",
                 "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_withdrawalId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "_imageUrl",
+                "type": "string"
+            }
+        ],
+        "name": "addWithdrawImage",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_projectId",
+                "type": "uint256"
             }
         ],
         "name": "getOrganizationsForProject",
@@ -292,6 +303,11 @@ module.exports = [
                         "internalType": "string",
                         "name": "content",
                         "type": "string"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "donorWallet",
+                        "type": "address"
                     }
                 ],
                 "internalType": "struct DonationContract.Donation[]",
@@ -315,6 +331,11 @@ module.exports = [
         "outputs": [
             {
                 "components": [
+                    {
+                        "internalType": "uint256",
+                        "name": "withdrawalId",
+                        "type": "uint256"
+                    },
                     {
                         "internalType": "uint256",
                         "name": "amount",
@@ -351,6 +372,31 @@ module.exports = [
                 "internalType": "uint256",
                 "name": "_projectId",
                 "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_withdrawalId",
+                "type": "uint256"
+            }
+        ],
+        "name": "getWithdrawImage",
+        "outputs": [
+            {
+                "internalType": "string[]",
+                "name": "",
+                "type": "string[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_projectId",
+                "type": "uint256"
             }
         ],
         "name": "getEntireDonationHistory",
@@ -371,6 +417,11 @@ module.exports = [
                         "internalType": "string",
                         "name": "content",
                         "type": "string"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "donorWallet",
+                        "type": "address"
                     }
                 ],
                 "internalType": "struct DonationContract.Donation[]",
@@ -710,20 +761,6 @@ module.exports = [
                 "internalType": "struct DonationContract.Project[]",
                 "name": "",
                 "type": "tuple[]"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function",
-        "constant": true
-    },
-    {
-        "inputs": [],
-        "name": "getContractBalance",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
             }
         ],
         "stateMutability": "view",

@@ -1,7 +1,18 @@
 import { Link } from "react-router-dom";
-import { connectMetamask } from "../utils";
 
 function HomeLayout({ isConnectMetamask }) {
+  const connectMetamask = async () => {
+    if (typeof window.ethereum === 'undefined') {
+        window.open('https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn', '_blank');
+        return;
+    }
+    try {
+        await window.ethereum.request({ method: "eth_requestAccounts" });
+    } catch (error) {
+        console.error("Lỗi kết nối với MetaMask:", error);
+    }
+  };
+  
   return (
     <>
       <div className="fixed z-30 w-full bg-white shadow-xl">

@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { convertBigNumber, parseUnixTimeStamp } from '../utils';
+import { convertToken, parseUnixTimeStamp } from '../utils';
 import FormDonate from './FormDonate';
 
 const donationAbi = require('../DonationAbi')
@@ -113,7 +113,7 @@ function ProjectDetail({ chainId, addressCurrent, signer, myBalance, myETHBalanc
                             </div>
                             <div className='flex my-10 justify-between'>
                                 <Box className='w-full'>
-                                    <TabContext >
+                                    <TabContext value="1">
                                         <Tabs
                                             value={value}
                                             onChange={handleChange}
@@ -155,7 +155,7 @@ function ProjectDetail({ chainId, addressCurrent, signer, myBalance, myETHBalanc
                                     <div className="xl:mx-10 mx-4 md:mx-4 sm:mx-4">
                                         <div className="flex flex-col items-center">
                                             {project && project !== null &&
-                                                (convertBigNumber(project && project['totalDonations']) / convertBigNumber(project && project['amount'])) * 100 > 100 ?
+                                                (convertToken(project && project['totalDonations']) / convertToken(project && project['amount'])) * 100 > 100 ?
                                                 <CircularProgress thickness={14} color='success' sx={{ '--CircularProgress-size': '160px' }} determinate value={100}>
                                                     {100}%
                                                 </CircularProgress> :
@@ -165,9 +165,9 @@ function ProjectDetail({ chainId, addressCurrent, signer, myBalance, myETHBalanc
                                                     sx={{ '--CircularProgress-size': '160px' }}
                                                     size="lg"
                                                     determinate
-                                                    value={(convertBigNumber(project && project['totalDonations']) / convertBigNumber(project && project['amount'])) * 100}
+                                                    value={(convertToken(project && project['totalDonations']) / convertToken(project && project['amount'])) * 100}
                                                 >
-                                                    {`${project ? (((convertBigNumber(project && project['totalDonations']) / convertBigNumber(project && project['amount'])) * 100).toFixed(1)) : 0}%`}
+                                                    {`${project ? (((convertToken(project && project['totalDonations']) / convertToken(project && project['amount'])) * 100).toFixed(1)) : 0}%`}
                                                 </CircularProgress>
                                             }
                                         </div>
@@ -175,7 +175,7 @@ function ProjectDetail({ chainId, addressCurrent, signer, myBalance, myETHBalanc
                                     {project && <div className='mt-10'>
                                         <div className='text-center'>
                                             <PaidIcon sx={{ marginRight: '4px' }} color='success' />
-                                            {convertBigNumber(project['totalDonations']).toFixed(4)}
+                                            {convertToken(project['totalDonations']).toFixed(2)}/{convertToken(project['amount']).toFixed(2)}
                                             <span className='ml-1'>USDT</span>
                                         </div>
                                         <div className='mt-3'>
@@ -189,11 +189,11 @@ function ProjectDetail({ chainId, addressCurrent, signer, myBalance, myETHBalanc
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 width="50"
                                                 height="50"
-                                                fill-rule="evenodd"
-                                                clip-rule="evenodd"
-                                                image-rendering="optimizeQuality"
-                                                shape-rendering="geometricPrecision"
-                                                text-rendering="geometricPrecision"
+                                                fillRule="evenodd"
+                                                clipRule="evenodd"
+                                                imageRendering="optimizeQuality"
+                                                shapeRendering="geometricPrecision"
+                                                textRendering="geometricPrecision"
                                                 viewBox="0 0 512 512" id="administrator"
                                             >
                                                 <path
@@ -208,16 +208,16 @@ function ProjectDetail({ chainId, addressCurrent, signer, myBalance, myETHBalanc
                                         <Tooltip className='mt-5 cursor-pointer' title="Tổ chức">
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
-                                                data-name="Layer 1"
+                                                dataName="Layer 1"
                                                 viewBox="0 0 64 64"
                                                 id="leadership"
                                                 width="50"
                                                 height="50"
-                                                fill-rule="evenodd"
-                                                clip-rule="evenodd"
-                                                image-rendering="optimizeQuality"
-                                                shape-rendering="geometricPrecision"
-                                                text-rendering="geometricPrecision"
+                                                fillRule="evenodd"
+                                                clipRule="evenodd"
+                                                imageRendering="optimizeQuality"
+                                                shapeRendering="geometricPrecision"
+                                                textRendering="geometricPrecision"
                                             >
                                                 <circle cx="13" cy="23" r="10" fill="#fff"></circle>
                                                 <path d="M13 13a9.85 9.85 0 0 0-2.5.33 10 10 0 0 1 0 19.34A9.85 9.85 0 0 0 13 33a10 10 0 0 0 0-20Z" opacity=".1"></path>
@@ -249,7 +249,7 @@ function ProjectDetail({ chainId, addressCurrent, signer, myBalance, myETHBalanc
                                                 className='p-3 flex justify-center border-gray-300'
                                                 style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                                             >
-                                                <p className='w-64 text-green-700 font-medium text-md text-center'>{convertBigNumber(item.amount).toFixed(4)} USD</p>
+                                                <p className='w-64 text-green-700 font-medium text-md text-center'>{convertToken(item.amount).toFixed(2)} USD</p>
                                                 <p className='w-80 text-green-700 font-medium text-md text-center'>{parseUnixTimeStamp(item.timestamp)}</p>
                                             </div>
                                         })}

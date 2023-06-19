@@ -5,7 +5,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import { ethers } from 'ethers';
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
-import { convertBigNumber, parseUnixTimeStamp } from '../utils';
+import { convertToken, parseUnixTimeStamp } from '../utils';
 
 const donationAbi = require('../DonationAbi')
 
@@ -61,7 +61,7 @@ function Profile({ signer }) {
                             </div>
                             <div className='flex'>
                                 <p className='font-bold'>Tổng số USDT bạn đã ủng hộ:</p>
-                                <p style={{ "color": "#49A942" }} className='font-bold ml-2'>{convertBigNumber(totalProjectMyDonate).toFixed(4)}</p>
+                                <p style={{ "color": "#49A942" }} className='font-bold ml-2'>{convertToken(totalProjectMyDonate).toFixed(2)}</p>
                             </div>
                         </div>
                         <div className='mt-10'>
@@ -69,7 +69,7 @@ function Profile({ signer }) {
                                 <h1 className='font-bold text-2xl'>Danh sách các dự án bạn đã ủng hộ</h1>
                             </div>
                             {listProjectMyDonate && listProjectMyDonate?.map((item, index) => {
-                                return <div key={index} className='mt-5'>
+                                return <Link key={index} className='mt-5' to={`/project-detail/${item.projectId}`}>
                                     <List component="nav" aria-label="main mailbox folders">
                                         <ListItemButton>
                                             <ListItemIcon>
@@ -78,22 +78,19 @@ function Profile({ signer }) {
                                             <div className='ml-4'>
                                                 <h2 className='font-bold text-lg'>{item.title}</h2>
                                                 <div>
-                                                    <div>Mục tiêu: {convertBigNumber(item.amount)} <span className='font-bold'>USD</span></div>
+                                                    <div>Mục tiêu: <span style={{ color: "green" }}>{convertToken(item.amount)} USD</span></div>
                                                     <div className='flex'>
                                                         <p>Tiến độ:</p>
-                                                        <p className='ml-2'>
-                                                            {(convertBigNumber(item && item.totalDonations) / convertBigNumber(item && item.amount)) * 100 > 100 ?
-                                                                100 : ((convertBigNumber(item.totalDonations) / convertBigNumber(item.amount)) * 100).toFixed(1)
-                                                            }
-                                                            %
+                                                        <p className='ml-2' style={{ color: "green" }}>
+                                                            {((convertToken(item.totalDonations) / convertToken(item.amount)) * 100).toFixed(1)}%
                                                         </p>
                                                     </div>
-                                                    <div>Thời điểm ngừng kêu gọi: {parseUnixTimeStamp(item.deadline)}</div>
+                                                    <div>Thời điểm ngừng kêu gọi: <span style={{ color: "green" }}>{parseUnixTimeStamp(item.deadline)}</span></div>
                                                 </div>
                                             </div>
                                         </ListItemButton>
                                     </List>
-                                </div>
+                                </Link>
                             })}
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import React, { useEffect, useState } from "react";
-import { convertBigNumber, parseUnixTimeStamp } from "../utils";
+import { convertToken, parseUnixTimeStamp } from "../utils";
 
 const donationAbi = require('../DonationAbi')
 
@@ -44,13 +44,13 @@ function MyDonate({ projectId, signer, addressCurrent, isOrg }) {
                         className='p-3 flex justify-center border-gray-300'
                         style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                     >
-                        <p className='w-64 text-green-700 text-lg text-center'>{convertBigNumber(item.amount).toFixed(4)}</p>
+                        <p className='w-64 text-green-700 text-lg text-center'>{convertToken(item.amount).toFixed(2)}</p>
                         <p className='w-80 text-green-700 text-lg text-center'>{parseUnixTimeStamp(item.timestamp)}</p>
                     </div>
                 })}
             </div>
             <div className='mt-4 text-lg font-medium'>
-                Tổng: <span className='text-green-700'>{convertBigNumber(totalDonate).toFixed(4)} USDT</span>
+                Tổng: <span className='text-green-700'>{convertToken(totalDonate).toFixed(2)} USDT</span>
             </div>
         </>
     );

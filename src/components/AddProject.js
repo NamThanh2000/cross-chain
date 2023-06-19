@@ -23,12 +23,10 @@ function AddProject({ signer }) {
             const amountUnit = ethers.utils.parseUnits(data.amount, 18);
             const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
             try {
-                const addProject = await donationContract.addProject(data.title, data.objective, unixTimestamp, amountUnit, data.image_url)
+                const donateTx = await donationContract.addProject(data.title, data.objective, unixTimestamp, amountUnit, data.image_url)
+                await donateTx.wait();
                 toast.success(`Tạo dự án thành công`);
-                console.log(Number(addProject.value));
-                if (addProject) {
-                    window.location.href = '/project-detail/' + ethers.utils.formatUnits(addProject.value.toString(), 0)
-                }
+                window.location.href = '/project-detail/' + ethers.utils.formatUnits(donateTx.value.toString(), 0)
             } catch {
                 toast.error("Tạo dự án thất bại");
             }
@@ -63,7 +61,7 @@ function AddProject({ signer }) {
                         '& > :not(style)': { margin: '20px 0', display: 'block' },
                     }}
                     noValidate
-                    autoComplete="off"
+                    autoComplete="off" 
                 >
                     <TextField color="success" {...register("title")} fullWidth id="title" label="Tên dự án mới" variant="outlined" />
                     <TextField color="success" {...register("image_url")} fullWidth id="image_url" label="Đường dẫn ảnh" variant="outlined" />

@@ -80,10 +80,18 @@ function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBal
                     } catch {
                         toast.error("Quyên góp bằng ETH thất bại");
                     }
+                } else {
+                    try {
+                        const donateTx = await wethToken.approve(process.env.REACT_APP_DONATION_ADDRESS, donateAmount);
+                        await donateTx.wait();
+                        toast.success("Chấp thuận token thành công");
+                    } catch {
+                        toast.error("Chấp thuận token thất bại");
+                    }
                 }
                 setBtnDisable(false)
             } else toast.error("Ví của bạn không đủ ETH để quyên góp");
-        } else toast.error("Vui lòng nhập số BNB để quyên góp");
+        } else toast.error("Vui lòng nhập số ETH để quyên góp");
     }
     return (
         <>

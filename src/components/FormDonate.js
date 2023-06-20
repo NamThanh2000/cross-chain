@@ -60,7 +60,7 @@ function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBal
     }
 
     const donateETHHandle = async () => {
-        if (amountDonateBNB) {
+        if (amountDonateETH) {
             if (amountDonateETH < myETHBalance) {
                 setBtnDisable(true)
                 const donateAmount = ethers.utils.parseUnits(amountDonateETH, 18);

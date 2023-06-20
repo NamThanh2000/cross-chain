@@ -30,7 +30,6 @@ function AddOrganizationProject({ signer }) {
             const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
             if (infoOrgani) {
                 try {
-                    console.log();
                     const donateTx = await donationContract.addOrganization(data.name, data.description, data.imageUrl, data.wallet)
                     await donateTx.wait();
                     toast.success("Thêm thông tin cho tổ chức thành công");
@@ -40,7 +39,6 @@ function AddOrganizationProject({ signer }) {
                 }
             } else {
                 try {
-                    console.log(data['wallet']);
                     const donateTx = await donationContract.addOrganizationWallet(param, data['wallet'])
                     await donateTx.wait();
                     toast.success("Thêm ví tổ chức cho dự án thành công");

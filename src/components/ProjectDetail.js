@@ -276,25 +276,34 @@ function ProjectDetail({ chainId, addressCurrent, signer, myBalance, myETHBalanc
                                         }
                                     </div>
                                     {listOrganization.length !== 0 ? listOrganization?.map((item, index) => {
-                                        return <Accordion key={index}>
-                                            <AccordionSummary
-                                                expandIcon={<ExpandMoreIcon />}
-                                                aria-controls="panel1a-content"
-                                                id="panel1a-header"
-                                            >
-                                                <Typography variant="button">WWF Vietnam</Typography>
-                                            </AccordionSummary>
-                                            <AccordionDetails>
-                                                <Typography>
-                                                    <div className='flex flex-col items-center'>
-                                                        <img style={{ height: 86 }} className='mb-5' src="https://cdnassets.panda.org/_skins/international/img/logo.png" alt="" />
-                                                        <Typography>
-                                                            Tổ chức Quốc tế về Bảo tồn Thiên nhiên tại Việt Nam (WWF-Việt Nam) là một trong những tổ chức bảo tồn hàng đầu tại Việt Nam, tư vấn các giải pháp và hỗ trợ chính phủ và các đối tác giải quyết các thách thức của quá trình phát triển quốc gia.
-                                                        </Typography>
-                                                    </div>
-                                                </Typography>
-                                            </AccordionDetails>
-                                        </Accordion>
+                                        return (
+                                            item.name &&
+                                            <Accordion key={index}>
+                                                <AccordionSummary
+                                                    expandIcon={<ExpandMoreIcon />}
+                                                    aria-controls="panel1a-content"
+                                                    id="panel1a-header"
+                                                >
+                                                    <Typography style={{ fontWeight: "bold" }} variant="button">{item.name}</Typography>
+                                                </AccordionSummary>
+                                                <AccordionDetails>
+                                                    <Typography>
+                                                        <div className='flex flex-col items-center'>
+                                                            <Typography style={{ color: "green" }} variant="button">{item.organizationWallet}</Typography>
+                                                            <img 
+                                                                style={{ height: 86 }} 
+                                                                className='mb-5' 
+                                                                src={item.imageUrl}
+                                                                alt="" 
+                                                            />
+                                                            <Typography>
+                                                                {item.description}
+                                                            </Typography>
+                                                        </div>
+                                                    </Typography>
+                                                </AccordionDetails>
+                                            </Accordion>
+                                        )
                                     }) : <div className='text-center'>Chưa có tổ chức nào</div>}
                                 </div>
                             </div>

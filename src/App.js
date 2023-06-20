@@ -21,6 +21,7 @@ import Projects from "./components/Project";
 import ProjectDetail from "./components/ProjectDetail";
 import { lightTheme } from "./styles/theme/theme";
 import transcationIcon from './transcation-icon.json';
+import { convertToken } from "./utils";
 
 const wethAbi = require('./IERC20Abi')
 const routerAbi = require('./RouterAbi')
@@ -93,7 +94,7 @@ function App() {
         const getAddressCurrent = await signer.getAddress();
         setAddressCurrent(getAddressCurrent)
         const getBalance = await provider.getBalance(getAddressCurrent);
-        setMyBalance(ethers.utils.formatEther(getBalance))
+        setMyBalance(convertToken(getBalance))
         if (getNetwork.chainId === 56) {
           const wethContract = new ethers.Contract(process.env.REACT_APP_WETH_ADDRESS, wethAbi, provider);
           const getBalanceETH = await wethContract.balanceOf(getAddressCurrent);

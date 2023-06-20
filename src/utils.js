@@ -5,7 +5,7 @@ export const convertToken = (number) => {
 }
 
 
-export const convertProjectId = (number) => {
+export const convertId = (number) => {
     return Number(ethers.utils.formatUnits(number, 0));
 }
 

@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
-import { convertProjectId, convertToken, parseUnixTimeStamp } from '../utils';
+import { convertId, convertToken, parseUnixTimeStamp } from '../utils';
 
 const donationAbi = require('../DonationAbi')
 
@@ -87,7 +87,7 @@ function Projects({ addressCurrent, signer }) {
                         }
                         <div className='flex flex-wrap'>
                             {projects && projects?.map((item) => {
-                                return <Card key={convertProjectId(item.projectId)} sx={{ maxWidth: 400, margin: "10px", height: "100%" }}>
+                                return <Card key={convertId(item.projectId)} sx={{ maxWidth: 400, margin: "10px", height: "100%" }}>
                                     <CardMedia
                                         component="img"
                                         alt="green iguana"
@@ -126,7 +126,7 @@ function Projects({ addressCurrent, signer }) {
                                         </Box>
                                     </CardContent>
                                     <CardActions>
-                                        <Button color="success" size="small"><Link to={`/project-detail/${convertProjectId(item.projectId)}`}>Quyên góp ngay</Link></Button>
+                                        <Button color="success" size="small"><Link to={`/project-detail/${convertId(item.projectId)}`}>Quyên góp ngay</Link></Button>
                                     </CardActions>
                                 </Card>
                             })}

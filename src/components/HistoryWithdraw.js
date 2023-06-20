@@ -3,8 +3,9 @@ import { Box, Button } from "@mui/material";
 import CircularProgress from '@mui/material/CircularProgress';
 import { ethers } from 'ethers';
 import { useEffect, useState } from "react";
+import toast from 'react-hot-toast';
 import { Link, useParams } from "react-router-dom";
-import { convertToken, parseUnixTimeStamp } from "../utils";
+import { convertId, convertToken, parseUnixTimeStamp } from "../utils";
 
 const donationAbi = require('../DonationAbi')
 
@@ -32,21 +33,23 @@ function HistoryWithdraw({ signer }) {
     }
   }, [signer]);
 
-  const handleSaveImage = async () => {
-    let imageUrl =
-      "https://o.rada.vn/data/image/2021/08/02/viec-lam-bao-ve-moi-truong.jpg";
-    try {
-      const response = await fetch(imageUrl);
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "image.jpg";
-      link.click();
-
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Error downloading image:", error);
+  const handleSaveImage = async (withdrawalId) => {
+    const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
+    const getImages = await donationContract.getWithdrawImage(param, convertId(withdrawalId));
+    if (getImages.length > 0) {
+      for (let imageUrl of getImages) {
+        const response = await fetch(imageUrl);
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "withdraw";
+        link.click();
+        window.URL.revokeObjectURL(url);
+      }
+      toast.success("Tải biên lai thành công");
+    } else {
+      toast.error("Chưa có ảnh biên lai nào được tải lên");
     }
   };
 
@@ -132,7 +135,7 @@ function HistoryWithdraw({ signer }) {
                   {listWithdraw && listWithdraw.length > 0 ? (
                     <div>
                       <div
-                        className="pt-4 pb-1 flex justify-center border-gray-300"
+                        className="pb-1 flex justify-center border-gray-300"
                         style={{
                           borderTop: "1px",
                           borderRight: "1px",
@@ -140,16 +143,19 @@ function HistoryWithdraw({ signer }) {
                           borderWidth: "1px",
                         }}
                       >
-                        <p className="w-64 text-lg font-bold text-center">
-                          Số tiền
+                        <p className="w-96 text-lg font-bold text-center">
+                          Địa chỉ ví nhận tiền
                         </p>
-                        <p className="w-80 text-lg font-bold text-center">
+                        <p className="w-28 text-lg font-bold text-center">
+                          Số USDT
+                        </p>
+                        <p className="w-44 text-lg font-bold text-center">
                           Thời điểm
                         </p>
                         <p className="w-80 text-lg font-bold text-center">
                           Nội dung rút
                         </p>
-                        <p className="w-80 text-lg font-bold text-center">
+                        <p className="flex-1 text-lg font-bold text-center">
                           Biên lai
                         </p>
                       </div>
@@ -157,7 +163,7 @@ function HistoryWithdraw({ signer }) {
                         return (
                           <div
                             key={index}
-                            className="p-3 flex border-gray-300"
+                            className="flex border-gray-300"
                             style={{
                               borderTop: "1px",
                               borderRight: "1px",
@@ -165,29 +171,22 @@ function HistoryWithdraw({ signer }) {
                               borderWidth: "1px",
                             }}
                           >
-                            <p className="w-60 text-green-700 font-medium text-md text-center flex items-center justify-center">
-                              {convertToken(item.amount).toFixed(4)} USD
+                            <p className="w-96 text-green-700 font-medium text-md text-center flex items-center justify-center">
+                              {item.transferWallet}
                             </p>
-                            <p className="w-80 text-green-700 font-medium text-md text-center flex items-center justify-center">
+                            <p className="w-28 text-green-700 font-medium text-md text-center flex items-center justify-center">
+                              {convertToken(item.amount).toFixed(2)}
+                            </p>
+                            <p className="w-44 text-green-700 font-medium text-md text-center flex items-center justify-center">
                               {parseUnixTimeStamp(item.timestamp)}
                             </p>
-                            <p className="w-80 mr-4 text-green-700 font-medium text-md flex items-center justify-start">
-                              Quyên góp vì môi trường là một hoạt động quan trọng
-                              và cần thiết trong việc bảo vệ và cải thiện môi
-                              trường sống tại Việt Nam. Việt Nam đang đối mặt với
-                              nhiều thách thức về môi trường, bao gồm ô nhiễm
-                              không khí, ô nhiễm nước, suy thoái đất đai và sự suy
-                              giảm của các nguồn tài nguyên thiên nhiên. Quyên góp
-                              vì môi trường có thể được hiểu là sự đóng góp tài
-                              chính, tài nguyên hoặc thời gian của cá nhân, tổ
-                              chức và cộng đồng để thúc đẩy các hoạt động bảo vệ
-                              môi trường và xây dựng một tương lai bền vững cho
-                              Việt Nam
+                            <p className="w-80 text-green-700 font-medium text-md flex items-center justify-start px-5">
+                              {item.content}
                             </p>
-                            <div className="flex items-center justify-center w-1/4">
+                            <div className="flex items-center justify-center flex-1">
                               <Button
                                 startIcon={<FileDownloadIcon />}
-                                onClick={handleSaveImage}
+                                onClick={() => handleSaveImage(item.withdrawalId)}
                                 color="success"
                               >
                                 Tải ảnh biên lai

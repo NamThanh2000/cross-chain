@@ -20,7 +20,7 @@ function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBal
     const [contentDonateETH, setContentDonateETH] = useState("");
     const [btnDisable, setBtnDisable] = useState(false);
 
-    if (checkTab === 0) {
+    if (checkTab === "0") {
         const changeToETH = async () => {
             const ethereumProvider = await detectEthereumProvider();
             if (!ethereumProvider) {
@@ -30,71 +30,69 @@ function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBal
             try {
                 await provider.send('wallet_switchEthereumChain', [{ chainId: '0x1' }]);
             } catch (error) {
-                if (error.code === 4001) setValue(1)
+                if (error.code === 4001) setValue("1")
             }
         }
         changeToETH();
     }
 
     const donateBNBHandle = async () => {
-        if (Number(amountDonateBNB) > Number(myBalance)) {
-            toast.error("Ví của bạn không đủ BNB để quyên góp");
-        }
-        else {
-            setBtnDisable(true)
-            const donateAmount = ethers.utils.parseUnits(amountDonateBNB, 18);
-            const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
-            try {
-                const donateTx = await donationContract.donateBNB(
-                    projectId,
-                    contentDonateBNB,
-                    { value: donateAmount },
-                );
-                await donateTx.wait();
-                toast.success("Quyên góp bằng BNB thành công");
-                window.open(`https://bscscan.com/tx/${donateTx.hash}`, '_blank');
-            } catch {
-                toast.error("Quyên góp bằng BNB thất bại");
-            }
-            setBtnDisable(false)
-        }
+        if (amountDonateBNB) {
+            if (amountDonateBNB < myBalance) {
+                setBtnDisable(true)
+                const donateAmount = ethers.utils.parseUnits(amountDonateBNB, 18);
+                const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
+                try {
+                    const donateTx = await donationContract.donateBNB(
+                        projectId,
+                        contentDonateBNB,
+                        { value: donateAmount },
+                    );
+                    await donateTx.wait();
+                    toast.success("Quyên góp bằng BNB thành công");
+                    window.open(`https://bscscan.com/tx/${donateTx.hash}`, '_blank');
+                } catch {
+                    toast.error("Quyên góp bằng BNB thất bại");
+                }
+                setBtnDisable(false)
+            } else toast.error("Ví của bạn không đủ BNB để quyên góp");
+        } else toast.error("Vui lòng nhập số BNB để quyên góp");
     }
 
     const donateETHHandle = async () => {
-        if (Number(amountDonateETH) > Number(myETHBalance)) {
-            toast.error("Ví của bạn không đủ ETH để quyên góp");
-        }
-        else {
-            setBtnDisable(true)
-            const donateAmount = ethers.utils.parseUnits(amountDonateETH, 18);
-            const wethToken = new ethers.Contract(process.env.REACT_APP_WETH_ADDRESS, wethAbi, signer);
-            const allowance = await wethToken.allowance(addressCurrent, process.env.REACT_APP_DONATION_ADDRESS);
-            if (allowance.gte(donateAmount)) {
-                try {
-                    const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
-                    const donateTx = await donationContract.donateWETH(
-                        projectId,
-                        contentDonateETH,
-                        donateAmount
-                    );
-                    await donateTx.wait();
-                    toast.success("Quyên góp bằng ETH thành công");
-                    window.open(`https://bscscan.com/tx/${donateTx.hash}`, '_blank');
-                } catch {
-                    toast.error("Quyên góp bằng ETH thất bại");
+        if (amountDonateBNB) {
+            if (amountDonateETH < myETHBalance) {
+                setBtnDisable(true)
+                const donateAmount = ethers.utils.parseUnits(amountDonateETH, 18);
+                const wethToken = new ethers.Contract(process.env.REACT_APP_WETH_ADDRESS, wethAbi, signer);
+                const allowance = await wethToken.allowance(addressCurrent, process.env.REACT_APP_DONATION_ADDRESS);
+                if (allowance.gte(donateAmount)) {
+                    try {
+                        const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
+                        const donateTx = await donationContract.donateWETH(
+                            projectId,
+                            contentDonateETH,
+                            donateAmount
+                        );
+                        await donateTx.wait();
+                        toast.success("Quyên góp bằng ETH thành công");
+                        window.open(`https://bscscan.com/tx/${donateTx.hash}`, '_blank');
+                    } catch {
+                        toast.error("Quyên góp bằng ETH thất bại");
+                    }
                 }
-            }
-            setBtnDisable(false)
-        }
+                setBtnDisable(false)
+            } else toast.error("Ví của bạn không đủ ETH để quyên góp");
+        } else toast.error("Vui lòng nhập số BNB để quyên góp");
     }
     return (
         <>
-            <TabPanel value={0} className='p-6'>
+            <TabPanel value="0" className='p-6'>
                 <div className='flex justify-center mt-20'>
                     <CircularProgress color="success" size={50} sx={{ margin: '0 auto' }} />
                 </div>
             </TabPanel>
-            <TabPanel value={1}>
+            <TabPanel value="1">
                 <div className='p-8 border-gray-600'
                     style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                 >
@@ -143,10 +141,10 @@ function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBal
                     <Button style={{ marginTop: 10 }} variant="contained" disabled={btnDisable} color="success" size="large" onClick={donateETHHandle}>Quyên góp ngay bằng ETH</Button>
                 </div>
             </TabPanel>
-            <TabPanel value={2}>
+            <TabPanel value="2">
                 <MyDonate projectId={projectId} signer={signer} addressCurrent={addressCurrent} isOrg={isOrg} />
             </TabPanel>
-            <TabPanel value={3}>
+            <TabPanel value="3">
                 <Withdraw
                     projectId={projectId}
                     signer={signer}

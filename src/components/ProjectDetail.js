@@ -22,7 +22,7 @@ import FormDonate from './FormDonate';
 const donationAbi = require('../DonationAbi')
 
 function ProjectDetail({ chainId, addressCurrent, signer, myBalance, myETHBalance, setIsOn }) {
-    const [value, setValue] = useState(1);
+    const [value, setValue] = useState("1");
     const [project, setProject] = useState(null);
     const { param } = useParams();
     const [listWithdraw, setListWithdraw] = useState([]);
@@ -35,8 +35,8 @@ function ProjectDetail({ chainId, addressCurrent, signer, myBalance, myETHBalanc
     };
 
     useEffect(() => {
-        if (chainId === 1) setValue(0)
-        else if (chainId === 56) setValue(1)
+        if (chainId === 1) setValue("0")
+        else if (chainId === 56) setValue("1")
     }, [chainId]);
 
     useEffect(() => {
@@ -133,11 +133,11 @@ function ProjectDetail({ chainId, addressCurrent, signer, myBalance, myETHBalanc
                                                     }
                                                 }}
                                             >
-                                                <Tab label="Crosschain ETH" value={0} />
-                                                <Tab label="Quyên góp" value={1} />
-                                                <Tab label="Lịch sử quyên góp" value={2} />
+                                                <Tab label="Crosschain ETH" value="0" />
+                                                <Tab label="Quyên góp" value="1" />
+                                                <Tab label="Lịch sử quyên góp" value="2" />
                                                 {addressCurrent === process.env.REACT_APP_OWNING_ADDRESS &&
-                                                    <Tab label="Rút tiền" value={3} />
+                                                    <Tab label="Rút tiền" value="3" />
                                                 }
                                             </TabList>
                                         </Box>

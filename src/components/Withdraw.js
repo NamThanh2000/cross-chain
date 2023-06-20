@@ -1,12 +1,12 @@
 import { Box, FormControl, MenuItem, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
 import { ethers } from 'ethers';
 import React, { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import Select from '@mui/material/Select';
-import { convertProjectId, parseUnixTimeStamp } from "../utils";
+import { convertId, parseUnixTimeStamp } from "../utils";
 
 const donationAbi = require('../DonationAbi')
 
@@ -16,9 +16,8 @@ function Withdraw({ projectId, signer, addressCurrent, totalWithdrawn, totalDona
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { register: registerUpImage, handleSubmit: handleSubmitImage, watch, formState: { errors: errorsImage } } = useForm();
     const [selectWithdrawalId, setSelectWithdrawalId] = useState('')
-    // const selectWithdrawalId = watch('withdrawalId', 0)
     const imageUrl = watch('imageUrl', 0)
-    console.log(selectWithdrawalId);
+
     useEffect(() => {
         if (signer) {
             const init = async () => {
@@ -48,15 +47,17 @@ function Withdraw({ projectId, signer, addressCurrent, totalWithdrawn, totalDona
     }
 
     const onSubmitUpImage = async data => {
-        if (selectWithdrawalId !== '') {
-            const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
+        if (selectWithdrawalId !== '' && signer) {
+            setBtnDisable(true)
             try {
+                const donationContract = new ethers.Contract(process.env.REACT_APP_DONATION_ADDRESS, donationAbi, signer);
                 const donateTx = await donationContract.addWithdrawImage(projectId, selectWithdrawalId, imageUrl)
                 await donateTx.wait();
                 toast.success("Tải ảnh thành công");
             } catch {
                 toast.error("Tải ảnh thất bại");
             }
+            setBtnDisable(false)
         }
         else {
             toast.error('Vui lòng chọn ngày rút tiền!')
@@ -65,7 +66,8 @@ function Withdraw({ projectId, signer, addressCurrent, totalWithdrawn, totalDona
 
     const handleChange = (event) => {
         setSelectWithdrawalId(event.target.value);
-      };
+    };
+
     return (
         <Box className='mt-8'>
             {addressCurrent === process.env.REACT_APP_OWNING_ADDRESS && <>
@@ -74,8 +76,8 @@ function Withdraw({ projectId, signer, addressCurrent, totalWithdrawn, totalDona
                         <div className='mt-2'>
                             <TextField
                                 color="success"
-                                fullWidth 
-                                label="Nhập số lượng USDT muốn rút" 
+                                fullWidth
+                                label="Nhập số lượng USDT muốn rút"
                                 variant="outlined"
                                 type='number'
                                 {...register("amount", { required: true })}
@@ -125,12 +127,12 @@ function Withdraw({ projectId, signer, addressCurrent, totalWithdrawn, totalDona
                                     label="Ngày rút tiền"
                                 >
                                     {listWithdraw.map((item, index) => {
-                                        return <MenuItem key={index} value={convertProjectId(item.withdrawalId)}>{parseUnixTimeStamp(item.timestamp)}</MenuItem>
+                                        return <MenuItem key={index} value={convertId(item.withdrawalId)}>{parseUnixTimeStamp(item.timestamp)}</MenuItem>
                                     })}
                                 </Select>
                             </FormControl>
                         </Box>
-                        <Button type='submit' sx={{ marginTop: 2 }} variant="contained" color="success" size="large">ĐĂNG TẢI BIÊN LAI</Button>
+                        <Button type='submit' sx={{ marginTop: 2 }} disabled={btnDisable} variant="contained" color="success" size="large">ĐĂNG TẢI BIÊN LAI</Button>
                     </Box>
                 </div>
             </>

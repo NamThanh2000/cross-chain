@@ -35,17 +35,21 @@ function MyDonate({ projectId, signer, addressCurrent, isOrg }) {
                 <div className='mt-10 pb-1 flex justify-center border-gray-300'
                     style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                 >
-                    <p className='w-64 font-medium text-lg text-center'>Số USDT</p>
-                    <p className='w-80 font-medium text-lg text-center'>Thời điểm</p>
+                    <p className='w-96 font-medium text-lg text-center'>Địa chỉ ví quyên góp</p>
+                    <p className='w-28 font-medium text-lg text-center'>Số USDT</p>
+                    <p className='w-44 font-medium text-lg text-center'>Thời điểm</p>
+                    <p className='flex-1 font-medium text-lg text-center'>Nội dung</p>
                 </div>
                 {listMyDonate && listMyDonate.length > 0 ? listMyDonate.map((item, index) => {
                     return <div
                         key={index}
-                        className='p-3 flex justify-center border-gray-300'
+                        className='py-3 flex justify-center border-gray-300'
                         style={{ borderTop: '1px', borderRight: '1px', borderLeft: '1px', borderWidth: '1px' }}
                     >
-                        <p className='w-64 text-green-700 text-lg text-center'>{convertToken(item.amount).toFixed(2)}</p>
-                        <p className='w-80 text-green-700 text-lg text-center'>{parseUnixTimeStamp(item.timestamp)}</p>
+                        <p className='w-96 text-green-700 font-medium text-sx text-center flex items-center justify-center'>{item.donorWallet}</p>
+                        <p className='w-28 text-green-700 font-medium text-sx text-center flex items-center justify-center'>{convertToken(item.amount).toFixed(2)}</p>
+                        <p className='w-44 text-green-700 font-medium text-sx text-center flex items-center justify-center'>{parseUnixTimeStamp(item.timestamp)}</p>
+                        <p className='flex-1 text-green-700 font-medium text-sx flex items-center justify-start px-5'>{item.content}</p>
                     </div>
                 }): <div className="mt-10 text-center">Chưa có thông tin</div>}
             </div>

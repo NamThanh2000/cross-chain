@@ -16,7 +16,6 @@ function About() {
           <div className="flex items-center">
             <Link className='mx-2 px-2 py-4 text-lg' to='/'>TRANG CHỦ</Link>
             <Link className='mx-2 px-2 py-4 text-lg' to='/projects'> CÁC DỰ ÁN</Link>
-            <Link className='mx-2 px-2 py-4 text-lg' to='/organizations'>CÁC TỔ CHỨC</Link>
             <Link className='mx-2 px-2 py-4 text-lg' to='/profile'>THÔNG TIN CỦA BẠN</Link>
             <Link className='mx-2 px-2 py-4 text-lg' to='/contact-us'>LIÊN HỆ VỚI CHÚNG TÔI</Link>
             <Link style={{ "color": "#15803D" }} className='mx-2 px-2 py-4 text-lg' to='/about'>VỀ CHÚNG TÔI</Link>

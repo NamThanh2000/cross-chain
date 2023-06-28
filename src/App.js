@@ -147,10 +147,7 @@ function App() {
             56,
             { value: ethers.BigNumber.from(ethAmount.toString()) }
           )
-          console.log(`https://scan.multichain.org/#/tx?params=:${bridgeoutlog.hash}`)
-          console.log(`https://etherscan.io/tx/${bridgeoutlog.hash}`)
-
-          window.open(`https://scan.multichain.org/#/tx?params=:${bridgeoutlog.hash}`, '_blank');
+          window.open(`https://scan.multichain.org/#/tx?params=${bridgeoutlog.hash}`, '_blank');
           window.open(`https://etherscan.io/tx/${bridgeoutlog.hash}`, '_blank');
           toast.success(`Crosschain ${Number(amountCrossChain)} ETH thành công`);
         }

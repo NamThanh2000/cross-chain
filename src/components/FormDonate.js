@@ -142,7 +142,7 @@ function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBal
             onChange={(e) => setContentDonateBNB(e.target.value)}
             label="Lời nhắn"
           />
-          {myBalance && <p className='mt-2 text-sm italic'>Số dư BNB của bạn: <span className='font-bold' style={{ color: "#2E7D32" }}>{myBalance} BNB</span></p>}
+          <p className='mt-2 text-sm italic'>Số dư BNB của bạn: <span className='font-bold' style={{ color: "#2E7D32" }}>{myBalance} BNB</span></p>
           <Button style={{ marginTop: 10 }} variant="contained" disabled={btnDisable} color="success" size="large" onClick={donateBNBHandle}>Quyên góp ngay bằng BNB</Button>
         </div>
         <div className='p-8'>
@@ -165,7 +165,7 @@ function FormDonate({ checkTab, projectId, addressCurrent, project, isOrg, myBal
             fullWidth
             label="Lời nhắn"
           />
-          {myBalance && <p className='mt-2 text-sm italic'>Số dư ETH của bạn: <span className='font-bold' style={{ color: "#2E7D32" }}>{myETHBalance} ETH</span></p>}
+          <p className='mt-2 text-sm italic'>Số dư ETH của bạn: <span className='font-bold' style={{ color: "#2E7D32" }}>{myETHBalance} ETH</span></p>
           <Button style={{ marginTop: 12 }} variant="contained" disabled={btnDisable} color="success" size="large" onClick={donateETHHandle}>Quyên góp ngay bằng ETH</Button>
           <p className='mt-2 text-xs'>* Nếu chưa có token ETH trên Metamask, vui lòng nhấn vào <button onClick={handleClick} className='underline text-green-600'>đây</button> để thêm token</p>
         </div>

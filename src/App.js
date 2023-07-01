@@ -98,7 +98,7 @@ function App() {
         if (getNetwork.chainId === 56) {
           const wethContract = new ethers.Contract(process.env.REACT_APP_WETH_ADDRESS, wethAbi, provider);
           const getBalanceETH = await wethContract.balanceOf(getAddressCurrent);
-          setMyETHBalance(ethers.utils.formatEther(getBalanceETH));
+          setMyETHBalance(convertToken(getBalanceETH));
         }
       }
     };
@@ -191,7 +191,7 @@ function App() {
                 />
                 <Button sx={{ marginLeft: 5 }} variant="contained" disabled={btnDisable} color="success" size="large" onClick={ethToBscHandle}>Chuyển ETH ngay</Button>
               </div>
-              <p className='my-5 text-sm italic'>Số dư BNB của bạn: <span className='font-bold' style={{ color: "#2E7D32" }}>{myBalance} BNB</span></p>
+              <p className='my-5 text-sm italic'>Số dư ETH của bạn: <span className='font-bold' style={{ color: "#2E7D32" }}>{myBalance} ETH</span></p>
               <p className='text-xs'>* Phí Crosschain là 0.00 %, Phí Gas là 0.000121 ETH</p>
               <p className='text-xs'>* Số lượng nhỏ nhất để Crosschain là 0.007619 ETH</p>
               <p className='text-xs'>* Số lượng lớn nhất để Crosschain là 3,174.6 ETH</p>
